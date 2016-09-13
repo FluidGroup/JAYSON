@@ -2,5 +2,5 @@
 
 Dear Jay,
 
-![](sample.png)
+![](sample1.png)
 
