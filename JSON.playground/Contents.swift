@@ -29,6 +29,23 @@ public struct JAYSON {
             .map { JAYSON(source: $0, breadcrumb: Breadcrumb(jayson: self, index: index)) }
     }
     
+    func currentPath() -> String {
+        
+        var path: String = ""
+        
+        var currentBreadcrumb: Breadcrumb? = breadcrumb
+        
+        while currentBreadcrumb != nil {
+            path = currentBreadcrumb!.path + path
+            currentBreadcrumb = currentBreadcrumb!.jayson.breadcrumb
+        }
+        
+        return path
+    }
+}
+
+extension JAYSON {
+    
     final class Breadcrumb {
         
         let jayson: JAYSON
@@ -43,20 +60,6 @@ public struct JAYSON {
             self.jayson = jayson
             self.path = "[\(index)]"
         }
-    }
-    
-    func currentPath() -> String {
-        
-        var path: String = ""
-        
-        var currentBreadcrumb: Breadcrumb? = breadcrumb
-        
-        while currentBreadcrumb != nil {
-            path = currentBreadcrumb!.path + path
-            currentBreadcrumb = currentBreadcrumb!.jayson.breadcrumb
-        }
-        
-        return path
     }
 }
 
@@ -82,95 +85,95 @@ extension JAYSON {
         return jayson
     }
     
-    public var number: NSNumber? {
-        return source as? NSNumber
+    public func getNumber() throws -> NSNumber {
+        guard let value = source as? NSNumber else {
+            throw JAYSONError.FailedToGetNumber
+        }
+        return value
     }
     
-    public var int: Int? {
-        return (source as? NSNumber)?.intValue
+    public func getInt() throws -> Int {
+        return try getNumber().intValue
     }
     
-    public var int32: Int32? {
-        return (source as? NSNumber)?.int32Value
+    public func getString() throws -> String {
+        guard let value = source as? String else {
+            throw JAYSONError.FailedToGetString
+        }
+        return value
     }
     
-    public var int64: Int64? {
-        return (source as? NSNumber)?.int64Value
+    public func getBool() throws -> Bool {
+        guard let value = source as? Bool else {
+            throw JAYSONError.FailedToGetBool
+        }
+        return value
     }
     
-    public var string: String? {
-        return source as? String
+    public var isNull: Bool {
+        return source is NSNull
     }
     
-    public var bool: Bool? {
-        return source as? Bool
-    }
-    
-    public func transform<T>(_ s: (JAYSON) throws -> T) rethrows -> T {
+    public func get<T>(_ s: (JAYSON) throws -> T) rethrows -> T {
         return try s(self)
     }
     
-    public func transform<T>(_ t: Transformer<T>) throws -> T {
-        return try t.closure(self)
+    public func get<T>(with transformer: Transformer<T>) throws -> T {
+        return try transformer.transform(self)
     }
 }
 
 public struct Transformer<T> {
     
-    let closure: (JAYSON) throws -> T
+    let transform: (JAYSON) throws -> T
     
     init(_ s: @escaping (JAYSON) throws -> T) {
-        self.closure = s
+        self.transform = s
     }
 }
 
 public enum JAYSONError: Error {
     case NotFoundKey(String, JAYSON)
     case NotFoundIndex(Int, JAYSON)
+    case FailedToGetString
+    case FailedToGetBool
+    case FailedToGetNumber
 }
-
-//infix operator |> { associativity left }
-//infix operator ~> { associativity left }
-//
-//func |> (lhs: JAYSON, key: String) throws -> JAYSON {
-//    guard let jayson = lhs[key] else {
-//        throw JAYSONError.NotFoundKey(key, lhs)
-//    }
-//    return jayson
-//}
-//
-//func |> (lhs: JAYSON, index: Int) throws -> JAYSON {
-//    guard let jayson = lhs[index] else {
-//        throw JAYSONError.NotFoundIndex(index, lhs)
-//    }
-//    return jayson
-//}
 
 let dataPath = Bundle.main.path(forResource: "test", ofType: "json")
 let data = Data(referencing: NSData(contentsOfFile: dataPath!)!)
 let json = try? JSONSerialization.jsonObject(with: data, options: [])
-
 let jayson = JAYSON(source: json)
 
 let urlTransformer = Transformer<NSURL> { (jayson) -> NSURL in
-    NSURL(string: jayson.string!)!
+    NSURL(string: try jayson.getString())!
 }
-
-jayson["text"]?.string
-jayson["bool"]?.bool
-try? jayson["url"]?.transform(urlTransformer)
-jayson["null"]
-jayson["number"]?.number
-jayson["tree1"]?["tree2"]?["tree3"]?[0]?.currentPath()
 
 do {
     
-    try jayson
+    let fooJayson = try jayson
         .next("tree1")
         .next("tree2")
-        .next(4)
-        .next("tree4")
+        .next("tree3")
         .next(0)
+        .next("index")
+    
+    let value = try fooJayson.getString()
+    let path = fooJayson.currentPath()
+    
+    let url = try jayson
+        .next("url")
+        .get(with: urlTransformer)
+    
+    let null = try jayson.next("null")
+    null.isNull
+    
+    do {
+        try null.next("ahahaha!")
+    } catch {
+        print("whoa!!\n\(error)")
+    }
+
 } catch {
     
     print(error)

@@ -8,7 +8,7 @@
         "tree2" : {
             "tree3" : [
             {
-                       "index" : "value"
+                       "index" : "myvalue"
             }
             ]
         }
