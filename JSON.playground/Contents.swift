@@ -2,11 +2,15 @@
 
 import Foundation
 
+/*:
+ # JAYSON
+ */
+
 public struct JAYSON {
     
     let source: Any?
     
-    private let breadcrumb: Breadcrumb?
+    fileprivate let breadcrumb: Breadcrumb?
     
     public init(source: Any?) {
         self.init(source: source, breadcrumb: nil)
@@ -83,6 +87,12 @@ extension JAYSON {
             throw JAYSONError.NotFoundIndex(index, self)
         }
         return jayson
+    }
+    
+    /**
+     */
+    public func back() -> JAYSON {
+        return breadcrumb?.jayson ?? self
     }
     
     public func getNumber() throws -> NSNumber {
@@ -177,6 +187,26 @@ do {
 } catch {
     
     print(error)
+}
+
+/*:
+ ## Back
+ */
+
+do {
+    
+    let fooJayson = try jayson
+        .next("tree1")
+        .next("tree2")
+        .back()
+        .next("tree2")
+        .next("tree3")
+        .next(0)
+        .next("index")
+        .getString()
+    
+} catch {
+    
 }
 
 
