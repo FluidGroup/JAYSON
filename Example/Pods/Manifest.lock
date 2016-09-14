@@ -1,0 +1,16 @@
+PODS:
+  - JAYSON (0.1.0)
+
+DEPENDENCIES:
+  - JAYSON (from `../`)
+
+EXTERNAL SOURCES:
+  JAYSON:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  JAYSON: be1f821bacbece7d1d18e6aa6bac5581dc9a4a91
+
+PODFILE CHECKSUM: 0a6cadde0fe9a7265964f19639c2cadffbddef8a
+
+COCOAPODS: 1.1.0.rc.2

@@ -1,0 +1,6 @@
+framework module JAYSON {
+  umbrella header "JAYSON-umbrella.h"
+
+  export *
+  module * { export * }
+}
