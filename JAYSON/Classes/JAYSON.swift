@@ -71,9 +71,9 @@ public struct JAYSON: CustomDebugStringConvertible {
         
         var currentBreadcrumb: Breadcrumb? = breadcrumb
         
-        while currentBreadcrumb != nil {
-            path = currentBreadcrumb!.path + path
-            currentBreadcrumb = currentBreadcrumb!.jayson.breadcrumb
+        while let _currentBreadcrumb = currentBreadcrumb {
+            path = _currentBreadcrumb.path + path
+            currentBreadcrumb = _currentBreadcrumb.jayson.breadcrumb
         }
         
         return "Root->" + path

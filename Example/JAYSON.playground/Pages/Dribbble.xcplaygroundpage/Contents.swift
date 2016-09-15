@@ -22,7 +22,7 @@ do {
         
         let imagesJayson = try jayson.next("images")
         
-//        print(try jayson.next("images", "normal").getString())
+        print(try jayson.next("images", "normal").currentPath())
         
         return Shot(
             id: try jayson.next("id").getInt(),
