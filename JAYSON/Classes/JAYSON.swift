@@ -116,14 +116,21 @@ extension JAYSON {
 
 /// Control JAYSON hierarchy
 extension JAYSON {
-    /**
-     if `type` is `Dictonary`, return `JAYSON` whose object is `dictionary[key]`, otherwise throw `JAYSONError`.
-     */
-    public func next(_ key: String) throws -> JAYSON {
+
+    private func next(_ key: String) throws -> JAYSON {
         guard let jayson = self[key] else {
             throw JAYSONError.NotFoundKey(key, self)
         }
         return jayson
+    }
+    
+    /**
+     if `type` is `Dictonary`, return `JAYSON` whose object is `dictionary[key]`, otherwise throw `JAYSONError`.
+     */
+    public func next(_ key: String...) throws -> JAYSON {
+        return try key.reduce(self) { jayson, key -> JAYSON in
+            try jayson.next(key)
+        }
     }
     
     /**

@@ -22,6 +22,8 @@ do {
         
         let imagesJayson = try jayson.next("images")
         
+//        print(try jayson.next("images", "normal").getString())
+        
         return Shot(
             id: try jayson.next("id").getInt(),
             title: try jayson.next("title").getString(),
