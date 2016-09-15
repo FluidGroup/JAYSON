@@ -1,9 +1,8 @@
 {
   "name": "JAYSON",
   "version": "0.1.0",
-  "summary": "A short description of JAYSON.",
-  "description": "TODO: Add long description of the pod here.",
-  "homepage": "https://github.com/<GITHUB_USERNAME>/JAYSON",
+  "summary": "inspired by SwiftyJSON",
+  "homepage": "https://github.com/muukii/JAYSON",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
@@ -12,9 +11,10 @@
     "muukii": "m@muukii.me"
   },
   "source": {
-    "git": "https://github.com/<GITHUB_USERNAME>/JAYSON.git",
+    "git": "https://github.com/muukii/JAYSON.git",
     "tag": "0.1.0"
   },
+  "social_media_url": "https://twitter.com/muukii0803",
   "platforms": {
     "ios": "8.0"
   },
