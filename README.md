@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/cocoapods/l/JAYSON.svg?style=flat)](http://cocoapods.org/pods/JAYSON)
 [![Platform](https://img.shields.io/cocoapods/p/JAYSON.svg?style=flat)](http://cocoapods.org/pods/JAYSON)
 
-More strict and scalable JSON library.
+Strict and Scalable JSON library.
 
 ## Sample
 
