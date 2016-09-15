@@ -7,13 +7,22 @@
 
 More strict and scalable JSON library.
 
-![](sample1.png)
-
 ## Sample
+
+**Create JAYSON**
 
 ```swift
 let jsonData: Data = ...
+let jayson = try JAYSON(jsonData)
+
+// or
+let jsonData: Data = ...
+let json: Any = try JSONSerialization.jsonObject(with: data, options: [])
+let jayson = try JAYSON(json)
+
 ```
+
+**Get Value** (String, Bool, Number)
 
 ```swift
 let id: String = try jayson
@@ -22,7 +31,7 @@ let id: String = try jayson
        .getString()
 ```
 
-** Scalable Transform**
+**Get Value with Decoder** (Custom Object)
 
 ```swift
 let urlDecoder = Decoder<URL> { (jayson) -> URL in
@@ -37,7 +46,7 @@ let imageURL: URL = try jayson
        .get(with: urlDecoder)
 ```
 
-** Get current path** (Debugging information.)
+**Get current path** (Debugging information.)
 
 ```swift
 
@@ -50,7 +59,7 @@ let path = try jayson
 // path => "[0]["image"]["hidpi_image"]"
 ```
 
-** Back JSON hierarchy**
+**Back JSON hierarchy**
 
 ```swift
 
@@ -61,6 +70,42 @@ try jayson
     .next("image")
     .next("hidpi_image")
 
+```
+
+## Import Example (dribbble API)
+
+```swift
+let jayson = try! JAYSON(data)
+
+struct Shot {
+    let id: Int
+    let title: String
+    let width: Int
+    let height: Int
+    let hidpiImageURLString: String?
+    let normalImageURLString: String
+    let teaserImageURLString: String
+}
+
+do {
+    let shots: [Shot] = try jayson.getArray().map { jayson -> Shot in
+
+        let imagesJayson = try jayson.next("images")
+
+        return Shot(
+            id: try jayson.next("id").getInt(),
+            title: try jayson.next("title").getString(),
+            width: try jayson.next("width").getInt(),
+            height: try jayson.next("height").getInt(),
+            hidpiImageURLString: try? imagesJayson.next("hidpi").getString(),
+            normalImageURLString: try imagesJayson.next("normal").getString(),
+            teaserImageURLString: try imagesJayson.next("teaser").getString()
+        )
+    }
+    print(shots)
+} catch {
+    print(error)
+}
 ```
 
 ## Requirements
