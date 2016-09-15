@@ -27,6 +27,7 @@ public enum JAYSONError: Error {
     case FailedToGetBool(Any, JAYSON)
     case FailedToGetNumber(Any, JAYSON)
     case FailedToGetArray(Any, JAYSON)
+    case InvalidJSONObject
 }
 
 public struct JAYSON: CustomDebugStringConvertible {
@@ -39,30 +40,21 @@ public struct JAYSON: CustomDebugStringConvertible {
         if let data = source as? Data {
             try self.init(data: data)
         } else {
+            guard JSONSerialization.isValidJSONObject(source) else {
+                throw JAYSONError.InvalidJSONObject
+            }
             self.init(source: source, breadcrumb: nil)
         }
     }
     
     init(data: Data) throws {
-        let source = try JSONSerialization.jsonObject(with: data, options: [])
+        let source = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
         self.init(source: source, breadcrumb: nil)
     }
     
     init(source: Any?, breadcrumb: Breadcrumb?) {
         self.source = source
         self.breadcrumb = breadcrumb
-    }
-    
-    public subscript (key: String) -> JAYSON? {
-        return (source as? [AnyHashable : Any])
-            .flatMap { $0[key] }
-            .map { JAYSON(source: $0, breadcrumb: Breadcrumb(jayson: self, key: key)) }
-    }
-    
-    public subscript (index: Int) -> JAYSON? {
-        return (source as? [Any])
-            .flatMap { $0[index] }
-            .map { JAYSON(source: $0, breadcrumb: Breadcrumb(jayson: self, index: index)) }
     }
     
     public func currentPath() -> String {
@@ -111,6 +103,21 @@ extension JAYSON {
         var debugDescription: String {
             return "\(path)\n\(jayson)"
         }
+    }
+}
+
+extension JAYSON {
+    
+    public subscript (key: String) -> JAYSON? {
+        return (source as? [AnyHashable : Any])
+            .flatMap { $0[key] }
+            .map { JAYSON(source: $0, breadcrumb: Breadcrumb(jayson: self, key: key)) }
+    }
+    
+    public subscript (index: Int) -> JAYSON? {
+        return (source as? [Any])
+            .flatMap { $0[index] }
+            .map { JAYSON(source: $0, breadcrumb: Breadcrumb(jayson: self, index: index)) }
     }
 }
 
@@ -177,6 +184,14 @@ extension JAYSON {
             throw JAYSONError.FailedToGetBool(source, self)
         }
         return value
+    }
+    
+    public func getFloat() throws -> Float {
+        return try getNumber().floatValue
+    }
+    
+    public func getDouble() throws -> Double {
+        return try getNumber().doubleValue
     }
     
     public func getArray() throws -> [JAYSON] {
