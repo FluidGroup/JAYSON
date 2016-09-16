@@ -1,3 +1,6 @@
+<p align="center">
+  <img src="JAYSON@2x.png">
+</p>
 # JAYSON
 
 [![CI Status](http://img.shields.io/travis/muukii/JAYSON.svg?style=flat)](https://travis-ci.org/muukii/JAYSON)
