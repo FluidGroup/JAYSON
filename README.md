@@ -9,6 +9,8 @@ Strict and Scalable JSON library.
 
 ## Sample
 
+### Read JSON
+
 **Create JAYSON**
 
 ```swift
@@ -105,6 +107,45 @@ do {
     print(shots)
 } catch {
     print(error)
+}
+```
+
+### Write JSON
+
+```swift
+let root = JSONDictionary()
+
+root.add(key: "aaa", value: "AAA")
+root.add(key: "bbb", value: "BBB")
+
+let array = JSONArray()
+array.add(value: Int64(1))
+array.add(value: Double(1.11))
+array.add(value: Double(true))
+root.add(key: "ccc", value: array)
+
+let sub = JSONDictionary()
+sub.add(key: "aaa", value: "AAA")
+sub.add(key: "bbb", value: "BBB")
+
+root.add(key: "sub", value: sub)
+
+let data: Data = try root.build()
+```
+
+```
+{
+  "sub" : {
+    "bbb" : "BBB",
+    "aaa" : "AAA"
+  },
+  "bbb" : "BBB",
+  "aaa" : "AAA",
+  "ccc" : [
+    1,
+    1.11,
+    1
+  ]
 }
 ```
 

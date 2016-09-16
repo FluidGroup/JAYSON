@@ -3,5 +3,6 @@
     <pages>
         <page name='Dribbble'/>
         <page name='Test'/>
+        <page name='Build'/>
     </pages>
 </playground>
