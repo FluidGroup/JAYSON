@@ -10,70 +10,70 @@ import Foundation
 
 public protocol JSONWritableType {
     
-    var jsonValue: Any { get }
+    var jsonValue: JSONWritableType { get }
 }
 
 extension String: JSONWritableType {
-    public var jsonValue: Any {
+    public var jsonValue: JSONWritableType {
         return self
     }
 }
 
 extension NSNumber: JSONWritableType {
-    public var jsonValue: Any {
+    public var jsonValue: JSONWritableType {
         return self
     }
 }
 
 extension Int: JSONWritableType {
-    public var jsonValue: Any {
+    public var jsonValue: JSONWritableType {
         return self
     }
 }
 
 extension Int8: JSONWritableType {
-    public var jsonValue: Any {
+    public var jsonValue: JSONWritableType {
         return NSNumber(value: self)
     }
 }
 
 extension Int16: JSONWritableType {
-    public var jsonValue: Any {
+    public var jsonValue: JSONWritableType {
         return NSNumber(value: self)
     }
 }
 
 extension Int32: JSONWritableType {
-    public var jsonValue: Any {
+    public var jsonValue: JSONWritableType {
         return NSNumber(value: self)
     }
 }
 
 extension Int64: JSONWritableType {
-    public var jsonValue: Any {
+    public var jsonValue: JSONWritableType {
         return NSNumber(value: self)
     }
 }
 
 extension Float: JSONWritableType {
-    public var jsonValue: Any {
+    public var jsonValue: JSONWritableType {
         return NSNumber(value: self)
     }
 }
 
 extension Double: JSONWritableType {
-    public var jsonValue: Any {
+    public var jsonValue: JSONWritableType {
         return NSNumber(value: self)
     }
 }
 
 extension Bool: JSONWritableType {
-    public var jsonValue: Any {
+    public var jsonValue: JSONWritableType {
         return self
     }
 }
 
-public class JSONArray: JSONWritableType, ExpressibleByArrayLiteral {
+public class JSONArray: ExpressibleByArrayLiteral {
     
     public private(set) var source: [Any]
     
@@ -87,20 +87,20 @@ public class JSONArray: JSONWritableType, ExpressibleByArrayLiteral {
     }
     
     public func add(value: JSONArray) {
-        source.append(value.jsonValue)
+        source.append(value.source)
     }
     
     public func add(value: JSONDictionary) {
-        source.append(value.jsonValue)
+        source.append(value.source)
     }
     
     public func build() throws -> Data {
         return try JSONSerialization.data(withJSONObject: source, options: .prettyPrinted)
     }
     
-    public var jsonValue: Any {
-        return source
-    }
+//    public var jsonValue: Any {
+//        return source
+//    }
     
     public typealias Element = JSONWritableType
     public required init(arrayLiteral elements: Element...) {
@@ -108,7 +108,7 @@ public class JSONArray: JSONWritableType, ExpressibleByArrayLiteral {
     }
 }
 
-public class JSONDictionary: JSONWritableType, ExpressibleByDictionaryLiteral {
+public class JSONDictionary: ExpressibleByDictionaryLiteral {
     
     public init() {
         source = [:]
@@ -121,20 +121,20 @@ public class JSONDictionary: JSONWritableType, ExpressibleByDictionaryLiteral {
     }
     
     public func add(key: String, value: JSONArray) {
-        source[key] = value.jsonValue
+        source[key] = value.source
     }
     
     public func add(key: String, value: JSONDictionary) {
-        source[key] = value.jsonValue
+        source[key] = value.source
     }
     
     public func build() throws -> Data {
         return try JSONSerialization.data(withJSONObject: source, options: .prettyPrinted)
     }
     
-    public var jsonValue: Any {
-        return source
-    }
+//    public var jsonValue: JSONWritableType {
+//        return source
+//    }
     
     public typealias Key = String
     public typealias Value = JSONWritableType
