@@ -28,6 +28,7 @@ public enum JAYSONError: Error {
     case FailedToGetNumber(Any, JAYSON)
     case FailedToGetArray(Any, JAYSON)
     case InvalidJSONObject
+    case DecodeError(Any, JAYSON, Error)
 }
 
 public struct JAYSON: CustomDebugStringConvertible {
@@ -172,6 +173,10 @@ extension JAYSON {
         return try getNumber().intValue
     }
     
+    public func getInt64() throws -> Int64 {
+        return try getNumber().int64Value
+    }
+    
     public func getString() throws -> String {
         guard let value = source as? String else {
             throw JAYSONError.FailedToGetString(source, self)
@@ -213,11 +218,19 @@ extension JAYSON {
 extension JAYSON {
 
     public func get<T>(_ s: (JAYSON) throws -> T) rethrows -> T {
-        return try s(self)
+        do {
+            return try s(self)
+        } catch {
+            throw JAYSONError.DecodeError(source, self, error)
+        }
     }
     
     public func get<T>(with decoder: Decoder<T>) throws -> T {
-        return try decoder.decode(self)
+        do {
+            return try decoder.decode(self)
+        } catch {
+            throw JAYSONError.DecodeError(source, self, error)
+        }
     }
 }
 
