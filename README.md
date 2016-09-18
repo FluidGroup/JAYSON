@@ -28,6 +28,14 @@ let jayson = try JAYSON(json)
 
 ```
 
+#### Easy Access
+
+```swift
+let urlString: String? = jayson[3]["shot"]["images"]["hidpi_image"].string
+```
+
+#### Strict Access (try-catch)
+
 **Get Value** (String, Bool, Number)
 
 ```swift
