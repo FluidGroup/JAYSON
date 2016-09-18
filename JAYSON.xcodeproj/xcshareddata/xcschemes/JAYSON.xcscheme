@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0720"
+   LastUpgradeVersion = "0800"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,23 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-               BuildableName = "JAYSON_Example.app"
-               BlueprintName = "JAYSON_Example"
-               ReferencedContainer = "container:JAYSON.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "607FACE41AFB9204008FA782"
-               BuildableName = "JAYSON_Tests.xctest"
-               BlueprintName = "JAYSON_Tests"
+               BlueprintIdentifier = "4BFF209D1D8E472A0094E790"
+               BuildableName = "JAYSON.framework"
+               BlueprintName = "JAYSON"
                ReferencedContainer = "container:JAYSON.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,9 +32,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "607FACE41AFB9204008FA782"
-               BuildableName = "JAYSON_Tests.xctest"
-               BlueprintName = "JAYSON_Tests"
+               BlueprintIdentifier = "4BFF20B61D8E474A0094E790"
+               BuildableName = "JAYSONTests.xctest"
+               BlueprintName = "JAYSONTests"
                ReferencedContainer = "container:JAYSON.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -56,9 +42,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-            BuildableName = "JAYSON_Example.app"
-            BlueprintName = "JAYSON_Example"
+            BlueprintIdentifier = "4BFF209D1D8E472A0094E790"
+            BuildableName = "JAYSON.framework"
+            BlueprintName = "JAYSON"
             ReferencedContainer = "container:JAYSON.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -75,16 +61,15 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-            BuildableName = "JAYSON_Example.app"
-            BlueprintName = "JAYSON_Example"
+            BlueprintIdentifier = "4BFF209D1D8E472A0094E790"
+            BuildableName = "JAYSON.framework"
+            BlueprintName = "JAYSON"
             ReferencedContainer = "container:JAYSON.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -94,16 +79,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-            BuildableName = "JAYSON_Example.app"
-            BlueprintName = "JAYSON_Example"
+            BlueprintIdentifier = "4BFF209D1D8E472A0094E790"
+            BuildableName = "JAYSON.framework"
+            BlueprintName = "JAYSON"
             ReferencedContainer = "container:JAYSON.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
