@@ -17,6 +17,29 @@ class Tests: XCTestCase {
         super.tearDown()
     }
     
+    func testNext() {
+        do {
+            let j = try JAYSON(data: inData)
+            let v = j["a"]["b"][1]
+            XCTAssert(v.isNull)
+        } catch {
+            XCTFail("\(error)")
+        }
+        
+        do {
+            let j = try JAYSON(data: inData)
+            
+            do {
+                let v = try j.next("a").next("b").next("c")
+                XCTFail()
+            } catch {
+                print("Success \(error)")
+            }
+        } catch {
+            XCTFail("\(error)")
+        }
+    }
+    
     func testImportExport() {
         
         do {

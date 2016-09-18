@@ -131,30 +131,30 @@ extension JAYSON {
 
 extension JAYSON {
     
-    public subscript (key: String) -> JAYSON? {
+    public subscript (key: String) -> JAYSON {
         get {
             return (source as? [AnyHashable : Any])
                 .flatMap { $0[key] }
-                .map { JAYSON(source: $0, breadcrumb: Breadcrumb(jayson: self, key: key)) }
+                .map { JAYSON(source: $0, breadcrumb: Breadcrumb(jayson: self, key: key)) } ?? JAYSON.null
         }
         set {
             if source is NSNull {
                 source = [AnyHashable : Any]()
             }
             
-            guard var dictionary = source as? [AnyHashable : Any], let appendSource = newValue?.source else {
+            guard var dictionary = source as? [AnyHashable : Any] else {
                 return
             }
-            dictionary[key] = appendSource
+            dictionary[key] = newValue.source
             source = dictionary
         }
     }
     
-    public subscript (index: Int) -> JAYSON? {
+    public subscript (index: Int) -> JAYSON {
         get {
             return (source as? [Any])
                 .flatMap { $0[index] }
-                .map { JAYSON(source: $0, breadcrumb: Breadcrumb(jayson: self, index: index)) }
+                .map { JAYSON(source: $0, breadcrumb: Breadcrumb(jayson: self, index: index)) } ?? JAYSON.null
         }
         set {
             
@@ -162,10 +162,10 @@ extension JAYSON {
                 source = [Any]()
             }
             
-            guard var array = source as? [Any], let appendSource = newValue?.source else {
+            guard var array = source as? [Any] else {
                 return
             }
-            array[index] = appendSource
+            array[index] = newValue.source
             source = array
         }
     }
@@ -175,10 +175,10 @@ extension JAYSON {
 extension JAYSON {
 
     private func next(_ key: String) throws -> JAYSON {
-        guard let jayson = self[key] else {
+        guard !(self[key].source is NSNull) else {
             throw JAYSONError.notFoundKey(key, self)
         }
-        return jayson
+        return self[key]
     }
     
     /**
@@ -194,10 +194,10 @@ extension JAYSON {
      if `type` is `Array`, return `JAYSON` whose object is `array[index]`, otherwise throw `JAYSONError`.
      */
     public func next(_ index: Int) throws -> JAYSON {
-        guard let jayson = self[index] else {
+        guard !(self[index].source is NSNull) else {
             throw JAYSONError.notFoundIndex(index, self)
         }
-        return jayson
+        return self[index]
     }
     
     /**
