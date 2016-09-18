@@ -60,7 +60,7 @@ let imageURL: URL = try jayson
        .get(with: urlDecoder)
 ```
 
-**Get current path** (Debugging information.)
+## Get current path (Debugging information.)
 
 ```swift
 
@@ -73,7 +73,7 @@ let path = try jayson
 // path => "[0]["image"]["hidpi_image"]"
 ```
 
-## Back JSON hierarchy
+## Go Back JSON hierarchy
 
 ```swift
 
