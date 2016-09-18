@@ -61,6 +61,46 @@ let imageURL: URL = try jayson
        .get(with: urlDecoder)
 ```
 
+Optional Read-only properties
+```
+extension JAYSON {
+
+    public var dictionary: [String : Any]? { get }
+
+    public var array: [Any]? { get }
+
+    public var string: String? { get }
+
+    public var number: NSNumber? { get }
+
+    public var double: Double? { get }
+
+    public var float: Float? { get }
+
+    public var int: Int? { get }
+
+    public var uInt: UInt? { get }
+
+    public var int8: Int8? { get }
+
+    public var uInt8: UInt8? { get }
+
+    public var int16: Int16? { get }
+
+    public var uInt16: UInt16? { get }
+
+    public var int32: Int32? { get }
+
+    public var uInt32: UInt32? { get }
+
+    public var int64: Int64? { get }
+
+    public var uInt64: UInt64? { get }
+
+    public var bool: Bool? { get }
+}
+```
+
 ---
 
 ## Get current path (Debugging information.)
