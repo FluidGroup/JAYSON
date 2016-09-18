@@ -33,28 +33,19 @@ public enum JAYSONError: Error {
 
 public struct JAYSON: CustomDebugStringConvertible {
     
+    public static let null = JAYSON()
+    
     var source: Any
     
     fileprivate let breadcrumb: Breadcrumb?
-    
-    public init(_ source: Any?) throws {
-        if let data = source as? Data {
-            try self.init(data: data)
-        } else {
-            guard JSONSerialization.isValidJSONObject(source) else {
-                throw JAYSONError.InvalidJSONObject
-            }
-            self.init(source: source, breadcrumb: nil)
-        }
-    }
-    
+        
     public init(_ object: JSONWritableType) {
         source = object
         breadcrumb = nil
     }
     
     public init(_ object: [JAYSON]) {
-        source = object
+        source = object.map { $0.source }
         breadcrumb = nil
     }
     
@@ -77,16 +68,16 @@ public struct JAYSON: CustomDebugStringConvertible {
         self.init(source: source, breadcrumb: nil)
     }
     
-    init(source: Any?, breadcrumb: Breadcrumb?) {
+    init(source: Any, breadcrumb: Breadcrumb?) {
         self.source = source
         self.breadcrumb = breadcrumb
     }
     
     public func data(options: JSONSerialization.WritingOptions = []) throws -> Data {
-        guard JSONSerialization.isValidJSONObject(self.source) else {
+        guard JSONSerialization.isValidJSONObject(source) else {
             throw JAYSONError.InvalidJSONObject
         }
-        return try JSONSerialization.data(withJSONObject: self.source, options: options)
+        return try JSONSerialization.data(withJSONObject: source, options: options)
     }
     
     public func currentPath() -> String {

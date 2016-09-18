@@ -5,7 +5,10 @@ import Foundation
 
 var j = JAYSON()
 
-j["array"] = JAYSON(["aaa":JAYSON(1)])
+var o = [String:JAYSON]()
+o["aaa"] = 1
+
+j["array"] = JAYSON(o)
 
 print(j.source, "\n")
 

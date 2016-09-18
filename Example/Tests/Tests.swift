@@ -1,8 +1,11 @@
 import UIKit
 import XCTest
-import JAYSON
+
+@testable import JAYSON
 
 class Tests: XCTestCase {
+    
+    let inData = Data(referencing: NSData(contentsOfFile: Bundle(for: Tests.self).path(forResource: "test", ofType: "json")!)!)
     
     override func setUp() {
         super.setUp()
@@ -14,16 +17,65 @@ class Tests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        XCTAssert(true, "Pass")
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure() {
-            // Put the code you want to measure the time of here.
+    func testImportExport() {
+        
+        do {
+            let j = try JAYSON(data: inData)
+            let data = try j.data()
+        } catch {
+            XCTFail("\(error)")
         }
     }
     
+    func testBack() {
+        
+        do {
+            let j = try JAYSON(data: inData)
+            let value = try j
+                .next("tree1")
+                .next("tree2")
+                .back()
+                .next("tree2")
+                .back()
+                .back()
+                .next("tree1")
+                .next("tree2")
+                .next("tree3")
+                .next(0)
+                .next("index")
+                .getString()
+            
+            XCTAssertEqual(value, "myvalue")
+        } catch {
+            XCTFail("\(error)")
+        }
+    }
+    
+    func testBuild() {
+        var j = JAYSON()
+        j["number"] = 124
+        j["text"] = "hooo"
+        j["bool"] = true
+        j["null"] = JAYSON.null
+        j["tree1"] = JAYSON(
+            [
+                "tree2" : JAYSON(
+                    [
+                        "tree3" : JAYSON(
+                            [
+                                JAYSON(["index" : "myvalue"])
+                            ]
+                        )
+                    ]
+                )
+            ]
+        )
+        
+        do {
+            print(try j.data())
+        } catch {
+            print(j.source)
+            XCTFail("\(error)")
+        }
+    }
 }

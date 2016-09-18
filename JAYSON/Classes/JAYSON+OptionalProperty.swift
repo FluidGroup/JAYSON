@@ -25,128 +25,62 @@ import Foundation
 extension JAYSON {
     
     public var string: String? {
-        get {
-            return source as? String
-        }
-        set {
-            source = newValue ?? NSNull()
-        }
+        return source as? String
     }
     
     public var number: NSNumber? {
-        get {
-            return source as? NSNumber
-        }
-        set {
-            source = newValue ?? NSNull()
-        }
+        return source as? NSNumber
     }
     
     public var double: Double? {
-        get {
-            return self.number?.doubleValue
-        }
-        set {
-            source = newValue ?? NSNull()
-        }
+        return number?.doubleValue
     }
     
     public var float: Float? {
-        get {
-            return self.number?.floatValue
-        }
-        set {
-            source = newValue ?? NSNull()
-        }
+        return number?.floatValue
     }
     
     public var int: Int? {
-        get {
-            return self.number?.intValue
-        }
-        set {
-            source = newValue ?? NSNull()
-        }
+        return number?.intValue
     }
     
     public var uInt: UInt? {
-        get {
-            return self.number?.uintValue
-        }
-        set {
-            source = newValue ?? NSNull()
-        }
+        return number?.uintValue
     }
     
     public var int8: Int8? {
-        get {
-            return self.number?.int8Value
-        }
-        set {
-            source = newValue ?? NSNull()
-        }
+        return number?.int8Value
     }
     
     public var uInt8: UInt8? {
-        get {
-            return self.number?.uint8Value
-        }
-        set {
-            source = newValue ?? NSNull()
-        }
+        return number?.uint8Value
     }
     
     public var int16: Int16? {
-        get {
-            return self.number?.int16Value
-        }
-        set {
-            source = newValue ?? NSNull()
-        }
+        return number?.int16Value
     }
     
     public var uInt16: UInt16? {
-        get {
-            return self.number?.uint16Value
-        }
-        set {
-            source = newValue ?? NSNull()
-        }
+        return number?.uint16Value
     }
     
     public var int32: Int32? {
-        get {
-            return self.number?.int32Value
-        }
-        set {
-            source = newValue ?? NSNull()
-        }
+        return number?.int32Value
     }
     
     public var uInt32: UInt32? {
-        get {
-            return self.number?.uint32Value
-        }
-        set {
-            source = newValue ?? NSNull()
-        }
+        return number?.uint32Value
     }
     
     public var int64: Int64? {
-        get {
-            return self.number?.int64Value
-        }
-        set {
-            source = newValue ?? NSNull()
-        }
+        return number?.int64Value
     }
     
     public var uInt64: UInt64? {
-        get {
-            return self.number?.uint64Value
-        }
-        set {
-            source = newValue ?? NSNull()
-        }
+        return number?.uint64Value
+    }
+    
+    public var bool: Bool? {
+        return number?.boolValue
     }
 }

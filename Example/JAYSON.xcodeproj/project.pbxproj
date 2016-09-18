@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		4ACE79D025F60A237AAB7C60 /* Pods_JAYSON_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C215BF7CF69C36DA7C4F0506 /* Pods_JAYSON_Tests.framework */; };
+		4B766B641D8E41C7003C44B0 /* Sample.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B766B621D8E41C7003C44B0 /* Sample.json */; };
+		4B766B651D8E41C7003C44B0 /* test.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B766B631D8E41C7003C44B0 /* test.json */; };
+		4BFF20931D8E43910094E790 /* DribbbleImportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BFF20921D8E43910094E790 /* DribbbleImportTests.swift */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 /* End PBXBuildFile section */
 
@@ -15,6 +18,9 @@
 		2671D22E47C7CFDBBB3650C6 /* Pods-JAYSON_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JAYSON_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JAYSON_Tests/Pods-JAYSON_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		3BAFDF405698F89465D63562 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		4B36E41D1D8A3C5C008141B3 /* JAYSON.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = JAYSON.playground; sourceTree = "<group>"; };
+		4B766B621D8E41C7003C44B0 /* Sample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Sample.json; sourceTree = "<group>"; };
+		4B766B631D8E41C7003C44B0 /* test.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test.json; sourceTree = "<group>"; };
+		4BFF20921D8E43910094E790 /* DribbbleImportTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DribbbleImportTests.swift; sourceTree = "<group>"; };
 		607FACE51AFB9204008FA782 /* JAYSON_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JAYSON_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
@@ -77,6 +83,9 @@
 			isa = PBXGroup;
 			children = (
 				607FACEB1AFB9204008FA782 /* Tests.swift */,
+				4BFF20921D8E43910094E790 /* DribbbleImportTests.swift */,
+				4B766B621D8E41C7003C44B0 /* Sample.json */,
+				4B766B631D8E41C7003C44B0 /* test.json */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
 			path = Tests;
@@ -162,6 +171,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B766B641D8E41C7003C44B0 /* Sample.json in Resources */,
+				4B766B651D8E41C7003C44B0 /* test.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,6 +231,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4BFF20931D8E43910094E790 /* DribbbleImportTests.swift in Sources */,
 				607FACEC1AFB9204008FA782 /* Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

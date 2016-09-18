@@ -1,0 +1,16 @@
+{
+"number": 124,
+"text": "hooo",
+"bool": true,
+    "url" : "http://muukii.me",
+"null": null,
+    "tree1" : {
+        "tree2" : {
+            "tree3" : [
+            {
+                       "index" : "myvalue"
+            }
+            ]
+        }
+    }
+}
