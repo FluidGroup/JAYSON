@@ -15,7 +15,7 @@ Strict and Scalable JSON library.
 
 ### Read JSON
 
-**Create JAYSON**
+##### Create JAYSON
 
 ```swift
 let jsonData: Data = ...
@@ -25,8 +25,9 @@ let jayson = try JAYSON(jsonData)
 let jsonData: Data = ...
 let json: Any = try JSONSerialization.jsonObject(with: data, options: [])
 let jayson = try JAYSON(json)
-
 ```
+
+---
 
 #### Easy Access
 
@@ -59,6 +60,8 @@ let imageURL: URL = try jayson
        .next("hidpi_image")
        .get(with: urlDecoder)
 ```
+
+---
 
 ## Get current path (Debugging information.)
 
@@ -125,44 +128,33 @@ do {
 ### Write JSON
 
 ```swift
-var j = JAYSON()
-j["number"] = 124
-j["text"] = "hooo"
-j["bool"] = true
-j["null"] = JAYSON.null
+var jayson = JAYSON()
+jayson["id"] = 18737649
+jayson["active"] = true
+jayson["name"] = "muukii"
 
-// sorry.
-j["tree1"] = JAYSON(
-    [
-        "tree2" : JAYSON(
-            [
-            "tree3" : JAYSON(
-                [
-                    JAYSON(["index" : "myvalue"])
-                ]
-                )
-            ]
-        )
-    ]
-)
+var images = [String:JAYSON]()
+images["large"] = "http://...foo"
+images["medium"] = "http://...bar"
+images["small"] = "http://...fuzz"
+
+jayson["images"] = JAYSON(images)
+
+let data = try jayson.data(options: .prettyPrinted)
 ```
 
+-> data
 ```
 {
-    "number" : 124,
-    "null" : null,
-    "tree1" : {
-        "tree2" : {
-            "tree3" : [
-            {
-                "index" : "myvalue"
-            }
-            ]
-        }
-    },
-    "text" : "hooo",
-    "bool" : true
-    }
+  "name" : "muukii",
+  "active" : true,
+  "id" : 18737649,
+  "images" : {
+    "large" : "http:\/\/...foo",
+    "small" : "http:\/\/...fuzz",
+    "medium" : "http:\/\/...bar"
+  }
+}
 ```
 
 ## Requirements
