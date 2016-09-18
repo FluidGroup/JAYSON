@@ -438,6 +438,7 @@
 				4BFF20A81D8E472A0094E790 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4BFF20BF1D8E474A0094E790 /* Build configuration list for PBXNativeTarget "JAYSONTests" */ = {
 			isa = XCConfigurationList;
@@ -446,6 +447,7 @@
 				4BFF20C11D8E474A0094E790 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
