@@ -15,6 +15,7 @@ images["small"] = "http://...fuzz"
 
 jayson["images"] = JAYSON(images)
 
+print(jayson.dictionary)
 
 print(jayson.source, "\n")
 

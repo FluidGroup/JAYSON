@@ -50,7 +50,7 @@ public struct JAYSON: CustomDebugStringConvertible {
     }
     
     public init(_ object: [String : JAYSON]) {
-        source = object.reduce([AnyHashable : Any]()) { dictionary, object in
+        source = object.reduce([String : Any]()) { dictionary, object in
             var dictionary = dictionary
             dictionary[object.key] = object.value.source
             return dictionary
@@ -134,16 +134,16 @@ extension JAYSON {
     /// if key is not found, return JAYSON.null
     public subscript (key: String) -> JAYSON {
         get {
-            return (source as? [AnyHashable : Any])
+            return (source as? [String : Any])
                 .flatMap { $0[key] }
                 .map { JAYSON(source: $0, breadcrumb: Breadcrumb(jayson: self, key: key)) } ?? JAYSON.null
         }
         set {
             if source is NSNull {
-                source = [AnyHashable : Any]()
+                source = [String : Any]()
             }
             
-            guard var dictionary = source as? [AnyHashable : Any] else {
+            guard var dictionary = source as? [String : Any] else {
                 return
             }
             dictionary[key] = newValue.source

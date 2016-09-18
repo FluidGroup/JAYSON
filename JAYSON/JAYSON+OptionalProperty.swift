@@ -24,6 +24,14 @@ import Foundation
 
 extension JAYSON {
     
+    public var dictionary: [String : Any]? {
+        return source as? [String : Any]
+    }
+    
+    public var array: [Any]? {
+        return source as? [Any]
+    }
+    
     public var string: String? {
         return source as? String
     }
