@@ -3,17 +3,23 @@
 import Foundation
 @testable import JAYSON
 
-var j = JAYSON()
+var jayson = JAYSON()
+jayson["id"] = 18737649
+jayson["active"] = true
+jayson["name"] = "muukii"
 
-var o = [String:JAYSON]()
-o["aaa"] = 1
+var images = [String:JAYSON]()
+images["large"] = "http://...foo"
+images["medium"] = "http://...bar"
+images["small"] = "http://...fuzz"
 
-j["array"] = JAYSON(o)
+jayson["images"] = JAYSON(images)
 
-print(j.source, "\n")
+
+print(jayson.source, "\n")
 
 do {
-    let data = try j.data(options: .prettyPrinted)
+    let data = try jayson.data(options: .prettyPrinted)
     print(String(data: data, encoding: .utf8)!)
 } catch {
     print(error)

@@ -131,6 +131,7 @@ extension JAYSON {
 
 extension JAYSON {
     
+    /// if key is not found, return JAYSON.null
     public subscript (key: String) -> JAYSON {
         get {
             return (source as? [AnyHashable : Any])
@@ -150,6 +151,7 @@ extension JAYSON {
         }
     }
     
+    /// if index is not found return JAYSON.null
     public subscript (index: Int) -> JAYSON {
         get {
             return (source as? [Any])
