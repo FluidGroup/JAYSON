@@ -36,7 +36,7 @@ let urlString: String? = jayson[3]["shot"]["images"]["hidpi_image"].string
 
 #### Strict Access (try-catch)
 
-**Get Value** (String, Bool, Number)
+Get Value (String, Bool, Number)
 
 ```swift
 let id: String = try jayson
@@ -45,7 +45,7 @@ let id: String = try jayson
        .getString()
 ```
 
-**Get Value with Decoder** (Custom Object)
+Get Value with Decoder (Custom Object)
 
 ```swift
 let urlDecoder = Decoder<URL> { (jayson) -> URL in
@@ -73,7 +73,7 @@ let path = try jayson
 // path => "[0]["image"]["hidpi_image"]"
 ```
 
-**Back JSON hierarchy**
+## Back JSON hierarchy
 
 ```swift
 
