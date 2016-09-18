@@ -1,0 +1,453 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4BFF20A31D8E472A0094E790 /* JAYSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 4BFF20A11D8E472A0094E790 /* JAYSON.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4BFF20AE1D8E47410094E790 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BFF20A91D8E47400094E790 /* Decoder.swift */; };
+		4BFF20AF1D8E47410094E790 /* JAYSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BFF20AA1D8E47410094E790 /* JAYSON.swift */; };
+		4BFF20B01D8E47410094E790 /* JAYSON+OptionalProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BFF20AB1D8E47410094E790 /* JAYSON+OptionalProperty.swift */; };
+		4BFF20B11D8E47410094E790 /* JAYSON+StrictGetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BFF20AC1D8E47410094E790 /* JAYSON+StrictGetter.swift */; };
+		4BFF20B21D8E47410094E790 /* JSONWritableType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BFF20AD1D8E47410094E790 /* JSONWritableType.swift */; };
+		4BFF20BC1D8E474A0094E790 /* JAYSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BFF209E1D8E472A0094E790 /* JAYSON.framework */; };
+		4BFF20C61D8E47550094E790 /* DribbbleImportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BFF20C21D8E47550094E790 /* DribbbleImportTests.swift */; };
+		4BFF20C71D8E47550094E790 /* Sample.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BFF20C31D8E47550094E790 /* Sample.json */; };
+		4BFF20C81D8E47550094E790 /* test.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BFF20C41D8E47550094E790 /* test.json */; };
+		4BFF20C91D8E47550094E790 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BFF20C51D8E47550094E790 /* Tests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		4BFF20BD1D8E474A0094E790 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4BFF20951D8E472A0094E790 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4BFF209D1D8E472A0094E790;
+			remoteInfo = JAYSON;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		4BFF209E1D8E472A0094E790 /* JAYSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JAYSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4BFF20A11D8E472A0094E790 /* JAYSON.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JAYSON.h; sourceTree = "<group>"; };
+		4BFF20A21D8E472A0094E790 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4BFF20A91D8E47400094E790 /* Decoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Decoder.swift; sourceTree = "<group>"; };
+		4BFF20AA1D8E47410094E790 /* JAYSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JAYSON.swift; sourceTree = "<group>"; };
+		4BFF20AB1D8E47410094E790 /* JAYSON+OptionalProperty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JAYSON+OptionalProperty.swift"; sourceTree = "<group>"; };
+		4BFF20AC1D8E47410094E790 /* JAYSON+StrictGetter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JAYSON+StrictGetter.swift"; sourceTree = "<group>"; };
+		4BFF20AD1D8E47410094E790 /* JSONWritableType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONWritableType.swift; sourceTree = "<group>"; };
+		4BFF20B71D8E474A0094E790 /* JAYSONTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JAYSONTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4BFF20BB1D8E474A0094E790 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4BFF20C21D8E47550094E790 /* DribbbleImportTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DribbbleImportTests.swift; sourceTree = "<group>"; };
+		4BFF20C31D8E47550094E790 /* Sample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Sample.json; sourceTree = "<group>"; };
+		4BFF20C41D8E47550094E790 /* test.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test.json; sourceTree = "<group>"; };
+		4BFF20C51D8E47550094E790 /* Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
+		4BFF20CA1D8E47670094E790 /* JAYSON.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = JAYSON.playground; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4BFF209A1D8E472A0094E790 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4BFF20B41D8E474A0094E790 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4BFF20BC1D8E474A0094E790 /* JAYSON.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4BFF20941D8E472A0094E790 = {
+			isa = PBXGroup;
+			children = (
+				4BFF20CA1D8E47670094E790 /* JAYSON.playground */,
+				4BFF20A01D8E472A0094E790 /* JAYSON */,
+				4BFF20B81D8E474A0094E790 /* JAYSONTests */,
+				4BFF209F1D8E472A0094E790 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		4BFF209F1D8E472A0094E790 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4BFF209E1D8E472A0094E790 /* JAYSON.framework */,
+				4BFF20B71D8E474A0094E790 /* JAYSONTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4BFF20A01D8E472A0094E790 /* JAYSON */ = {
+			isa = PBXGroup;
+			children = (
+				4BFF20A91D8E47400094E790 /* Decoder.swift */,
+				4BFF20AA1D8E47410094E790 /* JAYSON.swift */,
+				4BFF20AB1D8E47410094E790 /* JAYSON+OptionalProperty.swift */,
+				4BFF20AC1D8E47410094E790 /* JAYSON+StrictGetter.swift */,
+				4BFF20AD1D8E47410094E790 /* JSONWritableType.swift */,
+				4BFF20A11D8E472A0094E790 /* JAYSON.h */,
+				4BFF20A21D8E472A0094E790 /* Info.plist */,
+			);
+			path = JAYSON;
+			sourceTree = "<group>";
+		};
+		4BFF20B81D8E474A0094E790 /* JAYSONTests */ = {
+			isa = PBXGroup;
+			children = (
+				4BFF20C21D8E47550094E790 /* DribbbleImportTests.swift */,
+				4BFF20C31D8E47550094E790 /* Sample.json */,
+				4BFF20C41D8E47550094E790 /* test.json */,
+				4BFF20C51D8E47550094E790 /* Tests.swift */,
+				4BFF20BB1D8E474A0094E790 /* Info.plist */,
+			);
+			path = JAYSONTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		4BFF209B1D8E472A0094E790 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4BFF20A31D8E472A0094E790 /* JAYSON.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		4BFF209D1D8E472A0094E790 /* JAYSON */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4BFF20A61D8E472A0094E790 /* Build configuration list for PBXNativeTarget "JAYSON" */;
+			buildPhases = (
+				4BFF20991D8E472A0094E790 /* Sources */,
+				4BFF209A1D8E472A0094E790 /* Frameworks */,
+				4BFF209B1D8E472A0094E790 /* Headers */,
+				4BFF209C1D8E472A0094E790 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = JAYSON;
+			productName = JAYSON;
+			productReference = 4BFF209E1D8E472A0094E790 /* JAYSON.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		4BFF20B61D8E474A0094E790 /* JAYSONTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4BFF20BF1D8E474A0094E790 /* Build configuration list for PBXNativeTarget "JAYSONTests" */;
+			buildPhases = (
+				4BFF20B31D8E474A0094E790 /* Sources */,
+				4BFF20B41D8E474A0094E790 /* Frameworks */,
+				4BFF20B51D8E474A0094E790 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4BFF20BE1D8E474A0094E790 /* PBXTargetDependency */,
+			);
+			name = JAYSONTests;
+			productName = JAYSONTests;
+			productReference = 4BFF20B71D8E474A0094E790 /* JAYSONTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4BFF20951D8E472A0094E790 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0800;
+				LastUpgradeCheck = 0800;
+				ORGANIZATIONNAME = muukii;
+				TargetAttributes = {
+					4BFF209D1D8E472A0094E790 = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = KU2QEJ9K3Z;
+						LastSwiftMigration = 0800;
+						ProvisioningStyle = Automatic;
+					};
+					4BFF20B61D8E474A0094E790 = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = KU2QEJ9K3Z;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 4BFF20981D8E472A0094E790 /* Build configuration list for PBXProject "JAYSON" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 4BFF20941D8E472A0094E790;
+			productRefGroup = 4BFF209F1D8E472A0094E790 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4BFF209D1D8E472A0094E790 /* JAYSON */,
+				4BFF20B61D8E474A0094E790 /* JAYSONTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4BFF209C1D8E472A0094E790 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4BFF20B51D8E474A0094E790 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4BFF20C71D8E47550094E790 /* Sample.json in Resources */,
+				4BFF20C81D8E47550094E790 /* test.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4BFF20991D8E472A0094E790 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4BFF20B01D8E47410094E790 /* JAYSON+OptionalProperty.swift in Sources */,
+				4BFF20AE1D8E47410094E790 /* Decoder.swift in Sources */,
+				4BFF20AF1D8E47410094E790 /* JAYSON.swift in Sources */,
+				4BFF20B11D8E47410094E790 /* JAYSON+StrictGetter.swift in Sources */,
+				4BFF20B21D8E47410094E790 /* JSONWritableType.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4BFF20B31D8E474A0094E790 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4BFF20C61D8E47550094E790 /* DribbbleImportTests.swift in Sources */,
+				4BFF20C91D8E47550094E790 /* Tests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		4BFF20BE1D8E474A0094E790 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4BFF209D1D8E472A0094E790 /* JAYSON */;
+			targetProxy = 4BFF20BD1D8E474A0094E790 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		4BFF20A41D8E472A0094E790 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		4BFF20A51D8E472A0094E790 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		4BFF20A71D8E472A0094E790 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = KU2QEJ9K3Z;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = JAYSON/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = me.muukii.JAYSON;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		4BFF20A81D8E472A0094E790 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = KU2QEJ9K3Z;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = JAYSON/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = me.muukii.JAYSON;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		4BFF20C01D8E474A0094E790 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = KU2QEJ9K3Z;
+				INFOPLIST_FILE = JAYSONTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = me.muukii.JAYSONTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		4BFF20C11D8E474A0094E790 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = KU2QEJ9K3Z;
+				INFOPLIST_FILE = JAYSONTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = me.muukii.JAYSONTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4BFF20981D8E472A0094E790 /* Build configuration list for PBXProject "JAYSON" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4BFF20A41D8E472A0094E790 /* Debug */,
+				4BFF20A51D8E472A0094E790 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4BFF20A61D8E472A0094E790 /* Build configuration list for PBXNativeTarget "JAYSON" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4BFF20A71D8E472A0094E790 /* Debug */,
+				4BFF20A81D8E472A0094E790 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		4BFF20BF1D8E474A0094E790 /* Build configuration list for PBXNativeTarget "JAYSONTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4BFF20C01D8E474A0094E790 /* Debug */,
+				4BFF20C11D8E474A0094E790 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4BFF20951D8E472A0094E790 /* Project object */;
+}
