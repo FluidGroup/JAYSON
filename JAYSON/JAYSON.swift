@@ -44,6 +44,11 @@ public struct JAYSON: CustomDebugStringConvertible {
         breadcrumb = nil
     }
     
+    public init(_ object: [JSONWritableType]) {
+        source = object
+        breadcrumb = nil
+    }
+    
     public init(_ object: [JAYSON]) {
         source = object.map { $0.source }
         breadcrumb = nil
@@ -55,6 +60,11 @@ public struct JAYSON: CustomDebugStringConvertible {
             dictionary[object.key] = object.value.source
             return dictionary
         }
+        breadcrumb = nil
+    }
+    
+    public init(_ object: [String : JSONWritableType]) {
+        source = object
         breadcrumb = nil
     }
     

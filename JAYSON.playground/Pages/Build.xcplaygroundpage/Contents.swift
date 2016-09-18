@@ -15,6 +15,10 @@ images["small"] = "http://...fuzz"
 
 jayson["images"] = JAYSON(images)
 
+let array = [1,2,3]
+jayson["array"] = JAYSON(array)
+jayson["dic"] = JAYSON(["a":"A"])
+
 print(jayson.dictionary)
 
 print(jayson.source, "\n")

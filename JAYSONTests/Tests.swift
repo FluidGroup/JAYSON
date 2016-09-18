@@ -17,6 +17,12 @@ class Tests: XCTestCase {
         super.tearDown()
     }
     
+//    func testInitWithArray() {
+//        
+//        let array = [1,2,3]
+//        JAYSON(array)
+//    }
+    
     func testNext() {
         do {
             let j = try JAYSON(data: inData)
