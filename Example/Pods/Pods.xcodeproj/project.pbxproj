@@ -12,6 +12,9 @@
 		2324274BED2DA46A28BD78F1C556B743 /* JAYSON-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 161090AA67215575C6A80E9C577EC5EF /* JAYSON-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2DD6B711B79440B101C58D49EE2F338F /* JAYSON-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA353E5D13D89DCBBF142CDC9F94594 /* JAYSON-dummy.m */; };
 		4AD1EE3861031D21A4EDD6E4632DACD9 /* Pods-JAYSON_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = DE09DDCA8BA3D4AED44CAE5223996426 /* Pods-JAYSON_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4B82D79C1D8E317B00BB0FD6 /* JAYSON+OptionalProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B82D79B1D8E317B00BB0FD6 /* JAYSON+OptionalProperty.swift */; };
+		4B82D79E1D8E31AE00BB0FD6 /* JAYSON+StrictGetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B82D79D1D8E31AE00BB0FD6 /* JAYSON+StrictGetter.swift */; };
+		4B82D7A01D8E37E400BB0FD6 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B82D79F1D8E37E400BB0FD6 /* Decoder.swift */; };
 		4B8D44541D8AD0C100E680D6 /* JSONBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B8D44531D8AD0C100E680D6 /* JSONBuilder.swift */; };
 		8AE1815CFD1A97953E6B295C87EF8F0B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC22C73C1608DFA5D5D78BDCB218219 /* Foundation.framework */; };
 		F88F3EFD2CAAE068D832E8D07A47F2D1 /* JAYSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C478ED1DA1F342F61DBD3A53EB20248 /* JAYSON.swift */; };
@@ -38,6 +41,9 @@
 		3CEA6E41B2D44360E4F14C9D9D5713BB /* JAYSON.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = JAYSON.modulemap; sourceTree = "<group>"; };
 		4040CD3630D5373135087AD7AF5FC95D /* Pods-JAYSON_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-JAYSON_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		42C9B9FE7F808B494A8EA10ED96A354C /* Pods-JAYSON_Tests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-JAYSON_Tests-resources.sh"; sourceTree = "<group>"; };
+		4B82D79B1D8E317B00BB0FD6 /* JAYSON+OptionalProperty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JAYSON+OptionalProperty.swift"; sourceTree = "<group>"; };
+		4B82D79D1D8E31AE00BB0FD6 /* JAYSON+StrictGetter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JAYSON+StrictGetter.swift"; sourceTree = "<group>"; };
+		4B82D79F1D8E37E400BB0FD6 /* Decoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Decoder.swift; sourceTree = "<group>"; };
 		4B8D44531D8AD0C100E680D6 /* JSONBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONBuilder.swift; sourceTree = "<group>"; };
 		747C1BACF8C8BEE7A3D4474897BCF02E /* Pods-JAYSON_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-JAYSON_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		76CD1669C91CC166BE207E2A2837FC7A /* Pods-JAYSON_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-JAYSON_Tests.release.xcconfig"; sourceTree = "<group>"; };
@@ -154,6 +160,9 @@
 			isa = PBXGroup;
 			children = (
 				1C478ED1DA1F342F61DBD3A53EB20248 /* JAYSON.swift */,
+				4B82D79F1D8E37E400BB0FD6 /* Decoder.swift */,
+				4B82D79D1D8E31AE00BB0FD6 /* JAYSON+StrictGetter.swift */,
+				4B82D79B1D8E317B00BB0FD6 /* JAYSON+OptionalProperty.swift */,
 				4B8D44531D8AD0C100E680D6 /* JSONBuilder.swift */,
 			);
 			path = Classes;
@@ -282,6 +291,9 @@
 			files = (
 				4B8D44541D8AD0C100E680D6 /* JSONBuilder.swift in Sources */,
 				2DD6B711B79440B101C58D49EE2F338F /* JAYSON-dummy.m in Sources */,
+				4B82D79C1D8E317B00BB0FD6 /* JAYSON+OptionalProperty.swift in Sources */,
+				4B82D79E1D8E31AE00BB0FD6 /* JAYSON+StrictGetter.swift in Sources */,
+				4B82D7A01D8E37E400BB0FD6 /* Decoder.swift in Sources */,
 				F88F3EFD2CAAE068D832E8D07A47F2D1 /* JAYSON.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

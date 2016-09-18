@@ -1,26 +1,19 @@
 //: [Previous](@previous)
 
 import Foundation
-import JAYSON
+@testable import JAYSON
 
-let root = JSONDictionary()
+var j = JAYSON()
 
-root.add(key: "aaa", value: "AAA")
-root.add(key: "bbb", value: "BBB")
+j["array"] = JAYSON(["aaa":JAYSON(1)])
 
-let array = JSONArray()
-array.add(value: Int64(1))
-array.add(value: Double(1.11))
-array.add(value: Double(true))
-root.add(key: "ccc", value: array)
+print(j.source, "\n")
 
-let sub = JSONDictionary()
-sub.add(key: "aaa", value: "AAA")
-sub.add(key: "bbb", value: "BBB")
-
-root.add(key: "sub", value: sub)
-
-
-print(String(data: try root.build(), encoding: .utf8)!)
+do {
+    let data = try j.data(options: .prettyPrinted)
+    print(String(data: data, encoding: .utf8)!)
+} catch {
+    print(error)
+}
 
 //: [Next](@next)

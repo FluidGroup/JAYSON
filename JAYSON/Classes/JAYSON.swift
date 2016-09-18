@@ -33,7 +33,7 @@ public enum JAYSONError: Error {
 
 public struct JAYSON: CustomDebugStringConvertible {
     
-    let source: Any?
+    var source: Any
     
     fileprivate let breadcrumb: Breadcrumb?
     
@@ -48,6 +48,30 @@ public struct JAYSON: CustomDebugStringConvertible {
         }
     }
     
+    public init(_ object: JSONWritableType) {
+        source = object
+        breadcrumb = nil
+    }
+    
+    public init(_ object: [JAYSON]) {
+        source = object
+        breadcrumb = nil
+    }
+    
+    public init(_ object: [String : JAYSON]) {
+        source = object.reduce([AnyHashable : Any]()) { dictionary, object in
+            var dictionary = dictionary
+            dictionary[object.key] = object.value.source
+            return dictionary
+        }
+        breadcrumb = nil
+    }
+    
+    public init() {
+        source = NSNull()
+        breadcrumb = nil
+    }
+    
     init(data: Data) throws {
         let source = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
         self.init(source: source, breadcrumb: nil)
@@ -56,6 +80,13 @@ public struct JAYSON: CustomDebugStringConvertible {
     init(source: Any?, breadcrumb: Breadcrumb?) {
         self.source = source
         self.breadcrumb = breadcrumb
+    }
+    
+    public func data(options: JSONSerialization.WritingOptions = []) throws -> Data {
+        guard JSONSerialization.isValidJSONObject(self.source) else {
+            throw JAYSONError.InvalidJSONObject
+        }
+        return try JSONSerialization.data(withJSONObject: self.source, options: options)
     }
     
     public func currentPath() -> String {
@@ -110,15 +141,42 @@ extension JAYSON {
 extension JAYSON {
     
     public subscript (key: String) -> JAYSON? {
-        return (source as? [AnyHashable : Any])
-            .flatMap { $0[key] }
-            .map { JAYSON(source: $0, breadcrumb: Breadcrumb(jayson: self, key: key)) }
+        get {
+            return (source as? [AnyHashable : Any])
+                .flatMap { $0[key] }
+                .map { JAYSON(source: $0, breadcrumb: Breadcrumb(jayson: self, key: key)) }
+        }
+        set {
+            if source is NSNull {
+                source = [AnyHashable : Any]()
+            }
+            
+            guard var dictionary = source as? [AnyHashable : Any], let appendSource = newValue?.source else {
+                return
+            }
+            dictionary[key] = appendSource
+            source = dictionary
+        }
     }
     
     public subscript (index: Int) -> JAYSON? {
-        return (source as? [Any])
-            .flatMap { $0[index] }
-            .map { JAYSON(source: $0, breadcrumb: Breadcrumb(jayson: self, index: index)) }
+        get {
+            return (source as? [Any])
+                .flatMap { $0[index] }
+                .map { JAYSON(source: $0, breadcrumb: Breadcrumb(jayson: self, index: index)) }
+        }
+        set {
+            
+            if source is NSNull {
+                source = [Any]()
+            }
+            
+            guard var array = source as? [Any], let appendSource = newValue?.source else {
+                return
+            }
+            array[index] = appendSource
+            source = array
+        }
     }
 }
 
@@ -159,53 +217,6 @@ extension JAYSON {
     }
 }
 
-// Get Swift Value
-extension JAYSON {
-    
-    public func getNumber() throws -> NSNumber {
-        guard let value = source as? NSNumber else {
-            throw JAYSONError.FailedToGetNumber(source, self)
-        }
-        return value
-    }
-    
-    public func getInt() throws -> Int {
-        return try getNumber().intValue
-    }
-    
-    public func getInt64() throws -> Int64 {
-        return try getNumber().int64Value
-    }
-    
-    public func getString() throws -> String {
-        guard let value = source as? String else {
-            throw JAYSONError.FailedToGetString(source, self)
-        }
-        return value
-    }
-    
-    public func getBool() throws -> Bool {
-        guard let value = source as? Bool else {
-            throw JAYSONError.FailedToGetBool(source, self)
-        }
-        return value
-    }
-    
-    public func getFloat() throws -> Float {
-        return try getNumber().floatValue
-    }
-    
-    public func getDouble() throws -> Double {
-        return try getNumber().doubleValue
-    }
-    
-    public func getArray() throws -> [JAYSON] {
-        guard let value = source as? [Any] else {
-            throw JAYSONError.FailedToGetArray(source, self)
-        }
-        return value.enumerated().map { JAYSON(source: $0.element, breadcrumb: Breadcrumb(jayson: self, index: $0.offset)) }
-    }
-}
 
 extension JAYSON {
 
@@ -214,31 +225,38 @@ extension JAYSON {
     }
 }
 
-/// 
-extension JAYSON {
-
-    public func get<T>(_ s: (JAYSON) throws -> T) rethrows -> T {
-        do {
-            return try s(self)
-        } catch {
-            throw JAYSONError.DecodeError(source, self, error)
-        }
+extension JAYSON: Swift.StringLiteralConvertible {
+    
+    public init(stringLiteral value: StringLiteralType) {
+        self.init(value)
     }
     
-    public func get<T>(with decoder: Decoder<T>) throws -> T {
-        do {
-            return try decoder.decode(self)
-        } catch {
-            throw JAYSONError.DecodeError(source, self, error)
-        }
+    public init(extendedGraphemeClusterLiteral value: StringLiteralType) {
+        self.init(value)
+    }
+    
+    public init(unicodeScalarLiteral value: StringLiteralType) {
+        self.init(value)
     }
 }
 
-public struct Decoder<T> {
+extension JAYSON: Swift.IntegerLiteralConvertible {
     
-    let decode: (JAYSON) throws -> T
+    public init(integerLiteral value: IntegerLiteralType) {
+        self.init(value)
+    }
+}
+
+extension JAYSON: Swift.BooleanLiteralConvertible {
     
-    public init(_ s: @escaping (JAYSON) throws -> T) {
-        self.decode = s
+    public init(booleanLiteral value: BooleanLiteralType) {
+        self.init(value)
+    }
+}
+
+extension JAYSON: Swift.FloatLiteralConvertible {
+    
+    public init(floatLiteral value: FloatLiteralType) {
+        self.init(value)
     }
 }
