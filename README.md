@@ -117,40 +117,44 @@ do {
 ### Write JSON
 
 ```swift
-let root = JSONDictionary()
+var j = JAYSON()
+j["number"] = 124
+j["text"] = "hooo"
+j["bool"] = true
+j["null"] = JAYSON.null
 
-root.add(key: "aaa", value: "AAA")
-root.add(key: "bbb", value: "BBB")
-
-let array = JSONArray()
-array.add(value: Int64(1))
-array.add(value: Double(1.11))
-array.add(value: Double(true))
-root.add(key: "ccc", value: array)
-
-let sub = JSONDictionary()
-sub.add(key: "aaa", value: "AAA")
-sub.add(key: "bbb", value: "BBB")
-
-root.add(key: "sub", value: sub)
-
-let data: Data = try root.build()
+// sorry.
+j["tree1"] = JAYSON(
+    [
+        "tree2" : JAYSON(
+            [
+            "tree3" : JAYSON(
+                [
+                    JAYSON(["index" : "myvalue"])
+                ]
+                )
+            ]
+        )
+    ]
+)
 ```
 
 ```
 {
-  "sub" : {
-    "bbb" : "BBB",
-    "aaa" : "AAA"
-  },
-  "bbb" : "BBB",
-  "aaa" : "AAA",
-  "ccc" : [
-    1,
-    1.11,
-    1
-  ]
-}
+    "number" : 124,
+    "null" : null,
+    "tree1" : {
+        "tree2" : {
+            "tree3" : [
+            {
+                "index" : "myvalue"
+            }
+            ]
+        }
+    },
+    "text" : "hooo",
+    "bool" : true
+    }
 ```
 
 ## Requirements

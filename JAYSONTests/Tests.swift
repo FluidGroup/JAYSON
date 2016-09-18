@@ -72,7 +72,9 @@ class Tests: XCTestCase {
         )
         
         do {
-            print(try j.data())
+            let data = try j.data(options: .prettyPrinted)
+            let text = String(data: data, encoding: .utf8)!
+            print(text)
         } catch {
             print(j.source)
             XCTFail("\(error)")
