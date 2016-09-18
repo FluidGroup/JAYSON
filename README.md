@@ -62,7 +62,7 @@ let imageURL: URL = try jayson
 ```
 
 Optional Read-only properties
-```
+```swift
 extension JAYSON {
 
     public var dictionary: [String : Any]? { get }
