@@ -21,14 +21,14 @@
 // THE SOFTWARE.
 
 public enum JAYSONError: Error {
-    case NotFoundKey(String, JAYSON)
-    case NotFoundIndex(Int, JAYSON)
-    case FailedToGetString(Any, JAYSON)
-    case FailedToGetBool(Any, JAYSON)
-    case FailedToGetNumber(Any, JAYSON)
-    case FailedToGetArray(Any, JAYSON)
-    case InvalidJSONObject
-    case DecodeError(Any, JAYSON, Error)
+    case notFoundKey(String, JAYSON)
+    case notFoundIndex(Int, JAYSON)
+    case failedToGetString(Any, JAYSON)
+    case failedToGetBool(Any, JAYSON)
+    case failedToGetNumber(Any, JAYSON)
+    case failedToGetArray(Any, JAYSON)
+    case invalidJSONObject
+    case decodeError(Any, JAYSON, Error)
 }
 
 public struct JAYSON: CustomDebugStringConvertible {
@@ -63,7 +63,7 @@ public struct JAYSON: CustomDebugStringConvertible {
         breadcrumb = nil
     }
     
-    init(data: Data) throws {
+    public init(data: Data) throws {
         let source = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
         self.init(source: source, breadcrumb: nil)
     }
@@ -75,7 +75,7 @@ public struct JAYSON: CustomDebugStringConvertible {
     
     public func data(options: JSONSerialization.WritingOptions = []) throws -> Data {
         guard JSONSerialization.isValidJSONObject(source) else {
-            throw JAYSONError.InvalidJSONObject
+            throw JAYSONError.invalidJSONObject
         }
         return try JSONSerialization.data(withJSONObject: source, options: options)
     }
@@ -176,7 +176,7 @@ extension JAYSON {
 
     private func next(_ key: String) throws -> JAYSON {
         guard let jayson = self[key] else {
-            throw JAYSONError.NotFoundKey(key, self)
+            throw JAYSONError.notFoundKey(key, self)
         }
         return jayson
     }
@@ -195,7 +195,7 @@ extension JAYSON {
      */
     public func next(_ index: Int) throws -> JAYSON {
         guard let jayson = self[index] else {
-            throw JAYSONError.NotFoundIndex(index, self)
+            throw JAYSONError.notFoundIndex(index, self)
         }
         return jayson
     }

@@ -27,7 +27,7 @@ extension JAYSON {
     
     public func getNumber() throws -> NSNumber {
         guard let value = number else {
-            throw JAYSONError.FailedToGetNumber(source, self)
+            throw JAYSONError.failedToGetNumber(source, self)
         }
         return value
     }
@@ -42,14 +42,14 @@ extension JAYSON {
     
     public func getString() throws -> String {
         guard let value = string else {
-            throw JAYSONError.FailedToGetString(source, self)
+            throw JAYSONError.failedToGetString(source, self)
         }
         return value
     }
     
     public func getBool() throws -> Bool {
         guard let value = source as? Bool else {
-            throw JAYSONError.FailedToGetBool(source, self)
+            throw JAYSONError.failedToGetBool(source, self)
         }
         return value
     }
@@ -64,7 +64,7 @@ extension JAYSON {
     
     public func getArray() throws -> [JAYSON] {
         guard let value = source as? [Any] else {
-            throw JAYSONError.FailedToGetArray(source, self)
+            throw JAYSONError.failedToGetArray(source, self)
         }
         return value.enumerated().map { JAYSON(source: $0.element, breadcrumb: Breadcrumb(jayson: self, index: $0.offset)) }
     }
@@ -77,7 +77,7 @@ extension JAYSON {
         do {
             return try s(self)
         } catch {
-            throw JAYSONError.DecodeError(source, self, error)
+            throw JAYSONError.decodeError(source, self, error)
         }
     }
     
@@ -85,7 +85,7 @@ extension JAYSON {
         do {
             return try decoder.decode(self)
         } catch {
-            throw JAYSONError.DecodeError(source, self, error)
+            throw JAYSONError.decodeError(source, self, error)
         }
     }
 }
