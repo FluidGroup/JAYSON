@@ -29,7 +29,7 @@ let jayson = try JAYSON(json)
 
 ---
 
-#### Easy Access
+#### Easy Access (almost same with [SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON))
 
 ```swift
 let urlString: String? = jayson[3]["shot"]["images"]["hidpi_image"].string
