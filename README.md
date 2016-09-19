@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="JAYSON@2x.png">
+  <img src="JAYSON@2x.png" width=245 height=83>
 </p>
 # JAYSON
 
