@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4B50A3DE1D90604400E06D6E /* JAYSON+StateProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B50A3DD1D90604400E06D6E /* JAYSON+StateProperty.swift */; };
 		4BFF20A31D8E472A0094E790 /* JAYSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 4BFF20A11D8E472A0094E790 /* JAYSON.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4BFF20AE1D8E47410094E790 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BFF20A91D8E47400094E790 /* Decoder.swift */; };
 		4BFF20AF1D8E47410094E790 /* JAYSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BFF20AA1D8E47410094E790 /* JAYSON.swift */; };
@@ -31,6 +32,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4B50A3DD1D90604400E06D6E /* JAYSON+StateProperty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JAYSON+StateProperty.swift"; sourceTree = "<group>"; };
 		4BFF209E1D8E472A0094E790 /* JAYSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JAYSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BFF20A11D8E472A0094E790 /* JAYSON.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JAYSON.h; sourceTree = "<group>"; };
 		4BFF20A21D8E472A0094E790 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 			children = (
 				4BFF20A91D8E47400094E790 /* Decoder.swift */,
 				4BFF20AA1D8E47410094E790 /* JAYSON.swift */,
+				4B50A3DD1D90604400E06D6E /* JAYSON+StateProperty.swift */,
 				4BFF20AB1D8E47410094E790 /* JAYSON+OptionalProperty.swift */,
 				4BFF20AC1D8E47410094E790 /* JAYSON+StrictGetter.swift */,
 				4BFF20AD1D8E47410094E790 /* JSONWritableType.swift */,
@@ -231,6 +234,7 @@
 				4BFF20AE1D8E47410094E790 /* Decoder.swift in Sources */,
 				4BFF20AF1D8E47410094E790 /* JAYSON.swift in Sources */,
 				4BFF20B11D8E47410094E790 /* JAYSON+StrictGetter.swift in Sources */,
+				4B50A3DE1D90604400E06D6E /* JAYSON+StateProperty.swift in Sources */,
 				4BFF20B21D8E47410094E790 /* JSONWritableType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

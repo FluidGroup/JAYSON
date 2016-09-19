@@ -17,11 +17,43 @@ class Tests: XCTestCase {
         super.tearDown()
     }
     
-//    func testInitWithArray() {
-//        
-//        let array = [1,2,3]
-//        JAYSON(array)
-//    }
+    enum Enum {
+        case a
+        case b
+        case c
+        
+        var jayson: JAYSON {
+            switch self {
+            case .a:
+                return JAYSON("a")
+            case .b:
+                return JAYSON("b")
+            case .c:
+                return JAYSON("c")
+            }
+        }
+    }
+    
+    func testIsArray() {
+        
+        let jayson = JAYSON([
+            128,129,130,
+            ])
+        XCTAssert(jayson.isArray)
+    }
+    
+    func testIsDictionary() {
+        
+        let jayson = JAYSON(
+            [
+                "aaa":"AAA",
+                "bbb":["BBB":"AAA"],
+                "a":[1,2,3],
+                "enum":Enum.a.jayson,
+            ]
+        )
+        XCTAssert(jayson.isDictionary)
+    }
     
     func testNext() {
         do {

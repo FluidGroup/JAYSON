@@ -220,15 +220,13 @@ extension JAYSON {
     }
 }
 
-
-extension JAYSON {
-
-    public var isNull: Bool {
-        return source is NSNull
+extension JAYSON: Swift.ExpressibleByNilLiteral {
+    public init(nilLiteral: ()) {
+        self.init()
     }
 }
 
-extension JAYSON: Swift.StringLiteralConvertible {
+extension JAYSON: Swift.ExpressibleByStringLiteral {
     
     public init(stringLiteral value: StringLiteralType) {
         self.init(value)
@@ -243,23 +241,41 @@ extension JAYSON: Swift.StringLiteralConvertible {
     }
 }
 
-extension JAYSON: Swift.IntegerLiteralConvertible {
+extension JAYSON: Swift.ExpressibleByIntegerLiteral {
     
     public init(integerLiteral value: IntegerLiteralType) {
         self.init(value)
     }
 }
 
-extension JAYSON: Swift.BooleanLiteralConvertible {
+extension JAYSON: Swift.ExpressibleByBooleanLiteral {
     
     public init(booleanLiteral value: BooleanLiteralType) {
         self.init(value)
     }
 }
 
-extension JAYSON: Swift.FloatLiteralConvertible {
+extension JAYSON: Swift.ExpressibleByFloatLiteral {
     
     public init(floatLiteral value: FloatLiteralType) {
         self.init(value)
+    }
+}
+
+extension JAYSON: Swift.ExpressibleByDictionaryLiteral {
+    
+    public init(dictionaryLiteral elements: (String, JAYSON)...) {
+        let dictionary = elements.reduce([String : JAYSON]()) { dic, element in
+            var dic = dic
+            dic[element.0] = element.1
+            return dic
+        }
+        self.init(dictionary)
+    }
+}
+
+extension JAYSON: Swift.ExpressibleByArrayLiteral {
+    public init(arrayLiteral elements: JAYSON...) {
+        self.init(elements)
     }
 }
