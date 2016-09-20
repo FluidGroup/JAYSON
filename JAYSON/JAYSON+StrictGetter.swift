@@ -62,11 +62,18 @@ extension JAYSON {
         return try getNumber().doubleValue
     }
     
+    public func getDictionary() throws -> [String : JAYSON] {
+        guard let value = dictionary else {
+            throw JAYSONError.failedToGetDictionary(source, self)
+        }
+        return value
+    }
+    
     public func getArray() throws -> [JAYSON] {
-        guard let value = source as? [Any] else {
+        guard let value = array else {
             throw JAYSONError.failedToGetArray(source, self)
         }
-        return value.enumerated().map { JAYSON(source: $0.element, breadcrumb: Breadcrumb(jayson: self, index: $0.offset)) }
+        return value
     }
 }
 

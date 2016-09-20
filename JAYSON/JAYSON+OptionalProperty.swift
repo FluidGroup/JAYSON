@@ -24,12 +24,18 @@ import Foundation
 
 extension JAYSON {
     
-    public var dictionary: [String : Any]? {
-        return source as? [String : Any]
+    public var dictionary: [String : JAYSON]? {
+        return (source as? [String : Any])?.reduce([String : JAYSON]()) { dic, element in
+            var dic = dic
+            dic[element.key] = JAYSON(source: element.value, breadcrumb: Breadcrumb(jayson: self, key: element.key))
+            return dic
+        }
     }
     
-    public var array: [Any]? {
-        return source as? [Any]
+    public var array: [JAYSON]? {
+        return (source as? [Any])?
+            .enumerated()
+            .map { JAYSON(source: $0.element, breadcrumb: Breadcrumb(jayson: self, index: $0.offset)) }
     }
     
     public var string: String? {

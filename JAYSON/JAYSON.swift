@@ -27,6 +27,7 @@ public enum JAYSONError: Error {
     case failedToGetBool(Any, JAYSON)
     case failedToGetNumber(Any, JAYSON)
     case failedToGetArray(Any, JAYSON)
+    case failedToGetDictionary(Any, JAYSON)
     case invalidJSONObject
     case decodeError(Any, JAYSON, Error)
 }
@@ -77,7 +78,7 @@ public struct JAYSON: CustomDebugStringConvertible {
         let source = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
         self.init(source: source, breadcrumb: nil)
     }
-    
+        
     init(source: Any, breadcrumb: Breadcrumb?) {
         self.source = source
         self.breadcrumb = breadcrumb

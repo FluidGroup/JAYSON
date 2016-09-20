@@ -19,7 +19,7 @@ let array = [1,2,3]
 jayson["array"] = JAYSON(array)
 jayson["dic"] = JAYSON(["a":"A"])
 
-print(jayson.dictionary)
+jayson.dictionary
 
 print(jayson.source, "\n")
 
@@ -29,5 +29,6 @@ do {
 } catch {
     print(error)
 }
+
 
 //: [Next](@next)
