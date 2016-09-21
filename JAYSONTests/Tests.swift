@@ -34,6 +34,39 @@ class Tests: XCTestCase {
         }
     }
     
+    func testEqualable() {
+        
+        let source: [String : JAYSON] = [
+            "aaa":"AAA",
+            "bbb":["BBB":"AAA"],
+            "a":[1,2,3],
+            "enum":Enum.a.jayson,
+            ]
+        
+        let jayson = JAYSON(source)
+        let jayson2 = JAYSON(source)
+        
+        XCTAssert(jayson == jayson2)                
+    }
+    
+    func testDictionaryInit() {
+        
+        let dictionary: [AnyHashable : Any] = [
+            "title" : "foo",
+            "name" : "hiroshi",
+            "age" : 25,
+            "height" : 173,
+        ]
+        
+        do {
+            let jayson = try JAYSON(any: dictionary)
+            let data = try jayson.data()
+            _ = try JAYSON(data: data)
+        } catch {
+            XCTFail("\(error)")
+        }
+    }
+    
     func testIsArray() {
         
         let jayson = JAYSON([

@@ -32,7 +32,11 @@ public enum JAYSONError: Error {
     case decodeError(Any, JAYSON, Error)
 }
 
-public struct JAYSON: CustomDebugStringConvertible {
+public struct JAYSON: CustomDebugStringConvertible, Equatable {
+    
+    public static func ==(lhs: JAYSON, rhs: JAYSON) -> Bool {
+        return (lhs.source as? NSObject) == (rhs.source as? NSObject)
+    }
     
     public static let null = JAYSON()
     
@@ -77,6 +81,13 @@ public struct JAYSON: CustomDebugStringConvertible {
     public init(data: Data) throws {
         let source = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
         self.init(source: source, breadcrumb: nil)
+    }
+    
+    public init(any: Any) throws {
+        guard JSONSerialization.isValidJSONObject(any) else {
+            throw JAYSONError.invalidJSONObject
+        }
+        self.init(source: any, breadcrumb: nil)
     }
         
     init(source: Any, breadcrumb: Breadcrumb?) {
