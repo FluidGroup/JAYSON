@@ -41,7 +41,7 @@
 		4BFF20AB1D8E47410094E790 /* JAYSON+OptionalProperty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JAYSON+OptionalProperty.swift"; sourceTree = "<group>"; };
 		4BFF20AC1D8E47410094E790 /* JAYSON+StrictGetter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JAYSON+StrictGetter.swift"; sourceTree = "<group>"; };
 		4BFF20AD1D8E47410094E790 /* JSONWritableType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONWritableType.swift; sourceTree = "<group>"; };
-		4BFF20B71D8E474A0094E790 /* JAYSONTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JAYSONTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4BFF20B71D8E474A0094E790 /* JAYSON iOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "JAYSON iOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BFF20BB1D8E474A0094E790 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4BFF20C21D8E47550094E790 /* DribbbleImportTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DribbbleImportTests.swift; sourceTree = "<group>"; };
 		4BFF20C31D8E47550094E790 /* Sample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Sample.json; sourceTree = "<group>"; };
@@ -83,7 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				4BFF209E1D8E472A0094E790 /* JAYSON.framework */,
-				4BFF20B71D8E474A0094E790 /* JAYSONTests.xctest */,
+				4BFF20B71D8E474A0094E790 /* JAYSON iOS Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -129,9 +129,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		4BFF209D1D8E472A0094E790 /* JAYSON */ = {
+		4BFF209D1D8E472A0094E790 /* JAYSON iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4BFF20A61D8E472A0094E790 /* Build configuration list for PBXNativeTarget "JAYSON" */;
+			buildConfigurationList = 4BFF20A61D8E472A0094E790 /* Build configuration list for PBXNativeTarget "JAYSON iOS" */;
 			buildPhases = (
 				4BFF20991D8E472A0094E790 /* Sources */,
 				4BFF209A1D8E472A0094E790 /* Frameworks */,
@@ -142,14 +142,14 @@
 			);
 			dependencies = (
 			);
-			name = JAYSON;
+			name = "JAYSON iOS";
 			productName = JAYSON;
 			productReference = 4BFF209E1D8E472A0094E790 /* JAYSON.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		4BFF20B61D8E474A0094E790 /* JAYSONTests */ = {
+		4BFF20B61D8E474A0094E790 /* JAYSON iOS Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4BFF20BF1D8E474A0094E790 /* Build configuration list for PBXNativeTarget "JAYSONTests" */;
+			buildConfigurationList = 4BFF20BF1D8E474A0094E790 /* Build configuration list for PBXNativeTarget "JAYSON iOS Tests" */;
 			buildPhases = (
 				4BFF20B31D8E474A0094E790 /* Sources */,
 				4BFF20B41D8E474A0094E790 /* Frameworks */,
@@ -160,9 +160,9 @@
 			dependencies = (
 				4BFF20BE1D8E474A0094E790 /* PBXTargetDependency */,
 			);
-			name = JAYSONTests;
+			name = "JAYSON iOS Tests";
 			productName = JAYSONTests;
-			productReference = 4BFF20B71D8E474A0094E790 /* JAYSONTests.xctest */;
+			productReference = 4BFF20B71D8E474A0094E790 /* JAYSON iOS Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -200,8 +200,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4BFF209D1D8E472A0094E790 /* JAYSON */,
-				4BFF20B61D8E474A0094E790 /* JAYSONTests */,
+				4BFF209D1D8E472A0094E790 /* JAYSON iOS */,
+				4BFF20B61D8E474A0094E790 /* JAYSON iOS Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -253,7 +253,7 @@
 /* Begin PBXTargetDependency section */
 		4BFF20BE1D8E474A0094E790 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 4BFF209D1D8E472A0094E790 /* JAYSON */;
+			target = 4BFF209D1D8E472A0094E790 /* JAYSON iOS */;
 			targetProxy = 4BFF20BD1D8E474A0094E790 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -372,7 +372,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = me.muukii.JAYSON;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = JAYSON;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -393,7 +393,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = me.muukii.JAYSON;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = JAYSON;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
 			};
@@ -435,7 +435,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4BFF20A61D8E472A0094E790 /* Build configuration list for PBXNativeTarget "JAYSON" */ = {
+		4BFF20A61D8E472A0094E790 /* Build configuration list for PBXNativeTarget "JAYSON iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4BFF20A71D8E472A0094E790 /* Debug */,
@@ -444,7 +444,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4BFF20BF1D8E474A0094E790 /* Build configuration list for PBXNativeTarget "JAYSONTests" */ = {
+		4BFF20BF1D8E474A0094E790 /* Build configuration list for PBXNativeTarget "JAYSON iOS Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4BFF20C01D8E474A0094E790 /* Debug */,
