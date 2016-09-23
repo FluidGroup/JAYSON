@@ -8,7 +8,7 @@ let dataPath = Bundle.main.path(forResource: "test", ofType: "json")
 let data = Data(referencing: NSData(contentsOfFile: dataPath!)!)
 let jayson = try! JAYSON(data)
 
-let urlTransformer = Decoder<URL> { (jayson) -> URL in
+let urlTransformer = Decoder<URL> { (jayson) throws -> URL in
     URL(string: try jayson.getString())!
 }
 

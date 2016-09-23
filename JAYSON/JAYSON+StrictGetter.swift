@@ -24,6 +24,20 @@ import Foundation
 
 // Get Swift Value
 extension JAYSON {
+        
+    public func getDictionary() throws -> [String : JAYSON] {
+        guard let value = dictionary else {
+            throw JAYSONError.failedToGetDictionary(source, self)
+        }
+        return value
+    }
+    
+    public func getArray() throws -> [JAYSON] {
+        guard let value = array else {
+            throw JAYSONError.failedToGetArray(source, self)
+        }
+        return value
+    }
     
     public func getNumber() throws -> NSNumber {
         guard let value = number else {
@@ -36,8 +50,40 @@ extension JAYSON {
         return try getNumber().intValue
     }
     
+    public func getInt8() throws -> Int8 {
+        return try getNumber().int8Value
+    }
+    
+    public func getInt16() throws -> Int16 {
+        return try getNumber().int16Value
+    }
+    
+    public func getInt32() throws -> Int32 {
+        return try getNumber().int32Value
+    }
+    
     public func getInt64() throws -> Int64 {
         return try getNumber().int64Value
+    }
+    
+    public func getUInt() throws -> UInt {
+        return try getNumber().uintValue
+    }
+    
+    public func getUInt8() throws -> UInt8 {
+        return try getNumber().uint8Value
+    }
+    
+    public func getUInt16() throws -> UInt16 {
+        return try getNumber().uint16Value
+    }
+    
+    public func getUInt32() throws -> UInt32 {
+        return try getNumber().uint32Value
+    }
+    
+    public func getUInt64() throws -> UInt64 {
+        return try getNumber().uint64Value
     }
     
     public func getString() throws -> String {
@@ -61,20 +107,7 @@ extension JAYSON {
     public func getDouble() throws -> Double {
         return try getNumber().doubleValue
     }
-    
-    public func getDictionary() throws -> [String : JAYSON] {
-        guard let value = dictionary else {
-            throw JAYSONError.failedToGetDictionary(source, self)
-        }
-        return value
-    }
-    
-    public func getArray() throws -> [JAYSON] {
-        guard let value = array else {
-            throw JAYSONError.failedToGetArray(source, self)
-        }
-        return value
-    }
+
 }
 
 ///

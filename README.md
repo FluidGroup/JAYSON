@@ -14,31 +14,20 @@
 
 Strict and Scalable JSON library.
 
-## Sample
+# Usage
 
-### Read JSON
+## Read JSON
 
-##### Create JAYSON
-
-```swift
-let jsonData: Data = ...
-let jayson = try JAYSON(jsonData)
-
-// or
-let jsonData: Data = ...
-let json: Any = try JSONSerialization.jsonObject(with: data, options: [])
-let jayson = try JAYSON(json)
-```
-
----
-
-#### Easy Access (almost same with [SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON))
+### Easy Access (almost same with [SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON))
 
 ```swift
 let urlString: String? = jayson[3]["shot"]["images"]["hidpi_image"].string
 ```
 
-#### Strict Access (try-catch)
+### Strict Access (try-catch)
+
+if the value does not exist, throw `JAYSONError`<br>
+Failed location can be known from JAYSONError
 
 Get Value (String, Bool, Number)
 
@@ -49,10 +38,12 @@ let id: String = try jayson
        .getString()
 ```
 
-Get Value with Decoder (Custom Object)
+**Get Value with Decoder (Custom Object)**<br>
+Using the Decoder can be transformed in a custom object.
+And, throwable
 
 ```swift
-let urlDecoder = Decoder<URL> { (jayson) -> URL in
+let urlDecoder = Decoder<URL> { (jayson) throws -> URL in
     URL(string: try jayson.getString())!
 }
 
@@ -64,46 +55,83 @@ let imageURL: URL = try jayson
        .get(with: urlDecoder)
 ```
 
-Optional Read-only properties
+**General Getter**
+
+Strict getters
+
 ```swift
 extension JAYSON {
+    public func getDictionary() throws -> [String : JAYSON]
+    public func getArray() throws -> [JAYSON]
+    public func getNumber() throws -> NSNumber
+    public func getInt() throws -> Int
+    public func getInt8() throws -> Int8
+    public func getInt16() throws -> Int16
+    public func getInt32() throws -> Int32
+    public func getInt64() throws -> Int64
+    public func getUInt() throws -> UInt
+    public func getUInt8() throws -> UInt8
+    public func getUInt16() throws -> UInt16
+    public func getUInt32() throws -> UInt32
+    public func getUInt64() throws -> UInt64
+    public func getString() throws -> String
+    public func getBool() throws -> Bool
+    public func getFloat() throws -> Float
+    public func getDouble() throws -> Double
+}
 
+///
+extension JAYSON {
+    public func get<T>(_ s: (JAYSON) throws -> T) rethrows -> T
+    public func get<T>(with decoder: Decoder<T>) throws -> T
+}
+```
+
+Optional Read-only properties😁
+```swift
+extension JAYSON {
     public var dictionary: [String : Any]? { get }
-
     public var array: [Any]? { get }
-
     public var string: String? { get }
-
     public var number: NSNumber? { get }
-
     public var double: Double? { get }
-
     public var float: Float? { get }
-
     public var int: Int? { get }
-
     public var uInt: UInt? { get }
-
     public var int8: Int8? { get }
-
     public var uInt8: UInt8? { get }
-
     public var int16: Int16? { get }
-
     public var uInt16: UInt16? { get }
-
     public var int32: Int32? { get }
-
     public var uInt32: UInt32? { get }
-
     public var int64: Int64? { get }
-
     public var uInt64: UInt64? { get }
-
     public var bool: Bool? { get }
 }
 ```
 
+#### Create JAYSON
+
+```swift
+let jsonData: Data = ...
+let jayson = try JAYSON(data: jsonData)
+```
+
+```swift
+let jsonData: Data
+let json: Any = try JSONSerialization.jsonObject(with: data, options: [])
+let jayson = try JAYSON(any: json)
+```
+
+```swift
+let userInfo: [AnyHashable: Any]
+let jayson = try JAYSON(any: json)
+```
+
+```swift
+let objects: [Any]
+let jayson = try JAYSON(any: json)
+```
 ---
 
 ## Get current path (Debugging information.)

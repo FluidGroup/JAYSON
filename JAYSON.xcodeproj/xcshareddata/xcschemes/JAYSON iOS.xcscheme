@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "4BFF209D1D8E472A0094E790"
-               BuildableName = "JAYSON iOS.framework"
+               BuildableName = "JAYSON.framework"
                BlueprintName = "JAYSON iOS"
                ReferencedContainer = "container:JAYSON.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4BFF209D1D8E472A0094E790"
-            BuildableName = "JAYSON iOS.framework"
+            BuildableName = "JAYSON.framework"
             BlueprintName = "JAYSON iOS"
             ReferencedContainer = "container:JAYSON.xcodeproj">
          </BuildableReference>
@@ -65,7 +65,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4BFF209D1D8E472A0094E790"
-            BuildableName = "JAYSON iOS.framework"
+            BuildableName = "JAYSON.framework"
             BlueprintName = "JAYSON iOS"
             ReferencedContainer = "container:JAYSON.xcodeproj">
          </BuildableReference>
@@ -83,7 +83,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4BFF209D1D8E472A0094E790"
-            BuildableName = "JAYSON iOS.framework"
+            BuildableName = "JAYSON.framework"
             BlueprintName = "JAYSON iOS"
             ReferencedContainer = "container:JAYSON.xcodeproj">
          </BuildableReference>
