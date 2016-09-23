@@ -44,13 +44,13 @@ public struct JAYSON: CustomDebugStringConvertible, Equatable {
     
     fileprivate let breadcrumb: Breadcrumb?
         
-    public init(_ object: JSONWritableType) {
-        source = object
+    public init(_ object: JAYSONWritableType) {
+        source = object.jsonValueBox.source
         breadcrumb = nil
     }
     
-    public init(_ object: [JSONWritableType]) {
-        source = object
+    public init(_ object: [JAYSONWritableType]) {
+        source = object.map { $0.jsonValueBox.source }
         breadcrumb = nil
     }
     
@@ -68,8 +68,12 @@ public struct JAYSON: CustomDebugStringConvertible, Equatable {
         breadcrumb = nil
     }
     
-    public init(_ object: [String : JSONWritableType]) {
-        source = object
+    public init(_ object: [String : JAYSONWritableType]) {
+        source = object.reduce([String : Any]()) { dic, element in
+            var dic = dic
+            dic[element.key] = element.value.jsonValueBox.source
+            return dic
+        }        
         breadcrumb = nil
     }
     
