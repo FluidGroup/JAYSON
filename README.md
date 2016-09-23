@@ -9,6 +9,12 @@
 [![Platform](https://img.shields.io/cocoapods/p/JAYSON.svg?style=flat)](http://cocoapods.org/pods/JAYSON)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
+<BR>
+
+<p align="center">
+  <img src="JAYSON-shot.png" width=375>
+</p>
+
 Strict and Scalable JSON library.
 
 ## Sample
