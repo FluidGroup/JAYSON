@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'JAYSON'
-  s.version          = '0.4.6'
+  s.version          = '0.5.0'
   s.summary          = 'Strict and Scalable JSON library'
   s.homepage         = 'https://github.com/muukii/JAYSON'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
