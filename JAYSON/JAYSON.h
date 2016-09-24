@@ -6,7 +6,7 @@
 //  Copyright © 2016 muukii. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 //! Project version number for JAYSON.
 FOUNDATION_EXPORT double JAYSONVersionNumber;
