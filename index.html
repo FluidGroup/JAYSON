@@ -1,0 +1,277 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>JAYSON by muukii</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>JAYSON</h1>
+        <p>Swift3 : Easy and Strict, Scalable JSON library 🎉 Can be read 👀 and write 🖊</p>
+
+        <p class="view"><a href="https://github.com/muukii/JAYSON">View the Project on GitHub <small>muukii/JAYSON</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/muukii/JAYSON/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/muukii/JAYSON/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/muukii/JAYSON">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <p align="center">
+  <img src="JAYSON-shot.png" width="375">
+</p>
+
+<h1>
+<a id="jayson" class="anchor" href="#jayson" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>JAYSON</h1>
+
+<p><img src="https://img.shields.io/badge/Swift-3.0-blue.svg?style=flat" alt="">
+<a href="https://travis-ci.org/muukii/JAYSON"><img src="http://img.shields.io/travis/muukii/JAYSON.svg?style=flat" alt="CI Status"></a>
+<a href="http://cocoapods.org/pods/JAYSON"><img src="https://img.shields.io/cocoapods/v/JAYSON.svg?style=flat" alt="Version"></a>
+<a href="http://cocoapods.org/pods/JAYSON"><img src="https://img.shields.io/cocoapods/l/JAYSON.svg?style=flat" alt="License"></a>
+<a href="http://cocoapods.org/pods/JAYSON"><img src="https://img.shields.io/cocoapods/p/JAYSON.svg?style=flat" alt="Platform"></a>
+<a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage compatible"></a></p>
+
+<p>Strict and Scalable JSON library.</p>
+
+<h1>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h1>
+
+<h2>
+<a id="read-json" class="anchor" href="#read-json" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Read JSON</h2>
+
+<h3>
+<a id="easy-access-almost-same-with-swiftyjson" class="anchor" href="#easy-access-almost-same-with-swiftyjson" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Easy Access (almost same with <a href="https://github.com/SwiftyJSON/SwiftyJSON">SwiftyJSON</a>)</h3>
+
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> urlString: <span class="pl-c1">String</span>? <span class="pl-k">=</span> jayson[<span class="pl-c1">3</span>][<span class="pl-s"><span class="pl-pds">"</span>shot<span class="pl-pds">"</span></span>][<span class="pl-s"><span class="pl-pds">"</span>images<span class="pl-pds">"</span></span>][<span class="pl-s"><span class="pl-pds">"</span>hidpi_image<span class="pl-pds">"</span></span>]<span class="pl-k">.</span>string</pre></div>
+
+<h3>
+<a id="strict-access-try-catch" class="anchor" href="#strict-access-try-catch" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Strict Access (try-catch)</h3>
+
+<p>if the value does not exist, throw <code>JAYSONError</code><br>
+Failed location can be known from JAYSONError</p>
+
+<p>Get Value (String, Bool, Number)</p>
+
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> id: <span class="pl-c1">String</span> <span class="pl-k">=</span> <span class="pl-k">try</span> jayson
+       <span class="pl-k">.</span><span class="pl-c1">next</span>(<span class="pl-c1">0</span>)
+       <span class="pl-k">.</span><span class="pl-c1">next</span>(<span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>)
+       <span class="pl-k">.</span>getString()</pre></div>
+
+<p><strong>Get Value with Decoder (Custom Object)</strong><br>
+Using the Decoder can be transformed in a custom object.
+And, throwable</p>
+
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> urlDecoder <span class="pl-k">=</span> Decoder<span class="pl-k">&lt;</span>URL<span class="pl-k">&gt;</span> { (jayson) <span class="pl-k">throws</span> <span class="pl-k">-&gt;</span> URL <span class="pl-k">in</span>
+    URL(string: <span class="pl-k">try</span> jayson<span class="pl-k">.</span>getString())<span class="pl-k">!</span>
+}
+
+
+<span class="pl-k">let</span> imageURL: URL <span class="pl-k">=</span> <span class="pl-k">try</span> jayson
+       <span class="pl-k">.</span><span class="pl-c1">next</span>(<span class="pl-c1">0</span>)
+       <span class="pl-k">.</span><span class="pl-c1">next</span>(<span class="pl-s"><span class="pl-pds">"</span>image<span class="pl-pds">"</span></span>)
+       <span class="pl-k">.</span><span class="pl-c1">next</span>(<span class="pl-s"><span class="pl-pds">"</span>hidpi_image<span class="pl-pds">"</span></span>)
+       <span class="pl-k">.</span><span class="pl-k">get</span>(with: urlDecoder)</pre></div>
+
+<p><strong>General Getter</strong></p>
+
+<p>Strict getters</p>
+
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">extension</span> JAYSON {
+    <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">getDictionary</span>() throws <span class="pl-k">-&gt;</span> [<span class="pl-c1">String</span> : JAYSON]
+    <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">getArray</span>() throws <span class="pl-k">-&gt;</span> [JAYSON]
+    <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">getNumber</span>() throws <span class="pl-k">-&gt;</span> NSNumber
+    <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">getInt</span>() throws <span class="pl-k">-&gt;</span> <span class="pl-c1">Int</span>
+    <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">getInt8</span>() throws <span class="pl-k">-&gt;</span> <span class="pl-c1">Int8</span>
+    <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">getInt16</span>() throws <span class="pl-k">-&gt;</span> <span class="pl-c1">Int16</span>
+    <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">getInt32</span>() throws <span class="pl-k">-&gt;</span> <span class="pl-c1">Int32</span>
+    <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">getInt64</span>() throws <span class="pl-k">-&gt;</span> <span class="pl-c1">Int64</span>
+    <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">getUInt</span>() throws <span class="pl-k">-&gt;</span> <span class="pl-c1">UInt</span>
+    <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">getUInt8</span>() throws <span class="pl-k">-&gt;</span> <span class="pl-c1">UInt8</span>
+    <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">getUInt16</span>() throws <span class="pl-k">-&gt;</span> <span class="pl-c1">UInt16</span>
+    <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">getUInt32</span>() throws <span class="pl-k">-&gt;</span> <span class="pl-c1">UInt32</span>
+    <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">getUInt64</span>() throws <span class="pl-k">-&gt;</span> <span class="pl-c1">UInt64</span>
+    <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">getString</span>() throws <span class="pl-k">-&gt;</span> <span class="pl-c1">String</span>
+    <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">getBool</span>() throws <span class="pl-k">-&gt;</span> <span class="pl-c1">Bool</span>
+    <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">getFloat</span>() throws <span class="pl-k">-&gt;</span> <span class="pl-c1">Float</span>
+    <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">getDouble</span>() throws <span class="pl-k">-&gt;</span> <span class="pl-c1">Double</span>
+}
+
+<span class="pl-c">///</span>
+<span class="pl-k">extension</span> JAYSON {
+    <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">get</span>&lt;T&gt;(<span class="pl-en">_</span> <span class="pl-smi">s</span>: (JAYSON) throws <span class="pl-k">-&gt;</span> T) rethrows -&gt; T
+    <span class="pl-k">public</span> <span class="pl-k">func</span> <span class="pl-en">get</span>&lt;T&gt;(<span class="pl-en">with</span> <span class="pl-smi">decoder</span>: Decoder<span class="pl-k">&lt;</span>T<span class="pl-k">&gt;</span>) throws <span class="pl-k">-&gt;</span> T
+}</pre></div>
+
+<p>Optional Read-only properties<g-emoji alias="grin" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f601.png">😁</g-emoji></p>
+
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">extension</span> JAYSON {
+    <span class="pl-k">public</span> <span class="pl-k">var</span> dictionary: [<span class="pl-c1">String</span> <span class="pl-k">:</span> <span class="pl-c1">Any</span>]? { <span class="pl-k">get</span> }
+    <span class="pl-k">public</span> <span class="pl-k">var</span> array: [<span class="pl-c1">Any</span>]? { <span class="pl-k">get</span> }
+    <span class="pl-k">public</span> <span class="pl-k">var</span> string: <span class="pl-c1">String</span>? { <span class="pl-k">get</span> }
+    <span class="pl-k">public</span> <span class="pl-k">var</span> number: NSNumber? { <span class="pl-k">get</span> }
+    <span class="pl-k">public</span> <span class="pl-k">var</span> double: <span class="pl-c1">Double</span>? { <span class="pl-k">get</span> }
+    <span class="pl-k">public</span> <span class="pl-k">var</span> float: <span class="pl-c1">Float</span>? { <span class="pl-k">get</span> }
+    <span class="pl-k">public</span> <span class="pl-k">var</span> int: <span class="pl-c1">Int</span>? { <span class="pl-k">get</span> }
+    <span class="pl-k">public</span> <span class="pl-k">var</span> uInt: <span class="pl-c1">UInt</span>? { <span class="pl-k">get</span> }
+    <span class="pl-k">public</span> <span class="pl-k">var</span> int8: <span class="pl-c1">Int8</span>? { <span class="pl-k">get</span> }
+    <span class="pl-k">public</span> <span class="pl-k">var</span> uInt8: <span class="pl-c1">UInt8</span>? { <span class="pl-k">get</span> }
+    <span class="pl-k">public</span> <span class="pl-k">var</span> int16: <span class="pl-c1">Int16</span>? { <span class="pl-k">get</span> }
+    <span class="pl-k">public</span> <span class="pl-k">var</span> uInt16: <span class="pl-c1">UInt16</span>? { <span class="pl-k">get</span> }
+    <span class="pl-k">public</span> <span class="pl-k">var</span> int32: <span class="pl-c1">Int32</span>? { <span class="pl-k">get</span> }
+    <span class="pl-k">public</span> <span class="pl-k">var</span> uInt32: <span class="pl-c1">UInt32</span>? { <span class="pl-k">get</span> }
+    <span class="pl-k">public</span> <span class="pl-k">var</span> int64: <span class="pl-c1">Int64</span>? { <span class="pl-k">get</span> }
+    <span class="pl-k">public</span> <span class="pl-k">var</span> uInt64: <span class="pl-c1">UInt64</span>? { <span class="pl-k">get</span> }
+    <span class="pl-k">public</span> <span class="pl-k">var</span> bool: <span class="pl-c1">Bool</span>? { <span class="pl-k">get</span> }
+}</pre></div>
+
+<h4>
+<a id="initialize-jayson" class="anchor" href="#initialize-jayson" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Initialize JAYSON</h4>
+
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> jsonData: Data <span class="pl-k">=</span> <span class="pl-k">...</span>
+<span class="pl-k">let</span> jayson <span class="pl-k">=</span> <span class="pl-k">try</span> JAYSON(data: jsonData)</pre></div>
+
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> jsonData: Data
+<span class="pl-k">let</span> json: <span class="pl-c1">Any</span> <span class="pl-k">=</span> <span class="pl-k">try</span> JSONSerialization<span class="pl-k">.</span>jsonObject(with: data, options: [])
+<span class="pl-k">let</span> jayson <span class="pl-k">=</span> <span class="pl-k">try</span> JAYSON(any: json)</pre></div>
+
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> userInfo: [AnyHashable: <span class="pl-c1">Any</span>]
+<span class="pl-k">let</span> jayson <span class="pl-k">=</span> <span class="pl-k">try</span> JAYSON(any: json)</pre></div>
+
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> objects: [<span class="pl-c1">Any</span>]
+<span class="pl-k">let</span> jayson <span class="pl-k">=</span> <span class="pl-k">try</span> JAYSON(any: json)</pre></div>
+
+<hr>
+
+<h2>
+<a id="get-current-path-debugging-information" class="anchor" href="#get-current-path-debugging-information" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get current path (Debugging information.)</h2>
+
+<div class="highlight highlight-source-swift"><pre>
+<span class="pl-k">let</span> path <span class="pl-k">=</span> <span class="pl-k">try</span> jayson
+    <span class="pl-k">.</span><span class="pl-c1">next</span>(<span class="pl-c1">0</span>)
+    <span class="pl-k">.</span><span class="pl-c1">next</span>(<span class="pl-s"><span class="pl-pds">"</span>image<span class="pl-pds">"</span></span>)        
+    <span class="pl-k">.</span><span class="pl-c1">next</span>(<span class="pl-s"><span class="pl-pds">"</span>hidpi_image<span class="pl-pds">"</span></span>)
+    <span class="pl-k">.</span>currentPath()    
+
+<span class="pl-c">// path =&gt; "[0]["image"]["hidpi_image"]"</span></pre></div>
+
+<h2>
+<a id="go-back-json-hierarchy" class="anchor" href="#go-back-json-hierarchy" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Go Back JSON hierarchy</h2>
+
+<div class="highlight highlight-source-swift"><pre>
+<span class="pl-k">try</span> jayson
+    <span class="pl-k">.</span><span class="pl-c1">next</span>(<span class="pl-c1">0</span>)
+    <span class="pl-k">.</span><span class="pl-c1">next</span>(<span class="pl-s"><span class="pl-pds">"</span>image<span class="pl-pds">"</span></span>)
+    <span class="pl-k">.</span>back() <span class="pl-c">// &lt;---</span>
+    <span class="pl-k">.</span><span class="pl-c1">next</span>(<span class="pl-s"><span class="pl-pds">"</span>image<span class="pl-pds">"</span></span>)
+    <span class="pl-k">.</span><span class="pl-c1">next</span>(<span class="pl-s"><span class="pl-pds">"</span>hidpi_image<span class="pl-pds">"</span></span>)
+</pre></div>
+
+<h2>
+<a id="import-example-dribbble-api" class="anchor" href="#import-example-dribbble-api" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Import Example (dribbble API)</h2>
+
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> jayson <span class="pl-k">=</span> <span class="pl-k">try</span><span class="pl-k">!</span> JAYSON(data)
+
+<span class="pl-k">struct</span> Shot {
+    <span class="pl-k">let</span> id: <span class="pl-c1">Int</span>
+    <span class="pl-k">let</span> title: <span class="pl-c1">String</span>
+    <span class="pl-k">let</span> width: <span class="pl-c1">Int</span>
+    <span class="pl-k">let</span> height: <span class="pl-c1">Int</span>
+    <span class="pl-k">let</span> hidpiImageURLString: <span class="pl-c1">String</span>?
+    <span class="pl-k">let</span> normalImageURLString: <span class="pl-c1">String</span>
+    <span class="pl-k">let</span> teaserImageURLString: <span class="pl-c1">String</span>
+}
+
+<span class="pl-k">do</span> {
+    <span class="pl-k">let</span> shots: [Shot] <span class="pl-k">=</span> <span class="pl-k">try</span> jayson<span class="pl-k">.</span>getArray()<span class="pl-k">.</span><span class="pl-c1">map</span> { jayson <span class="pl-k">-&gt;</span> Shot <span class="pl-k">in</span>
+
+        <span class="pl-k">let</span> imagesJayson <span class="pl-k">=</span> <span class="pl-k">try</span> jayson<span class="pl-k">.</span><span class="pl-c1">next</span>(<span class="pl-s"><span class="pl-pds">"</span>images<span class="pl-pds">"</span></span>)
+
+        <span class="pl-k">return</span> Shot(
+            id: <span class="pl-k">try</span> jayson<span class="pl-k">.</span><span class="pl-c1">next</span>(<span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>)<span class="pl-k">.</span>getInt(),
+            title: <span class="pl-k">try</span> jayson<span class="pl-k">.</span><span class="pl-c1">next</span>(<span class="pl-s"><span class="pl-pds">"</span>title<span class="pl-pds">"</span></span>)<span class="pl-k">.</span>getString(),
+            width: <span class="pl-k">try</span> jayson<span class="pl-k">.</span><span class="pl-c1">next</span>(<span class="pl-s"><span class="pl-pds">"</span>width<span class="pl-pds">"</span></span>)<span class="pl-k">.</span>getInt(),
+            height: <span class="pl-k">try</span> jayson<span class="pl-k">.</span><span class="pl-c1">next</span>(<span class="pl-s"><span class="pl-pds">"</span>height<span class="pl-pds">"</span></span>)<span class="pl-k">.</span>getInt(),
+            hidpiImageURLString: <span class="pl-k">try</span>? imagesJayson<span class="pl-k">.</span><span class="pl-c1">next</span>(<span class="pl-s"><span class="pl-pds">"</span>hidpi<span class="pl-pds">"</span></span>)<span class="pl-k">.</span>getString(),
+            normalImageURLString: <span class="pl-k">try</span> imagesJayson<span class="pl-k">.</span><span class="pl-c1">next</span>(<span class="pl-s"><span class="pl-pds">"</span>normal<span class="pl-pds">"</span></span>)<span class="pl-k">.</span>getString(),
+            teaserImageURLString: <span class="pl-k">try</span> imagesJayson<span class="pl-k">.</span><span class="pl-c1">next</span>(<span class="pl-s"><span class="pl-pds">"</span>teaser<span class="pl-pds">"</span></span>)<span class="pl-k">.</span>getString()
+        )
+    }
+    <span class="pl-c1">print</span>(shots)
+} <span class="pl-k">catch</span> {
+    <span class="pl-c1">print</span>(error)
+}</pre></div>
+
+<h3>
+<a id="write-json" class="anchor" href="#write-json" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Write JSON</h3>
+
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">var</span> jayson <span class="pl-k">=</span> JAYSON()
+jayson[<span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-c1">18737649</span>
+jayson[<span class="pl-s"><span class="pl-pds">"</span>active<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-c1">true</span>
+jayson[<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>muukii<span class="pl-pds">"</span></span>
+
+<span class="pl-k">var</span> images <span class="pl-k">=</span> [<span class="pl-c1">String</span>:JAYSON]()
+images[<span class="pl-s"><span class="pl-pds">"</span>large<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>http://...foo<span class="pl-pds">"</span></span>
+images[<span class="pl-s"><span class="pl-pds">"</span>medium<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>http://...bar<span class="pl-pds">"</span></span>
+images[<span class="pl-s"><span class="pl-pds">"</span>small<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>http://...fuzz<span class="pl-pds">"</span></span>
+
+jayson[<span class="pl-s"><span class="pl-pds">"</span>images<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> JAYSON(images)
+
+<span class="pl-k">let</span> data <span class="pl-k">=</span> <span class="pl-k">try</span> jayson<span class="pl-k">.</span>data(options: <span class="pl-k">.</span>prettyPrinted)</pre></div>
+
+<p>-&gt; data</p>
+
+<pre><code>{
+  "name" : "muukii",
+  "active" : true,
+  "id" : 18737649,
+  "images" : {
+    "large" : "http:\/\/...foo",
+    "small" : "http:\/\/...fuzz",
+    "medium" : "http:\/\/...bar"
+  }
+}
+</code></pre>
+
+<h2>
+<a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Requirements</h2>
+
+<p>Swift <strong>3.0</strong> iOS, watchOS, tvOS, macOS</p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>JAYSON is available through <a href="http://cocoapods.org">CocoaPods</a>. To install
+it, simply add the following line to your Podfile:</p>
+
+<div class="highlight highlight-source-ruby"><pre>pod <span class="pl-s"><span class="pl-pds">"</span>JAYSON<span class="pl-pds">"</span></span></pre></div>
+
+<h2>
+<a id="author" class="anchor" href="#author" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Author</h2>
+
+<p>muukii, <a href="mailto:m@muukii.me">m@muukii.me</a></p>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h2>
+
+<p>JAYSON is available under the MIT license. See the LICENSE file for more info.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/muukii">muukii</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
