@@ -28,7 +28,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4B0B36121D9626530098C55D"
+               BuildableName = "JAYSON watchOS Tests.xctest"
+               BlueprintName = "JAYSON watchOS Tests"
+               ReferencedContainer = "container:JAYSON.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "4B0B35F01D9625F50098C55D"
+            BuildableName = "JAYSON.framework"
+            BlueprintName = "JAYSON watchOS"
+            ReferencedContainer = "container:JAYSON.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
