@@ -110,7 +110,7 @@ extension JAYSON {
 }
 ```
 
-#### Create JAYSON
+#### Initialize JAYSON
 
 ```swift
 let jsonData: Data = ...
