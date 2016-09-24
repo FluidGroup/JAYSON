@@ -230,7 +230,7 @@ let data = try jayson.data(options: .prettyPrinted)
 
 ## Requirements
 
-Swift **3.0**
+Swift **3.0** iOS, watchOS, tvOS, macOS
 
 ## Installation
 
