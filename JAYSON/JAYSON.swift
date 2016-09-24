@@ -122,9 +122,9 @@ public struct JAYSON: CustomDebugStringConvertible, Equatable {
     
     public var debugDescription: String {
         return ""
-            + "Path: \(currentPath())\n"
+            + "Path:\n\(currentPath())\n"
             + "\n"
-            + "\(source)"
+            + "Source:\n\(source)"
     }
 }
 
