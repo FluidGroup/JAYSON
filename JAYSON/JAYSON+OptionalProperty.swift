@@ -97,4 +97,20 @@ extension JAYSON {
     public var bool: Bool? {
         return number?.boolValue
     }
+        
+    public func getOrNil<T>(with decoder: Decoder<T>) -> T? {
+        do {
+            return try decoder.decode(self)
+        } catch {
+            return nil
+        }
+    }
+    
+    public func getOrNil<T>(_ s: (JAYSON) throws -> T) -> T? {
+        do {
+            return try s(self)
+        } catch {
+            return nil
+        }
+    }
 }

@@ -107,11 +107,6 @@ extension JAYSON {
     public func getDouble() throws -> Double {
         return try getNumber().doubleValue
     }
-
-}
-
-///
-extension JAYSON {
     
     public func get<T>(_ s: (JAYSON) throws -> T) rethrows -> T {
         do {
@@ -128,5 +123,6 @@ extension JAYSON {
             throw JAYSONError.decodeError(source, self, error)
         }
     }
+
 }
 
