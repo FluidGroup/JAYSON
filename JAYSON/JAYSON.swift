@@ -40,7 +40,7 @@ public struct JAYSON: CustomDebugStringConvertible, Equatable {
     
     public static let null = JAYSON()
     
-    var source: Any
+    public fileprivate(set) var source: Any
     
     fileprivate let breadcrumb: Breadcrumb?
         
