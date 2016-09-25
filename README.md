@@ -132,6 +132,28 @@ let jayson = try JAYSON(any: json)
 let objects: [Any]
 let jayson = try JAYSON(any: json)
 ```
+
+In the case of the following try it is not required.
+
+```swift
+let object: [String : JAYSON]
+let jayson = JAYSON(object)
+```
+
+```swift
+let object: [JAYSON]
+let jayson = JAYSON(object)
+```
+
+```swift
+let object: [JAYSONWritableType]
+let jayson = JAYSON(object)
+```
+
+```swift
+let object: [String : JAYSONWritableType]
+let jayson = JAYSON(object)
+```
 ---
 
 ## Get current path (Debugging information.)
