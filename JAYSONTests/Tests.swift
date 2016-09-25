@@ -198,10 +198,11 @@ class Tests: XCTestCase {
 
         jayson["Float"] = JAYSON(1.0 / 3.0 as Float)
         jayson["Double"] = JAYSON(1.0 / 3.0 as Double)
+        jayson["CGFloat"] = JAYSON(1.0 / 3.0 as CGFloat)
         
-        let answer = "{\"UInt8\":8,\"Int32\":32,\"UInt\":64,\"UInt16\":16,\"UInt32\":32,\"Int16\":16,\"Int\":64,\"String\":\"String\",\"Int8\":8,\"UInt64\":64,\"Float\":0.3333333,\"Double\":0.3333333333333333,\"Bool_true\":true,\"Int64\":64,\"Bool_false\":false,\"NSString\":\"NSString\"}"
+        let answer = "{\"UInt8\":8,\"Int32\":32,\"UInt\":64,\"UInt16\":16,\"UInt32\":32,\"Int16\":16,\"Int\":64,\"String\":\"String\",\"CGFloat\":0.3333333333333333,\"Int8\":8,\"UInt64\":64,\"Float\":0.3333333,\"Double\":0.3333333333333333,\"Bool_true\":true,\"Int64\":64,\"Bool_false\":false,\"NSString\":\"NSString\"}"
+        print(String(data: try! jayson.data(), encoding: .utf8))
         let value = String(data: try! jayson.data(), encoding: .utf8)!
-        
         XCTAssert(answer == value)
         
     }

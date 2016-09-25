@@ -165,3 +165,15 @@ extension UInt64: JAYSONWritableType {
         return JAYSONValueBox(NSNumber(value: self))
     }
 }
+
+#if os(macOS)
+    import AppKit
+#else
+    import UIKit
+#endif
+
+extension CGFloat: JAYSONWritableType {
+    public var jsonValueBox: JAYSONValueBox {
+        return JAYSONValueBox(self as NSNumber)
+    }
+}
