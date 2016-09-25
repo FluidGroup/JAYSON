@@ -250,6 +250,34 @@ let data = try jayson.data(options: .prettyPrinted)
 }
 ```
 
+#### JAYSON Convertible Examples
+
+```swift
+var jayson = JAYSON()
+
+jayson["String"] = "String"
+jayson["NSString"] = JAYSON("NSString" as NSString)
+jayson["NSNumber"] = NSNumber(value: 0)
+jayson["Int"] = 64
+jayson["Int8"] = JAYSON(8 as Int8)
+jayson["Int16"] = JAYSON(16 as Int16)
+jayson["Int32"] = JAYSON(32 as Int32)
+jayson["Int64"] = JAYSON(64 as Int64)
+
+jayson["UInt"] = JAYSON(64 as UInt)
+jayson["UInt8"] = JAYSON(8 as UInt8)
+jayson["UInt16"] = JAYSON(16 as UInt16)
+jayson["UInt32"] = JAYSON(32 as UInt32)
+jayson["UInt64"] = JAYSON(64 as UInt64)
+
+jayson["Bool_true"] = true
+jayson["Bool_false"] = false
+
+jayson["Float"] = JAYSON(1.0 / 3.0 as Float)
+jayson["Double"] = JAYSON(1.0 / 3.0 as Double)
+jayson["CGFloat"] = JAYSON(1.0 / 3.0 as CGFloat)
+```
+
 ## Requirements
 
 Swift **3.0** iOS, watchOS, tvOS, macOS
