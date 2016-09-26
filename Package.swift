@@ -1,8 +1,11 @@
 import PackageDescription
 
 let package = Package(
-    name: "JAYSON iOS",
-	targets: [
-		Target(name: "JAYSON iOS")
-	]
+    name: "JAYSON",
+    targets: [    
+        Target(
+            name: "BasicTests",
+            dependencies: ["JAYSON"]
+        ),
+    ]
 )
