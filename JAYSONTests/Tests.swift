@@ -206,4 +206,19 @@ class Tests: XCTestCase {
         XCTAssert(answer == value)
         
     }
+    
+    func testSourceType() {
+        let data = Data(referencing: NSData(contentsOfFile: Bundle(for: Tests.self).path(forResource: "standard", ofType: "json")!)!)
+        
+        let jayson = try! JAYSON(data: data)
+        
+        print(jayson.source)
+        
+        XCTAssertEqual(jayson["string"].sourceType, .string)
+        XCTAssertEqual(jayson["boolean"].sourceType, .bool)
+        XCTAssertEqual(jayson["dictionary"].sourceType, .dictionary)
+        XCTAssertEqual(jayson["array"].sourceType, .array)
+        XCTAssertEqual(jayson["number"].sourceType, .number)
+        XCTAssertEqual(jayson["null"].sourceType, .null)
+    }
 }

@@ -1,0 +1,22 @@
+{
+    "array": [
+              1,
+              2,
+              3
+              ],
+    "boolean": true,
+    "null": null,
+    "number": 123,
+    "dictionary": {
+        "array1": [
+                   1
+                   ],
+        "array2": [
+                   2
+                   ],
+        "array3": [
+                   2
+                   ]
+    },
+    "string": "Hello World"
+}

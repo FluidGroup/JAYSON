@@ -184,6 +184,7 @@ extension JAYSON {
                 .flatMap { $0[index] }
                 .map { JAYSON(source: $0, breadcrumb: Breadcrumb(jayson: self, index: index)) } ?? JAYSON.null
         }
+        /*
         set {
             
             if source is NSNull {
@@ -193,9 +194,15 @@ extension JAYSON {
             guard var array = source as? [Any] else {
                 return
             }
+            
+            guard array.count >= index else {
+                return
+            }
+            
             array[index] = newValue.source
             source = array
         }
+         */
     }
 }
 

@@ -25,14 +25,22 @@ import Foundation
 extension JAYSON {
     
     public var isNull: Bool {
-        return source is NSNull
+        return sourceType == .null
     }
     
     public var isDictionary: Bool {
-        return source is [String : Any]
+        return sourceType == .dictionary
     }
     
     public var isArray: Bool {
-        return source is [Any]
+        return sourceType == .array
+    }
+    
+    public var isBool: Bool {
+        return sourceType == .bool
+    }
+    
+    public var isNumber: Bool {
+        return sourceType == .number
     }
 }

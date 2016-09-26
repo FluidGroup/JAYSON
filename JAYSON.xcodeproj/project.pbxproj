@@ -44,6 +44,14 @@
 		4B0B362B1D96268B0098C55D /* Sample.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BFF20C31D8E47550094E790 /* Sample.json */; };
 		4B0B362C1D96268B0098C55D /* test.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BFF20C41D8E47550094E790 /* test.json */; };
 		4B50A3DE1D90604400E06D6E /* JAYSON+StateProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B50A3DD1D90604400E06D6E /* JAYSON+StateProperty.swift */; };
+		4BB1286F1D9987D100760AA0 /* standard.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BB1286E1D9987D100760AA0 /* standard.json */; };
+		4BB128701D9987D100760AA0 /* standard.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BB1286E1D9987D100760AA0 /* standard.json */; };
+		4BB128711D9987D100760AA0 /* standard.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BB1286E1D9987D100760AA0 /* standard.json */; };
+		4BB128721D9987D100760AA0 /* standard.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BB1286E1D9987D100760AA0 /* standard.json */; };
+		4BBEB5741D9984F200D124CC /* JAYSON+SourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBEB5731D9984F200D124CC /* JAYSON+SourceType.swift */; };
+		4BBEB5751D9984F600D124CC /* JAYSON+SourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBEB5731D9984F200D124CC /* JAYSON+SourceType.swift */; };
+		4BBEB5761D9984F700D124CC /* JAYSON+SourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBEB5731D9984F200D124CC /* JAYSON+SourceType.swift */; };
+		4BBEB5771D9984F700D124CC /* JAYSON+SourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBEB5731D9984F200D124CC /* JAYSON+SourceType.swift */; };
 		4BFF20A31D8E472A0094E790 /* JAYSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 4BFF20A11D8E472A0094E790 /* JAYSON.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4BFF20AE1D8E47410094E790 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BFF20A91D8E47400094E790 /* Decoder.swift */; };
 		4BFF20AF1D8E47410094E790 /* JAYSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BFF20AA1D8E47410094E790 /* JAYSON.swift */; };
@@ -96,6 +104,8 @@
 		4B0B36201D9626530098C55D /* JAYSON watchOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "JAYSON watchOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B0B36301D96268B0098C55D /* JAYSON tvOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "JAYSON tvOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B50A3DD1D90604400E06D6E /* JAYSON+StateProperty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JAYSON+StateProperty.swift"; sourceTree = "<group>"; };
+		4BB1286E1D9987D100760AA0 /* standard.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = standard.json; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.java; };
+		4BBEB5731D9984F200D124CC /* JAYSON+SourceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JAYSON+SourceType.swift"; sourceTree = "<group>"; };
 		4BFF209E1D8E472A0094E790 /* JAYSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JAYSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BFF20A11D8E472A0094E790 /* JAYSON.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JAYSON.h; sourceTree = "<group>"; };
 		4BFF20A21D8E472A0094E790 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -207,6 +217,7 @@
 			children = (
 				4BFF20A91D8E47400094E790 /* Decoder.swift */,
 				4BFF20AA1D8E47410094E790 /* JAYSON.swift */,
+				4BBEB5731D9984F200D124CC /* JAYSON+SourceType.swift */,
 				4B50A3DD1D90604400E06D6E /* JAYSON+StateProperty.swift */,
 				4BFF20AB1D8E47410094E790 /* JAYSON+OptionalProperty.swift */,
 				4BFF20AC1D8E47410094E790 /* JAYSON+StrictGetter.swift */,
@@ -223,6 +234,7 @@
 				4BFF20C21D8E47550094E790 /* DribbbleImportTests.swift */,
 				4BFF20C31D8E47550094E790 /* Sample.json */,
 				4BFF20C41D8E47550094E790 /* test.json */,
+				4BB1286E1D9987D100760AA0 /* standard.json */,
 				4BFF20C51D8E47550094E790 /* Tests.swift */,
 				4BFF20BB1D8E474A0094E790 /* Info.plist */,
 			);
@@ -489,6 +501,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4B0B35E91D9625660098C55D /* Sample.json in Resources */,
+				4BB128701D9987D100760AA0 /* standard.json in Resources */,
 				4B0B35EA1D9625660098C55D /* test.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -512,6 +525,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4B0B361B1D9626530098C55D /* Sample.json in Resources */,
+				4BB128711D9987D100760AA0 /* standard.json in Resources */,
 				4B0B361C1D9626530098C55D /* test.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -521,6 +535,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4B0B362B1D96268B0098C55D /* Sample.json in Resources */,
+				4BB128721D9987D100760AA0 /* standard.json in Resources */,
 				4B0B362C1D96268B0098C55D /* test.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -537,6 +552,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4BFF20C71D8E47550094E790 /* Sample.json in Resources */,
+				4BB1286F1D9987D100760AA0 /* standard.json in Resources */,
 				4BFF20C81D8E47550094E790 /* test.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -554,6 +570,7 @@
 				4B0B35D41D9625100098C55D /* JAYSON+StrictGetter.swift in Sources */,
 				4B0B35D51D9625100098C55D /* JAYSON+StateProperty.swift in Sources */,
 				4B0B35D61D9625100098C55D /* JAYSONWritableType.swift in Sources */,
+				4BBEB5751D9984F600D124CC /* JAYSON+SourceType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -576,6 +593,7 @@
 				4B0B35F51D9625F50098C55D /* JAYSON+StrictGetter.swift in Sources */,
 				4B0B35F61D9625F50098C55D /* JAYSON+StateProperty.swift in Sources */,
 				4B0B35F71D9625F50098C55D /* JAYSONWritableType.swift in Sources */,
+				4BBEB5761D9984F700D124CC /* JAYSON+SourceType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -589,6 +607,7 @@
 				4B0B36061D96262E0098C55D /* JAYSON+StrictGetter.swift in Sources */,
 				4B0B36071D96262E0098C55D /* JAYSON+StateProperty.swift in Sources */,
 				4B0B36081D96262E0098C55D /* JAYSONWritableType.swift in Sources */,
+				4BBEB5771D9984F700D124CC /* JAYSON+SourceType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -620,6 +639,7 @@
 				4BFF20B11D8E47410094E790 /* JAYSON+StrictGetter.swift in Sources */,
 				4B50A3DE1D90604400E06D6E /* JAYSON+StateProperty.swift in Sources */,
 				4BFF20B21D8E47410094E790 /* JAYSONWritableType.swift in Sources */,
+				4BBEB5741D9984F200D124CC /* JAYSON+SourceType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
