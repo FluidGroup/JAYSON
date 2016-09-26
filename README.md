@@ -11,8 +11,11 @@
 [![Platform](https://img.shields.io/cocoapods/p/JAYSON.svg?style=flat)](http://cocoapods.org/pods/JAYSON)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
-
 Strict and Scalable JSON library.
+
+## Requirements
+
+Swift **3.0**  iOS📱, watchOS⌚️, tvOS📺, macOS🖥, **Linux**✨
 
 # Usage
 
@@ -277,10 +280,6 @@ jayson["Float"] = JAYSON(1.0 / 3.0 as Float)
 jayson["Double"] = JAYSON(1.0 / 3.0 as Double)
 jayson["CGFloat"] = JAYSON(1.0 / 3.0 as CGFloat)
 ```
-
-## Requirements
-
-Swift **3.0** iOS, watchOS, tvOS, macOS
 
 ## Installation
 
