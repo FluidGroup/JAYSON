@@ -111,6 +111,8 @@ extension JAYSON {
     public func get<T>(_ s: (JAYSON) throws -> T) rethrows -> T {
         do {
             return try s(self)
+        } catch let jaysonError as JAYSONError {
+            throw jaysonError
         } catch {
             throw JAYSONError.decodeError(source: source, jayson: self, decodeError: error)
         }
@@ -119,6 +121,8 @@ extension JAYSON {
     public func get<T>(with decoder: Decoder<T>) throws -> T {
         do {
             return try decoder.decode(self)
+        } catch let jaysonError as JAYSONError {
+            throw jaysonError
         } catch {
             throw JAYSONError.decodeError(source: source, jayson: self, decodeError: error)
         }
