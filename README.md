@@ -30,7 +30,7 @@ let urlString: String? = jayson[3]["shot"]["images"]["hidpi_image"].string
 ### Strict Access (try-catch)
 
 if the value does not exist, throw `JAYSONError`<br>
-Failed location can be known from JAYSONError
+Failed location can be known from [JAYSONError](#jaysonerror)
 
 Get Value (String, Bool, Number)
 
@@ -170,6 +170,56 @@ let path = try jayson
     .currentPath()    
 
 // path => "[0]["image"]["hidpi_image"]"
+```
+
+## JAYSONError
+
+If you have access that does not exist key, throw　`JAYSONError`.
+
+```swift
+public enum JAYSONError: Error {
+  case notFoundKey(key: String, jayson: JAYSON)
+  case notFoundIndex(index: Int, jayson: JAYSON)
+  case failedToGetString(source: Any, jayson: JAYSON)
+  case failedToGetBool(source: Any, jayson: JAYSON)
+  case failedToGetNumber(source: Any, jayson: JAYSON)
+  case failedToGetArray(source: Any, jayson: JAYSON)
+  case failedToGetDictionary(source: Any, jayson: JAYSON)
+  case decodeError(source: Any, jayson: JAYSON, decodeError: Error)
+  case invalidJSONObject
+}
+```
+
+example:
+
+```swift
+do {
+  let urlString: String = try jayson
+    .next("shots")
+    .next(0)
+    .next("user")
+    .next("profile_image")
+    .next("foo") // ‼️ throw
+    .getString()
+} catch {
+   print(error) 
+}
+```
+
+Output JAYSONError
+
+```
+notFoundKey("foo",
+JAYSON
+Path: Root->["shots"][0]["user"]["profile_image"]
+SourceType: dictionary
+
+Source:
+{
+    large = "https://...";
+    medium = "https://...";
+    small = "https://...";
+})
 ```
 
 ## Go Back JSON hierarchy
