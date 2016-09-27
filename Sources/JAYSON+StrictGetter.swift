@@ -27,21 +27,21 @@ extension JAYSON {
         
     public func getDictionary() throws -> [String : JAYSON] {
         guard let value = dictionary else {
-            throw JAYSONError.failedToGetDictionary(source, self)
+            throw JAYSONError.failedToGetDictionary(source: source, jayson: self)
         }
         return value
     }
     
     public func getArray() throws -> [JAYSON] {
         guard let value = array else {
-            throw JAYSONError.failedToGetArray(source, self)
+            throw JAYSONError.failedToGetArray(source: source, jayson: self)
         }
         return value
     }
     
     public func getNumber() throws -> NSNumber {
         guard let value = number else {
-            throw JAYSONError.failedToGetNumber(source, self)
+            throw JAYSONError.failedToGetNumber(source: source, jayson: self)
         }
         return value
     }
@@ -88,14 +88,14 @@ extension JAYSON {
     
     public func getString() throws -> String {
         guard let value = string else {
-            throw JAYSONError.failedToGetString(source, self)
+            throw JAYSONError.failedToGetString(source: source, jayson: self)
         }
         return value
     }
     
     public func getBool() throws -> Bool {
         guard let value = source as? Bool else {
-            throw JAYSONError.failedToGetBool(source, self)
+            throw JAYSONError.failedToGetBool(source: source, jayson: self)
         }
         return value
     }
@@ -112,7 +112,7 @@ extension JAYSON {
         do {
             return try s(self)
         } catch {
-            throw JAYSONError.decodeError(source, self, error)
+            throw JAYSONError.decodeError(source: source, jayson: self, decodeError: error)
         }
     }
     
@@ -120,7 +120,7 @@ extension JAYSON {
         do {
             return try decoder.decode(self)
         } catch {
-            throw JAYSONError.decodeError(source, self, error)
+            throw JAYSONError.decodeError(source: source, jayson: self, decodeError: error)
         }
     }
 

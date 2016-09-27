@@ -23,15 +23,15 @@
 import Foundation
 
 public enum JAYSONError: Error {
-    case notFoundKey(String, JAYSON)
-    case notFoundIndex(Int, JAYSON)
-    case failedToGetString(Any, JAYSON)
-    case failedToGetBool(Any, JAYSON)
-    case failedToGetNumber(Any, JAYSON)
-    case failedToGetArray(Any, JAYSON)
-    case failedToGetDictionary(Any, JAYSON)
+    case notFoundKey(key: String, jayson: JAYSON)
+    case notFoundIndex(index: Int, jayson: JAYSON)
+    case failedToGetString(source: Any, jayson: JAYSON)
+    case failedToGetBool(source: Any, jayson: JAYSON)
+    case failedToGetNumber(source: Any, jayson: JAYSON)
+    case failedToGetArray(source: Any, jayson: JAYSON)
+    case failedToGetDictionary(source: Any, jayson: JAYSON)
+    case decodeError(source: Any, jayson: JAYSON, decodeError: Error)
     case invalidJSONObject
-    case decodeError(Any, JAYSON, Error)
 }
 
 public struct JAYSON: CustomDebugStringConvertible, Equatable {
@@ -213,7 +213,7 @@ extension JAYSON {
 
     private func next(_ key: String) throws -> JAYSON {
         guard !(self[key].source is NSNull) else {
-            throw JAYSONError.notFoundKey(key, self)
+            throw JAYSONError.notFoundKey(key: key, jayson: self)
         }
         return self[key]
     }
@@ -232,7 +232,7 @@ extension JAYSON {
      */
     public func next(_ index: Int) throws -> JAYSON {
         guard !(self[index].source is NSNull) else {
-            throw JAYSONError.notFoundIndex(index, self)
+            throw JAYSONError.notFoundIndex(index: index, jayson: self)
         }
         return self[index]
     }
