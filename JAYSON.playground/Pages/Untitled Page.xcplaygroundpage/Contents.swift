@@ -59,4 +59,16 @@ try! jayson
         URL(string: try jayson.getString())!
 }
 
+do {
+    let urlString: String = try jayson
+        .next("shots")
+        .next(0)
+        .next("user")
+        .next("profile_image")
+        .next("foo")
+        .getString()
+} catch {
+    print(error)
+}
+
 
