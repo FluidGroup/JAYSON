@@ -164,7 +164,7 @@ extension JAYSON {
     /// if key is not found, return JAYSON.null
     public subscript (key: String) -> JAYSON {
         get {
-            return (source as? [String : Any])
+            return (source as? NSDictionary)
                 .flatMap { $0[key] }
                 .map { JAYSON(source: $0, breadcrumb: Breadcrumb(jayson: self, key: key)) } ?? JAYSON.null
         }
@@ -184,7 +184,7 @@ extension JAYSON {
     /// if index is not found return JAYSON.null
     public subscript (index: Int) -> JAYSON {
         get {
-            return (source as? [Any])
+            return (source as? NSArray)
                 .flatMap { $0[index] }
                 .map { JAYSON(source: $0, breadcrumb: Breadcrumb(jayson: self, index: index)) } ?? JAYSON.null
         }
