@@ -21,10 +21,10 @@
 // THE SOFTWARE.
 
 public struct Decoder<T> {
-    
-    let decode: (JAYSON) throws -> T
-    
-    public init(_ s: @escaping (JAYSON) throws -> T) {
-        self.decode = s
-    }
+
+  let decode: (JAYSON) throws -> T
+
+  public init(_ s: @escaping (JAYSON) throws -> T) {
+    self.decode = s
+  }
 }

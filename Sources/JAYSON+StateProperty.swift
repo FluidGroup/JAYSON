@@ -23,24 +23,24 @@
 import Foundation
 
 extension JAYSON {
-    
-    public var isNull: Bool {
-        return sourceType == .null
-    }
-    
-    public var isDictionary: Bool {
-        return sourceType == .dictionary
-    }
-    
-    public var isArray: Bool {
-        return sourceType == .array
-    }
-    
-    public var isBool: Bool {
-        return sourceType == .bool
-    }
-    
-    public var isNumber: Bool {
-        return sourceType == .number
-    }
+
+  public var isNull: Bool {
+    return sourceType == .null
+  }
+
+  public var isDictionary: Bool {
+    return sourceType == .dictionary
+  }
+
+  public var isArray: Bool {
+    return sourceType == .array
+  }
+
+  public var isBool: Bool {
+    return sourceType == .bool
+  }
+
+  public var isNumber: Bool {
+    return sourceType == .number
+  }
 }

@@ -23,159 +23,159 @@
 import Foundation
 
 public struct JAYSONValueBox {
-    
-    public let source: Any
-    
-    public init(_ object: NSNull) {
-        self.source = object
-    }
-    
-    public init(_ object: String) {
-        self.source = object
-    }
-    
-    public init(_ object: NSString) {
-        self.source = object
-    }
-    
-    public init(_ object: NSNumber) {
-        self.source = object
-    }
-    
-    public init(_ object: Int) {
-        self.source = object
-    }
-    
-    public init(_ object: Float) {
-        self.source = object
-    }
-    
-    public init(_ object: Double) {
-        self.source = object
-    }
-    
-    public init(_ object: Bool) {
-        self.source = object
-    }
+
+  public let source: Any
+
+  public init(_ object: NSNull) {
+    self.source = object
+  }
+
+  public init(_ object: String) {
+    self.source = object
+  }
+
+  public init(_ object: NSString) {
+    self.source = object
+  }
+
+  public init(_ object: NSNumber) {
+    self.source = object
+  }
+
+  public init(_ object: Int) {
+    self.source = object
+  }
+
+  public init(_ object: Float) {
+    self.source = object
+  }
+
+  public init(_ object: Double) {
+    self.source = object
+  }
+
+  public init(_ object: Bool) {
+    self.source = object
+  }
 }
 
 public protocol JAYSONWritableType {
-    
-    var jsonValueBox: JAYSONValueBox { get }
+
+  var jsonValueBox: JAYSONValueBox { get }
 }
 
 extension NSNull: JAYSONWritableType {
-    public var jsonValueBox: JAYSONValueBox {
-        return JAYSONValueBox(self)
-    }
+  public var jsonValueBox: JAYSONValueBox {
+    return JAYSONValueBox(self)
+  }
 }
 
 extension String: JAYSONWritableType {
-    public var jsonValueBox: JAYSONValueBox {
-        return JAYSONValueBox(self)
-    }
+  public var jsonValueBox: JAYSONValueBox {
+    return JAYSONValueBox(self)
+  }
 }
 
 extension NSString: JAYSONWritableType {
-    public var jsonValueBox: JAYSONValueBox {
-        return JAYSONValueBox(self)
-    }
+  public var jsonValueBox: JAYSONValueBox {
+    return JAYSONValueBox(self)
+  }
 }
 
 extension NSNumber: JAYSONWritableType {
-    public var jsonValueBox: JAYSONValueBox {
-        return JAYSONValueBox(self)
-    }
+  public var jsonValueBox: JAYSONValueBox {
+    return JAYSONValueBox(self)
+  }
 }
 
 extension Int: JAYSONWritableType {
-    public var jsonValueBox: JAYSONValueBox {
-        return JAYSONValueBox(self)
-    }
+  public var jsonValueBox: JAYSONValueBox {
+    return JAYSONValueBox(self)
+  }
 }
 
 extension Float: JAYSONWritableType {
-    public var jsonValueBox: JAYSONValueBox {
-        return JAYSONValueBox(self)
-    }
+  public var jsonValueBox: JAYSONValueBox {
+    return JAYSONValueBox(self)
+  }
 }
 
 extension Double: JAYSONWritableType {
-    public var jsonValueBox: JAYSONValueBox {
-        return JAYSONValueBox(self)
-    }
+  public var jsonValueBox: JAYSONValueBox {
+    return JAYSONValueBox(self)
+  }
 }
 
 extension Bool: JAYSONWritableType {
-    public var jsonValueBox: JAYSONValueBox {
-        return JAYSONValueBox(self)
-    }
+  public var jsonValueBox: JAYSONValueBox {
+    return JAYSONValueBox(self)
+  }
 }
 
 extension Int8: JAYSONWritableType {
-    public var jsonValueBox: JAYSONValueBox {
-        return JAYSONValueBox(NSNumber(value: self))
-    }
+  public var jsonValueBox: JAYSONValueBox {
+    return JAYSONValueBox(NSNumber(value: self))
+  }
 }
 
 extension Int16: JAYSONWritableType {
-    public var jsonValueBox: JAYSONValueBox {
-        return JAYSONValueBox(NSNumber(value: self))
-    }
+  public var jsonValueBox: JAYSONValueBox {
+    return JAYSONValueBox(NSNumber(value: self))
+  }
 }
 
 extension Int32: JAYSONWritableType {
-    public var jsonValueBox: JAYSONValueBox {
-        return JAYSONValueBox(NSNumber(value: self))
-    }
+  public var jsonValueBox: JAYSONValueBox {
+    return JAYSONValueBox(NSNumber(value: self))
+  }
 }
 
 extension Int64: JAYSONWritableType {
-    public var jsonValueBox: JAYSONValueBox {
-        return JAYSONValueBox(NSNumber(value: self))
-    }
+  public var jsonValueBox: JAYSONValueBox {
+    return JAYSONValueBox(NSNumber(value: self))
+  }
 }
 
 extension UInt: JAYSONWritableType {
-    public var jsonValueBox: JAYSONValueBox {
-        return JAYSONValueBox(NSNumber(value: self))
-    }
+  public var jsonValueBox: JAYSONValueBox {
+    return JAYSONValueBox(NSNumber(value: self))
+  }
 }
 
 extension UInt8: JAYSONWritableType {
-    public var jsonValueBox: JAYSONValueBox {
-        return JAYSONValueBox(NSNumber(value: self))
-    }
+  public var jsonValueBox: JAYSONValueBox {
+    return JAYSONValueBox(NSNumber(value: self))
+  }
 }
 
 extension UInt16: JAYSONWritableType {
-    public var jsonValueBox: JAYSONValueBox {
-        return JAYSONValueBox(NSNumber(value: self))
-    }
+  public var jsonValueBox: JAYSONValueBox {
+    return JAYSONValueBox(NSNumber(value: self))
+  }
 }
 
 extension UInt32: JAYSONWritableType {
-    public var jsonValueBox: JAYSONValueBox {
-        return JAYSONValueBox(NSNumber(value: self))
-    }
+  public var jsonValueBox: JAYSONValueBox {
+    return JAYSONValueBox(NSNumber(value: self))
+  }
 }
 
 extension UInt64: JAYSONWritableType {
-    public var jsonValueBox: JAYSONValueBox {
-        return JAYSONValueBox(NSNumber(value: self))
-    }
+  public var jsonValueBox: JAYSONValueBox {
+    return JAYSONValueBox(NSNumber(value: self))
+  }
 }
 
 #if !os(Linux)
 #if os(macOS)
-    import AppKit
-    #else
-    import UIKit
+  import AppKit
+  #else
+  import UIKit
 #endif
-    
-    extension CGFloat: JAYSONWritableType {
-        public var jsonValueBox: JAYSONValueBox {
-            return JAYSONValueBox(self as NSNumber)
-        }
+
+  extension CGFloat: JAYSONWritableType {
+    public var jsonValueBox: JAYSONValueBox {
+      return JAYSONValueBox(self as NSNumber)
     }
+  }
 #endif

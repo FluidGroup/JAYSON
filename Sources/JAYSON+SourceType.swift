@@ -23,49 +23,49 @@
 import Foundation
 
 extension JAYSON {
-    
-    public enum SourceType {
-        
-        case number
-        case string
-        case bool
-        case array
-        case dictionary
-        case null
+
+  public enum SourceType {
+
+    case number
+    case string
+    case bool
+    case array
+    case dictionary
+    case null
+  }
+
+  public var sourceType: SourceType {
+    switch source {
+    case let number as NSNumber:
+      if number.isBool {
+        return .bool
+      }
+      return .number
+    case _ as String:
+      return .string
+    case  _ as NSNull:
+      return .null
+    case _ as [Any]:
+      return .array
+    case _ as [String : Any]:
+      return .dictionary
+    default:
+      fatalError("What happen? Unsupported Type.")
     }
-    
-    public var sourceType: SourceType {
-        switch source {
-        case let number as NSNumber:
-            if number.isBool {
-                return .bool
-            }
-            return .number
-        case _ as String:
-            return .string
-        case  _ as NSNull:
-            return .null
-        case _ as [Any]:
-            return .array
-        case _ as [String : Any]:
-            return .dictionary
-        default:
-            fatalError("What happen? Unsupported Type.")
-        }
-    }
+  }
 }
 
 extension NSNumber {
-    
-    fileprivate var isBool: Bool {
-        let objCType = String(cString: self.objCType)
-        if (compare(trueNumber) == ComparisonResult.orderedSame && objCType == trueObjCType)
-            || (compare(falseNumber) == ComparisonResult.orderedSame && objCType == falseObjCType){
-            return true
-        } else {
-            return false
-        }
+
+  fileprivate var isBool: Bool {
+    let objCType = String(cString: self.objCType)
+    if (compare(trueNumber) == ComparisonResult.orderedSame && objCType == trueObjCType)
+      || (compare(falseNumber) == ComparisonResult.orderedSame && objCType == falseObjCType){
+      return true
+    } else {
+      return false
     }
+  }
 }
 
 fileprivate let trueNumber = NSNumber(value: true)
