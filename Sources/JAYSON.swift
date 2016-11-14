@@ -253,6 +253,15 @@ extension JAYSON {
   public func back() -> JAYSON {
     return breadcrumb?.jayson ?? self
   }
+
+  public func removed(_ key: String) -> JAYSON {
+
+    guard let _source = (source as? NSDictionary)?.mutableCopy() as? NSMutableDictionary else {
+      return self
+    }
+    _source.removeObject(forKey: key)
+    return try! JAYSON(any: _source)
+  }
 }
 
 extension JAYSON: Swift.ExpressibleByNilLiteral {
