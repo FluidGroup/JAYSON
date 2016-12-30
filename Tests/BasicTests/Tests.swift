@@ -109,6 +109,15 @@ class Tests: XCTestCase {
     } catch {
       XCTFail("\(error)")
     }
+
+    do {
+
+      let j = try JAYSON(data: inData)
+      let v = try j.next("tree1.tree2.tree3").next(0).next("index")
+      XCTAssertEqual(v, "myvalue")
+    } catch {
+      XCTFail("\(error)")
+    }
   }
 
   func testRemove() {

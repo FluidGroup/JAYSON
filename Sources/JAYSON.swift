@@ -214,14 +214,21 @@ extension JAYSON {
 extension JAYSON {
 
   private func next(_ key: String) throws -> JAYSON {
-    guard !(self[key].source is NSNull) else {
-      throw JAYSONError.notFoundKey(key: key, jayson: self)
+
+    return try key.characters
+      .split(separator: ".")
+      .map { String($0) }
+      .reduce(self) { j, key in
+        guard !(j[key].source is NSNull) else {
+          throw JAYSONError.notFoundKey(key: key, jayson: self)
+        }
+        return j[key]
     }
-    return self[key]
   }
 
   /**
    if `type` is `Dictonary`, return `JAYSON` whose object is `dictionary[key]`, otherwise throw `JAYSONError`.
+   e.g next("a", "b", "c") or next("a.b.c")
    */
   public func next(_ key: String...) throws -> JAYSON {
     return try key.reduce(self) { jayson, key -> JAYSON in
