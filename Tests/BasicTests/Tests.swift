@@ -88,6 +88,20 @@ class Tests: XCTestCase {
     XCTAssert(jayson.isDictionary)
   }
 
+  func testExists() {
+
+    let j = try! JAYSON(data: inData)
+
+    XCTAssert(j.exists(13) == false)
+    XCTAssert(j.exists("a") == false)
+    XCTAssert(j.exists("b") == false)
+    XCTAssert(j.exists("a.b.c") == false)
+    XCTAssert(j.exists("tree1.tree2") == true)
+    XCTAssert(j.exists("tree1", "tree2") == true)
+    XCTAssert(j.exists("tree1") == true)
+
+  }
+
   func testNext() {
     do {
       let j = try JAYSON(data: inData)

@@ -185,7 +185,12 @@ extension JAYSON {
   public subscript (index: Int) -> JAYSON {
     get {
       return (source as? NSArray)
-        .flatMap { $0[index] }
+        .flatMap {
+          if $0.count > index {
+            return $0[index]
+          }
+          return nil
+        }
         .map { JAYSON(source: $0, breadcrumb: Breadcrumb(jayson: self, index: index)) } ?? JAYSON.null
     }
     /*
@@ -213,7 +218,7 @@ extension JAYSON {
 /// Control JAYSON hierarchy
 extension JAYSON {
 
-  private func next(_ key: String) throws -> JAYSON {
+  private func _next(_ key: String) throws -> JAYSON {
 
     return try key.characters
       .split(separator: ".")
@@ -226,18 +231,22 @@ extension JAYSON {
     }
   }
 
+  public func _next(_ keys: [String]) throws -> JAYSON {
+    return try keys.reduce(self) { jayson, key -> JAYSON in
+      try jayson._next(key)
+    }
+  }
+
   /**
    if `type` is `Dictonary`, return `JAYSON` whose object is `dictionary[key]`, otherwise throw `JAYSONError`.
    e.g next("a", "b", "c") or next("a.b.c")
    */
   public func next(_ key: String...) throws -> JAYSON {
-    return try key.reduce(self) { jayson, key -> JAYSON in
-      try jayson.next(key)
-    }
+    return try _next(key)
   }
 
   public func next<T: RawRepresentable>(_ key: T) throws -> JAYSON where T.RawValue == String {
-    return try next(key.rawValue)
+    return try _next(key.rawValue)
   }
 
   /**
@@ -268,6 +277,24 @@ extension JAYSON {
     }
     _source.removeObject(forKey: key)
     return try! JAYSON(any: _source)
+  }
+
+  public func exists(_ key: String...) -> Bool {
+    do {
+      let r = try _next(key)
+      return r.sourceType != .null
+    } catch {
+      return false
+    }
+  }
+
+  public func exists(_ index: Int) -> Bool {
+    do {
+      let r = try next(index)
+      return r.sourceType != .null
+    } catch {
+      return false
+    }
   }
 }
 
