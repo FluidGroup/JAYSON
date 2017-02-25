@@ -22,31 +22,31 @@ class Tests: XCTestCase {
     case b
     case c
 
-    var jayson: JAYSON {
+    var json: JSON {
       switch self {
       case .a:
-        return JAYSON("a")
+        return JSON("a")
       case .b:
-        return JAYSON("b")
+        return JSON("b")
       case .c:
-        return JAYSON("c")
+        return JSON("c")
       }
     }
   }
 
   func testEqualable() {
 
-    let source: [String : JAYSON] = [
+    let source: [String : JSON] = [
       "aaa":"AAA",
       "bbb":["BBB":"AAA"],
       "a":[1,2,3],
-      "enum":Enum.a.jayson,
+      "enum":Enum.a.json,
       ]
 
-    let jayson = JAYSON(source)
-    let jayson2 = JAYSON(source)
+    let json = JSON(source)
+    let json2 = JSON(source)
 
-    XCTAssert(jayson == jayson2)
+    XCTAssert(json == json2)
   }
 
   func testDictionaryInit() {
@@ -59,9 +59,9 @@ class Tests: XCTestCase {
       ]
 
     do {
-      let jayson = try JAYSON(any: dictionary)
-      let data = try jayson.data()
-      _ = try JAYSON(data: data)
+      let json = try JSON(any: dictionary)
+      let data = try json.data()
+      _ = try JSON(data: data)
     } catch {
       XCTFail("\(error)")
     }
@@ -69,28 +69,28 @@ class Tests: XCTestCase {
 
   func testIsArray() {
 
-    let jayson = JAYSON([
+    let json = JSON([
       128,129,130,
       ])
-    XCTAssert(jayson.isArray)
+    XCTAssert(json.isArray)
   }
 
   func testIsDictionary() {
 
-    let jayson = JAYSON(
+    let json = JSON(
       [
         "aaa":"AAA",
         "bbb":["BBB":"AAA"],
         "a":[1,2,3],
-        "enum":Enum.a.jayson,
+        "enum":Enum.a.json,
         ]
     )
-    XCTAssert(jayson.isDictionary)
+    XCTAssert(json.isDictionary)
   }
 
   func testExists() {
 
-    let j = try! JAYSON(data: inData)
+    let j = try! JSON(data: inData)
 
     XCTAssert(j.exists(13) == false)
     XCTAssert(j.exists("a") == false)
@@ -104,7 +104,7 @@ class Tests: XCTestCase {
 
   func testNext() {
     do {
-      let j = try JAYSON(data: inData)
+      let j = try JSON(data: inData)
       let v = j["a"]["b"][1]
       XCTAssert(v.isNull)
     } catch {
@@ -112,7 +112,7 @@ class Tests: XCTestCase {
     }
 
     do {
-      let j = try JAYSON(data: inData)
+      let j = try JSON(data: inData)
 
       do {
         let v = try j.next("a").next("b").next("c")
@@ -126,7 +126,7 @@ class Tests: XCTestCase {
 
     do {
 
-      let j = try JAYSON(data: inData)
+      let j = try JSON(data: inData)
       let v = try j.next("tree1.tree2.tree3").next(0).next("index")
       XCTAssertEqual(v, "myvalue")
     } catch {
@@ -135,7 +135,7 @@ class Tests: XCTestCase {
   }
 
   func testRemove() {
-    let j = try! JAYSON(data: inData)
+    let j = try! JSON(data: inData)
     let removed = j.removed("tree1")
 
     XCTAssert(j["tree1"] != nil)
@@ -146,7 +146,7 @@ class Tests: XCTestCase {
   func testImportExport() {
 
     do {
-      let j = try JAYSON(data: inData)
+      let j = try JSON(data: inData)
       let data = try j.data()
     } catch {
       XCTFail("\(error)")
@@ -156,7 +156,7 @@ class Tests: XCTestCase {
   func testBack() {
 
     do {
-      let j = try JAYSON(data: inData)
+      let j = try JSON(data: inData)
       let value = try j
         .next("tree1")
         .next("tree2")
@@ -178,18 +178,18 @@ class Tests: XCTestCase {
   }
 
   func testBuild() {
-    var j = JAYSON()
+    var j = JSON()
     j["number"] = 124
     j["text"] = "hooo"
     j["bool"] = true
-    j["null"] = JAYSON.null
-    j["tree1"] = JAYSON(
+    j["null"] = JSON.null
+    j["tree1"] = JSON(
       [
-        "tree2" : JAYSON(
+        "tree2" : JSON(
           [
-            "tree3" : JAYSON(
+            "tree3" : JSON(
               [
-                JAYSON(["index" : "myvalue"])
+                JSON(["index" : "myvalue"])
               ]
             )
           ]
@@ -209,38 +209,38 @@ class Tests: XCTestCase {
 
   func testJSONWritable() {
 
-    var jayson = JAYSON()
+    var json = JSON()
 
-    jayson["String"] = "String"
-    jayson["NSString"] = JAYSON("NSString" as NSString)
-    jayson["Int"] = 64
-    jayson["Int8"] = JAYSON(8 as Int8)
-    jayson["Int16"] = JAYSON(16 as Int16)
-    jayson["Int32"] = JAYSON(32 as Int32)
-    jayson["Int64"] = JAYSON(64 as Int64)
+    json["String"] = "String"
+    json["NSString"] = JSON("NSString" as NSString)
+    json["Int"] = 64
+    json["Int8"] = JSON(8 as Int8)
+    json["Int16"] = JSON(16 as Int16)
+    json["Int32"] = JSON(32 as Int32)
+    json["Int64"] = JSON(64 as Int64)
 
-    jayson["UInt"] = JAYSON(64 as UInt)
-    jayson["UInt8"] = JAYSON(8 as UInt8)
-    jayson["UInt16"] = JAYSON(16 as UInt16)
-    jayson["UInt32"] = JAYSON(32 as UInt32)
-    jayson["UInt64"] = JAYSON(64 as UInt64)
+    json["UInt"] = JSON(64 as UInt)
+    json["UInt8"] = JSON(8 as UInt8)
+    json["UInt16"] = JSON(16 as UInt16)
+    json["UInt32"] = JSON(32 as UInt32)
+    json["UInt64"] = JSON(64 as UInt64)
 
-    jayson["Bool_true"] = true
-    jayson["Bool_false"] = false
+    json["Bool_true"] = true
+    json["Bool_false"] = false
 
-    jayson["Float"] = JAYSON(1.0 / 3.0 as Float)
-    jayson["Double"] = JAYSON(1.0 / 3.0 as Double)
+    json["Float"] = JSON(1.0 / 3.0 as Float)
+    json["Double"] = JSON(1.0 / 3.0 as Double)
 
     #if !os(Linux)
-      jayson["CGFloat"] = JAYSON(1.0 / 3.0 as CGFloat)
+      json["CGFloat"] = JSON(1.0 / 3.0 as CGFloat)
       let answer = "{\"UInt8\":8,\"Int32\":32,\"UInt\":64,\"UInt16\":16,\"UInt32\":32,\"Int16\":16,\"Int\":64,\"String\":\"String\",\"CGFloat\":0.3333333333333333,\"Int8\":8,\"UInt64\":64,\"Float\":0.3333333,\"Double\":0.3333333333333333,\"Bool_true\":true,\"Int64\":64,\"Bool_false\":false,\"NSString\":\"NSString\"}"
-      print(String(data: try! jayson.data(), encoding: .utf8))
-      let value = String(data: try! jayson.data(), encoding: .utf8)!
+      print(String(data: try! json.data(), encoding: .utf8))
+      let value = String(data: try! json.data(), encoding: .utf8)!
       XCTAssert(answer == value)
     #else
       let answer = "{\"UInt8\":8,\"Int32\":32,\"UInt\":64,\"UInt16\":16,\"UInt32\":32,\"Int16\":16,\"Int\":64,\"String\":\"String\",\"Int8\":8,\"UInt64\":64,\"Float\":0.3333333,\"Double\":0.3333333333333333,\"Bool_true\":true,\"Int64\":64,\"Bool_false\":false,\"NSString\":\"NSString\"}"
-      print(String(data: try! jayson.data(), encoding: .utf8))
-      let value = String(data: try! jayson.data(), encoding: .utf8)!
+      print(String(data: try! json.data(), encoding: .utf8))
+      let value = String(data: try! json.data(), encoding: .utf8)!
       XCTAssert(answer == value)
     #endif
 

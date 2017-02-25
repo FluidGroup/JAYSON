@@ -1,4 +1,4 @@
-// JAYSON+StateProperty.swift
+// JSON+StateProperty.swift
 //
 // Copyright (c) 2016 muukii
 //
@@ -22,7 +22,7 @@
 
 import Foundation
 
-extension JAYSON {
+extension JSON {
 
   public var isNull: Bool {
     if case .null = sourceType {

@@ -1,4 +1,4 @@
-// JAYSON+StrictGetter.swift
+// JSON+StrictGetter.swift
 //
 // Copyright (c) 2016 muukii
 //
@@ -23,25 +23,25 @@
 import Foundation
 
 // Get Swift Value
-extension JAYSON {
+extension JSON {
 
-  public func getDictionary() throws -> [String : JAYSON] {
+  public func getDictionary() throws -> [String : JSON] {
     guard let value = dictionary else {
-      throw JAYSONError.failedToGetDictionary(source: source, jayson: self)
+      throw JSONError.failedToGetDictionary(source: source, json: self)
     }
     return value
   }
 
-  public func getArray() throws -> [JAYSON] {
+  public func getArray() throws -> [JSON] {
     guard let value = array else {
-      throw JAYSONError.failedToGetArray(source: source, jayson: self)
+      throw JSONError.failedToGetArray(source: source, json: self)
     }
     return value
   }
 
   public func getNumber() throws -> NSNumber {
     guard let value = number else {
-      throw JAYSONError.failedToGetNumber(source: source, jayson: self)
+      throw JSONError.failedToGetNumber(source: source, json: self)
     }
     return value
   }
@@ -88,14 +88,14 @@ extension JAYSON {
 
   public func getString() throws -> String {
     guard let value = string else {
-      throw JAYSONError.failedToGetString(source: source, jayson: self)
+      throw JSONError.failedToGetString(source: source, json: self)
     }
     return value
   }
 
   public func getBool() throws -> Bool {
     guard let value = source as? Bool else {
-      throw JAYSONError.failedToGetBool(source: source, jayson: self)
+      throw JSONError.failedToGetBool(source: source, json: self)
     }
     return value
   }
@@ -108,23 +108,23 @@ extension JAYSON {
     return try getNumber().doubleValue
   }
 
-  public func get<T>(_ s: (JAYSON) throws -> T) rethrows -> T {
+  public func get<T>(_ s: (JSON) throws -> T) rethrows -> T {
     do {
       return try s(self)
-    } catch let jaysonError as JAYSONError {
-      throw jaysonError
+    } catch let jsonError as JSONError {
+      throw jsonError
     } catch {
-      throw JAYSONError.decodeError(source: source, jayson: self, decodeError: error)
+      throw JSONError.decodeError(source: source, json: self, decodeError: error)
     }
   }
 
   public func get<T>(with decoder: Decoder<T>) throws -> T {
     do {
       return try decoder.decode(self)
-    } catch let jaysonError as JAYSONError {
-      throw jaysonError
+    } catch let jsonError as JSONError {
+      throw jsonError
     } catch {
-      throw JAYSONError.decodeError(source: source, jayson: self, decodeError: error)
+      throw JSONError.decodeError(source: source, json: self, decodeError: error)
     }
   }
 

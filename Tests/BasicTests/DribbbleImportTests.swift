@@ -1,6 +1,6 @@
 //
 //  DribbbleImportTests.swift
-//  JAYSON
+//  JSON
 //
 //  Created by muukii on 9/18/16.
 //  Copyright © 2016 CocoaPods. All rights reserved.
@@ -28,19 +28,19 @@ class DribbbleImportTests: XCTestCase {
     func testImport() {
         
         do {
-            let jayson = try JAYSON(data: data)
+            let json = try JSON(data: data)
 
-            let shots: [Shot] = try jayson.getArray().map { jayson -> Shot in
+            let shots: [Shot] = try json.getArray().map { json -> Shot in
                 
-                let imagesJayson = try jayson.next("images")
+                let imagesJayson = try json.next("images")
                 
-                //        print(try jayson.next("images", "normal").currentPath())
+                //        print(try json.next("images", "normal").currentPath())
                 
                 return Shot(
-                    id: try jayson.next("id").getInt(),
-                    title: try jayson.next("title").getString(),
-                    width: try jayson.next("width").getInt(),
-                    height: try jayson.next("height").getInt(),
+                    id: try json.next("id").getInt(),
+                    title: try json.next("title").getString(),
+                    width: try json.next("width").getInt(),
+                    height: try json.next("height").getInt(),
                     hidpiImageURLString: try? imagesJayson.next("hidpi").getString(),
                     normalImageURLString: try imagesJayson.next("normal").getString(),
                     teaserImageURLString: try imagesJayson.next("teaser").getString()

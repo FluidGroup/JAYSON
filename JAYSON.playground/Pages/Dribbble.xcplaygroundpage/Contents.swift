@@ -5,10 +5,10 @@ import Foundation
 
 let dataPath = Bundle.main.path(forResource: "Sample", ofType: "json")
 let data = Data(referencing: NSData(contentsOfFile: dataPath!)!)
-let jayson = try! JAYSON(data: data)
+let json = try! JSON(data: data)
 
-let urlDecoder = Decoder<URL> { (jayson) throws -> URL in
-    URL(string: try jayson.getString())! // You can throw custom error.
+let urlDecoder = Decoder<URL> { (json) throws -> URL in
+    URL(string: try json.getString())! // You can throw custom error.
 }
 
 struct Shot {
@@ -20,13 +20,13 @@ struct Shot {
     let normalImageURLString: URL
     let teaserImageURLString: URL
     
-    init(jayson: JAYSON) throws {
-        let imagesJayson = try jayson.next("images")
+    init(json: JSON) throws {
+        let imagesJayson = try json.next("images")
         
-        id = try jayson.next("id").getInt()
-        title = try jayson.next("title").getString()
-        width = try jayson.next("width").getInt()
-        height = try jayson.next("height").getInt()
+        id = try json.next("id").getInt()
+        title = try json.next("title").getString()
+        width = try json.next("width").getInt()
+        height = try json.next("height").getInt()
         hidpiImageURLString = try? imagesJayson.next("hidpi").get(with: urlDecoder)
         normalImageURLString = try imagesJayson.next("normal").get(with: urlDecoder)
         teaserImageURLString = try imagesJayson.next("teaser").get(with: urlDecoder)
@@ -34,7 +34,7 @@ struct Shot {
 }
 
 do {
-    let shots: [Shot] = try jayson.getArray().map(Shot.init(jayson: ))
+    let shots: [Shot] = try json.getArray().map(Shot.init(json: ))
     print(shots)
 } catch {
     print(error)

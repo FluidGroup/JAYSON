@@ -6,29 +6,29 @@ import JAYSON
 
 let dataPath = Bundle.main.path(forResource: "test", ofType: "json")
 let data = Data(referencing: NSData(contentsOfFile: dataPath!)!)
-let jayson = try! JAYSON(data)
+let JSON = try! JSON(data)
 
-let urlTransformer = Decoder<URL> { (jayson) throws -> URL in
-    URL(string: try jayson.getString())!
+let urlTransformer = Decoder<URL> { (JSON) throws -> URL in
+    URL(string: try JSON.getString())!
 }
 
 do {
     
-    let fooJayson = try jayson
+    let fooJSON = try JSON
         .next("tree1")
         .next("tree2")
         .next("tree3")
         .next(0)
         .next("index")
     
-    let value = try fooJayson.getString()
-    let path = fooJayson.currentPath()
+    let value = try fooJSON.getString()
+    let path = fooJSON.currentPath()
     
-    let url = try jayson
+    let url = try JSON
         .next("url")
         .get(with: urlTransformer)
     
-    let null = try jayson.next("null")
+    let null = try JSON.next("null")
     null.isNull
     
     do {
@@ -48,7 +48,7 @@ do {
 
 do {
     
-    let fooJayson = try jayson
+    let fooJSON = try JSON
         .next("tree1")
         .next("tree2")
         .back()

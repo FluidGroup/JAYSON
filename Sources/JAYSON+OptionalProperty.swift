@@ -1,4 +1,4 @@
-// JAYSON+OptionalProperty.swift
+// JSON+OptionalProperty.swift
 //
 // Copyright (c) 2016 muukii
 //
@@ -22,20 +22,20 @@
 
 import Foundation
 
-extension JAYSON {
+extension JSON {
 
-  public var dictionary: [String : JAYSON]? {
-    return (source as? [String : Any])?.reduce([String : JAYSON]()) { dic, element in
+  public var dictionary: [String : JSON]? {
+    return (source as? [String : Any])?.reduce([String : JSON]()) { dic, element in
       var dic = dic
-      dic[element.key] = JAYSON(source: element.value, breadcrumb: Breadcrumb(jayson: self, key: element.key))
+      dic[element.key] = JSON(source: element.value, breadcrumb: Breadcrumb(json: self, key: element.key))
       return dic
     }
   }
 
-  public var array: [JAYSON]? {
+  public var array: [JSON]? {
     return (source as? [Any])?
       .enumerated()
-      .map { JAYSON(source: $0.element, breadcrumb: Breadcrumb(jayson: self, index: $0.offset)) }
+      .map { JSON(source: $0.element, breadcrumb: Breadcrumb(json: self, index: $0.offset)) }
   }
 
   public var string: String? {
@@ -106,7 +106,7 @@ extension JAYSON {
     }
   }
 
-  public func getOrNil<T>(_ s: (JAYSON) throws -> T) -> T? {
+  public func getOrNil<T>(_ s: (JSON) throws -> T) -> T? {
     do {
       return try s(self)
     } catch {

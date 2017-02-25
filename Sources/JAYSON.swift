@@ -1,4 +1,4 @@
-// JAYSON.swift
+// JSON.swift
 //
 // Copyright (c) 2016 muukii
 //
@@ -20,48 +20,51 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+@available(*, deprecated: 1.0.0, message: "Use `JSON`")
+public typealias JAYSON = JSON
+
 import Foundation
 
-public enum JAYSONError: Error {
-  case notFoundKey(key: String, jayson: JAYSON)
-  case notFoundIndex(index: Int, jayson: JAYSON)
-  case failedToGetString(source: Any, jayson: JAYSON)
-  case failedToGetBool(source: Any, jayson: JAYSON)
-  case failedToGetNumber(source: Any, jayson: JAYSON)
-  case failedToGetArray(source: Any, jayson: JAYSON)
-  case failedToGetDictionary(source: Any, jayson: JAYSON)
-  case decodeError(source: Any, jayson: JAYSON, decodeError: Error)
+public enum JSONError: Error {
+  case notFoundKey(key: String, json: JSON)
+  case notFoundIndex(index: Int, json: JSON)
+  case failedToGetString(source: Any, json: JSON)
+  case failedToGetBool(source: Any, json: JSON)
+  case failedToGetNumber(source: Any, json: JSON)
+  case failedToGetArray(source: Any, json: JSON)
+  case failedToGetDictionary(source: Any, json: JSON)
+  case decodeError(source: Any, json: JSON, decodeError: Error)
   case invalidJSONObject
 }
 
-public struct JAYSON: CustomDebugStringConvertible, Equatable {
+public struct JSON: CustomDebugStringConvertible, Equatable {
 
-  public static func ==(lhs: JAYSON, rhs: JAYSON) -> Bool {
+  public static func ==(lhs: JSON, rhs: JSON) -> Bool {
     return (lhs.source as? NSObject) == (rhs.source as? NSObject)
   }
 
-  public static let null = JAYSON()
+  public static let null = JSON()
 
   public fileprivate(set) var source: Any
 
   fileprivate let breadcrumb: Breadcrumb?
 
-  public init(_ object: JAYSONWritableType) {
+  public init(_ object: JSONWritableType) {
     source = object.jsonValueBox.source
     breadcrumb = nil
   }
 
-  public init(_ object: [JAYSONWritableType]) {
+  public init(_ object: [JSONWritableType]) {
     source = object.map { $0.jsonValueBox.source }
     breadcrumb = nil
   }
 
-  public init(_ object: [JAYSON]) {
+  public init(_ object: [JSON]) {
     source = object.map { $0.source }
     breadcrumb = nil
   }
 
-  public init(_ object: [String : JAYSON]) {
+  public init(_ object: [String : JSON]) {
     source = object.reduce([String : Any]()) { dictionary, object in
       var dictionary = dictionary
       dictionary[object.key] = object.value.source
@@ -70,7 +73,7 @@ public struct JAYSON: CustomDebugStringConvertible, Equatable {
     breadcrumb = nil
   }
 
-  public init(_ object: [String : JAYSONWritableType]) {
+  public init(_ object: [String : JSONWritableType]) {
     source = object.reduce([String : Any]()) { dic, element in
       var dic = dic
       dic[element.key] = element.value.jsonValueBox.source
@@ -91,7 +94,7 @@ public struct JAYSON: CustomDebugStringConvertible, Equatable {
 
   public init(any: Any) throws {
     guard JSONSerialization.isValidJSONObject(any) else {
-      throw JAYSONError.invalidJSONObject
+      throw JSONError.invalidJSONObject
     }
     self.init(source: any, breadcrumb: nil)
   }
@@ -103,7 +106,7 @@ public struct JAYSON: CustomDebugStringConvertible, Equatable {
 
   public func data(options: JSONSerialization.WritingOptions = []) throws -> Data {
     guard JSONSerialization.isValidJSONObject(source) else {
-      throw JAYSONError.invalidJSONObject
+      throw JSONError.invalidJSONObject
     }
     return try JSONSerialization.data(withJSONObject: source, options: options)
   }
@@ -116,7 +119,7 @@ public struct JAYSON: CustomDebugStringConvertible, Equatable {
 
     while let _currentBreadcrumb = currentBreadcrumb {
       path = _currentBreadcrumb.path + path
-      currentBreadcrumb = _currentBreadcrumb.jayson.breadcrumb
+      currentBreadcrumb = _currentBreadcrumb.json.breadcrumb
     }
 
     return "Root->" + path
@@ -124,7 +127,7 @@ public struct JAYSON: CustomDebugStringConvertible, Equatable {
 
   public var debugDescription: String {
     return "\n"
-      + "JAYSON\n"
+      + "JSON\n"
       + "Path: \(currentPath())\n"
       + "SourceType: \(sourceType)\n"
       + "\n"
@@ -132,20 +135,20 @@ public struct JAYSON: CustomDebugStringConvertible, Equatable {
   }
 }
 
-extension JAYSON {
+extension JSON {
 
   final class Breadcrumb: CustomStringConvertible, CustomDebugStringConvertible {
 
-    let jayson: JAYSON
+    let json: JSON
     let path: String
 
-    init(jayson: JAYSON, key: String) {
-      self.jayson = jayson
+    init(json: JSON, key: String) {
+      self.json = json
       self.path = "[\"\(key)\"]"
     }
 
-    init(jayson: JAYSON, index: Int) {
-      self.jayson = jayson
+    init(json: JSON, index: Int) {
+      self.json = json
       self.path = "[\(index)]"
     }
 
@@ -154,19 +157,19 @@ extension JAYSON {
     }
 
     var debugDescription: String {
-      return "\(path)\n\(jayson)"
+      return "\(path)\n\(json)"
     }
   }
 }
 
-extension JAYSON {
+extension JSON {
 
-  /// if key is not found, return JAYSON.null
-  public subscript (key: String) -> JAYSON {
+  /// if key is not found, return JSON.null
+  public subscript (key: String) -> JSON {
     get {
       return (source as? NSDictionary)
         .flatMap { $0[key] }
-        .map { JAYSON(source: $0, breadcrumb: Breadcrumb(jayson: self, key: key)) } ?? JAYSON.null
+        .map { JSON(source: $0, breadcrumb: Breadcrumb(json: self, key: key)) } ?? JSON.null
     }
     set {
       if source is NSNull {
@@ -181,8 +184,8 @@ extension JAYSON {
     }
   }
 
-  /// if index is not found return JAYSON.null
-  public subscript (index: Int) -> JAYSON {
+  /// if index is not found return JSON.null
+  public subscript (index: Int) -> JSON {
     get {
       return (source as? NSArray)
         .flatMap {
@@ -191,7 +194,7 @@ extension JAYSON {
           }
           return nil
         }
-        .map { JAYSON(source: $0, breadcrumb: Breadcrumb(jayson: self, index: index)) } ?? JAYSON.null
+        .map { JSON(source: $0, breadcrumb: Breadcrumb(json: self, index: index)) } ?? JSON.null
     }
     /*
      set {
@@ -215,68 +218,68 @@ extension JAYSON {
   }
 }
 
-/// Control JAYSON hierarchy
-extension JAYSON {
+/// Control JSON hierarchy
+extension JSON {
 
-  private func _next(_ key: String) throws -> JAYSON {
+  private func _next(_ key: String) throws -> JSON {
 
     return try key.characters
       .split(separator: ".")
       .map { String($0) }
       .reduce(self) { j, key in
         guard !(j[key].source is NSNull) else {
-          throw JAYSONError.notFoundKey(key: key, jayson: self)
+          throw JSONError.notFoundKey(key: key, json: self)
         }
         return j[key]
     }
   }
 
-  private func _next(_ keys: [String]) throws -> JAYSON {
-    return try keys.reduce(self) { jayson, key -> JAYSON in
-      try jayson._next(key)
+  private func _next(_ keys: [String]) throws -> JSON {
+    return try keys.reduce(self) { json, key -> JSON in
+      try json._next(key)
     }
   }
 
   /**
-   if `type` is `Dictonary`, return `JAYSON` whose object is `dictionary[key]`, otherwise throw `JAYSONError`.
+   if `type` is `Dictonary`, return `JSON` whose object is `dictionary[key]`, otherwise throw `JSONError`.
    e.g next("a", "b", "c") or next("a.b.c")
    */
-  public func next(_ key: String...) throws -> JAYSON {
+  public func next(_ key: String...) throws -> JSON {
     return try _next(key)
   }
 
-  public func next<T: RawRepresentable>(_ key: T) throws -> JAYSON where T.RawValue == String {
+  public func next<T: RawRepresentable>(_ key: T) throws -> JSON where T.RawValue == String {
     return try _next(key.rawValue)
   }
 
   /**
-   if `type` is `Array`, return `JAYSON` whose object is `array[index]`, otherwise throw `JAYSONError`.
+   if `type` is `Array`, return `JSON` whose object is `array[index]`, otherwise throw `JSONError`.
    */
-  public func next(_ index: Int) throws -> JAYSON {
+  public func next(_ index: Int) throws -> JSON {
     guard !(self[index].source is NSNull) else {
-      throw JAYSONError.notFoundIndex(index: index, jayson: self)
+      throw JSONError.notFoundIndex(index: index, json: self)
     }
     return self[index]
   }
 
-  public func next<T: RawRepresentable>(_ key: T) throws -> JAYSON where T.RawValue == Int {
+  public func next<T: RawRepresentable>(_ key: T) throws -> JSON where T.RawValue == Int {
     return try next(key.rawValue)
   }
 
   /**
-   if `self` has parent JAYSON, return parent `JAYSON`, otherwise return `self`
+   if `self` has parent JSON, return parent `JSON`, otherwise return `self`
    */
-  public func back() -> JAYSON {
-    return breadcrumb?.jayson ?? self
+  public func back() -> JSON {
+    return breadcrumb?.json ?? self
   }
 
-  public func removed(_ key: String) -> JAYSON {
+  public func removed(_ key: String) -> JSON {
 
     guard let _source = (source as? NSDictionary)?.mutableCopy() as? NSMutableDictionary else {
       return self
     }
     _source.removeObject(forKey: key)
-    return try! JAYSON(any: _source)
+    return try! JSON(any: _source)
   }
 
   public func exists(_ key: String...) -> Bool {
@@ -304,13 +307,13 @@ extension JAYSON {
   }
 }
 
-extension JAYSON: Swift.ExpressibleByNilLiteral {
+extension JSON: Swift.ExpressibleByNilLiteral {
   public init(nilLiteral: ()) {
     self.init()
   }
 }
 
-extension JAYSON: Swift.ExpressibleByStringLiteral {
+extension JSON: Swift.ExpressibleByStringLiteral {
 
   public init(stringLiteral value: StringLiteralType) {
     self.init(value)
@@ -325,31 +328,31 @@ extension JAYSON: Swift.ExpressibleByStringLiteral {
   }
 }
 
-extension JAYSON: Swift.ExpressibleByIntegerLiteral {
+extension JSON: Swift.ExpressibleByIntegerLiteral {
 
   public init(integerLiteral value: IntegerLiteralType) {
     self.init(value)
   }
 }
 
-extension JAYSON: Swift.ExpressibleByBooleanLiteral {
+extension JSON: Swift.ExpressibleByBooleanLiteral {
 
   public init(booleanLiteral value: BooleanLiteralType) {
     self.init(value)
   }
 }
 
-extension JAYSON: Swift.ExpressibleByFloatLiteral {
+extension JSON: Swift.ExpressibleByFloatLiteral {
 
   public init(floatLiteral value: FloatLiteralType) {
     self.init(value)
   }
 }
 
-extension JAYSON: Swift.ExpressibleByDictionaryLiteral {
+extension JSON: Swift.ExpressibleByDictionaryLiteral {
 
-  public init(dictionaryLiteral elements: (String, JAYSON)...) {
-    let dictionary = elements.reduce([String : JAYSON]()) { dic, element in
+  public init(dictionaryLiteral elements: (String, JSON)...) {
+    let dictionary = elements.reduce([String : JSON]()) { dic, element in
       var dic = dic
       dic[element.0] = element.1
       return dic
@@ -358,8 +361,8 @@ extension JAYSON: Swift.ExpressibleByDictionaryLiteral {
   }
 }
 
-extension JAYSON: Swift.ExpressibleByArrayLiteral {
-  public init(arrayLiteral elements: JAYSON...) {
+extension JSON: Swift.ExpressibleByArrayLiteral {
+  public init(arrayLiteral elements: JSON...) {
     self.init(elements)
   }
 }

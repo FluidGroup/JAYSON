@@ -1,4 +1,4 @@
-// JAYSON+SourceType.swift
+// JSON+SourceType.swift
 //
 // Copyright (c) 2016 muukii
 //
@@ -22,7 +22,7 @@
 
 import Foundation
 
-extension JAYSON {
+extension JSON {
 
   public enum SourceType {
 

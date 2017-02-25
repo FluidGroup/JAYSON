@@ -22,9 +22,9 @@
 
 public struct Decoder<T> {
 
-  let decode: (JAYSON) throws -> T
+  let decode: (JSON) throws -> T
 
-  public init(_ s: @escaping (JAYSON) throws -> T) {
+  public init(_ s: @escaping (JSON) throws -> T) {
     self.decode = s
   }
 }
