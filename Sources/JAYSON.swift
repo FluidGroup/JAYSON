@@ -231,7 +231,7 @@ extension JAYSON {
     }
   }
 
-  public func _next(_ keys: [String]) throws -> JAYSON {
+  private func _next(_ keys: [String]) throws -> JAYSON {
     return try keys.reduce(self) { jayson, key -> JAYSON in
       try jayson._next(key)
     }
@@ -282,7 +282,10 @@ extension JAYSON {
   public func exists(_ key: String...) -> Bool {
     do {
       let r = try _next(key)
-      return r.sourceType != .null
+      guard case .null = r.sourceType else {
+        return true
+      }
+      return false
     } catch {
       return false
     }
@@ -291,7 +294,10 @@ extension JAYSON {
   public func exists(_ index: Int) -> Bool {
     do {
       let r = try next(index)
-      return r.sourceType != .null
+      guard case .null = r.sourceType else {
+        return true
+      }
+      return false
     } catch {
       return false
     }

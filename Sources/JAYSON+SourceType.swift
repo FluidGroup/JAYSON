@@ -26,11 +26,11 @@ extension JAYSON {
 
   public enum SourceType {
 
-    case number
-    case string
-    case bool
-    case array
-    case dictionary
+    case number(NSNumber)
+    case string(String)
+    case bool(Bool)
+    case array([Any])
+    case dictionary([String : Any])
     case null
   }
 
@@ -38,17 +38,17 @@ extension JAYSON {
     switch source {
     case let number as NSNumber:
       if number.isBool {
-        return .bool
+        return .bool(number.boolValue)
       }
-      return .number
-    case _ as String:
-      return .string
+      return .number(number)
+    case let s as String:
+      return .string(s)
     case  _ as NSNull:
       return .null
-    case _ as [Any]:
-      return .array
-    case _ as [String : Any]:
-      return .dictionary
+    case let s as [Any]:
+      return .array(s)
+    case let s as [String : Any]:
+      return .dictionary(s)
     default:
       fatalError("What happen? Unsupported Type.")
     }

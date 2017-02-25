@@ -25,22 +25,37 @@ import Foundation
 extension JAYSON {
 
   public var isNull: Bool {
-    return sourceType == .null
+    if case .null = sourceType {
+      return true
+    }
+    return false
   }
 
   public var isDictionary: Bool {
-    return sourceType == .dictionary
+    if case .dictionary = sourceType {
+      return true
+    }
+    return false
   }
 
   public var isArray: Bool {
-    return sourceType == .array
+    if case .array = sourceType {
+      return true
+    }
+    return false
   }
 
   public var isBool: Bool {
-    return sourceType == .bool
+    if case .bool = sourceType {
+      return true
+    }
+    return false
   }
 
   public var isNumber: Bool {
-    return sourceType == .number
+    if case .number = sourceType {
+      return true
+    }
+    return false
   }
 }
