@@ -45,7 +45,7 @@ public struct JSON: CustomDebugStringConvertible, Equatable {
 
   public static let null = JSON()
 
-  public fileprivate(set) var source: Any
+  public internal(set) var source: Any
 
   fileprivate let breadcrumb: Breadcrumb?
 
@@ -164,6 +164,18 @@ extension JSON {
 
 extension JSON {
 
+  fileprivate mutating func set(any: Any, for key: String) {
+    if source is NSNull {
+      source = [String : Any]()
+    }
+
+    guard var dictionary = source as? [String : Any] else {
+      return
+    }
+    dictionary[key] = any
+    source = dictionary
+  }
+
   /// if key is not found, return JSON.null
   public subscript (key: String) -> JSON {
     get {
@@ -172,15 +184,7 @@ extension JSON {
         .map { JSON(source: $0, breadcrumb: Breadcrumb(json: self, key: key)) } ?? JSON.null
     }
     set {
-      if source is NSNull {
-        source = [String : Any]()
-      }
-
-      guard var dictionary = source as? [String : Any] else {
-        return
-      }
-      dictionary[key] = newValue.source
-      source = dictionary
+      set(any: newValue.source, for: key)
     }
   }
 
@@ -215,6 +219,20 @@ extension JSON {
      source = array
      }
      */
+  }
+}
+
+extension JSON {
+
+  public mutating func append(_ json: JSON) {
+    guard let appendDictionary = json.source as? NSDictionary else {
+      return
+    }
+
+    for v in appendDictionary {
+
+      set(any: v.value, for: v.key as! String)
+    }
   }
 }
 
