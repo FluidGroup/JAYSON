@@ -24,7 +24,7 @@ import Foundation
 
 extension JSON {
 
-  public enum SourceType {
+  public enum SourceType: CustomStringConvertible {
 
     case number(NSNumber)
     case string(String)
@@ -32,6 +32,23 @@ extension JSON {
     case array([Any])
     case dictionary([String : Any])
     case null
+
+    public var description: String {
+      switch self {
+      case .number:
+        return "number"
+      case .string:
+        return "string"
+      case .bool:
+        return "bool"
+      case .array:
+        return "array"
+      case .dictionary:
+        return "dictionary"
+      case .null:
+        return "null"
+      }
+    }
   }
 
   public var sourceType: SourceType {
@@ -53,6 +70,7 @@ extension JSON {
       fatalError("What happen? Unsupported Type.")
     }
   }
+
 }
 
 extension NSNumber {

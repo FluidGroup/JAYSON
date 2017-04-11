@@ -37,7 +37,7 @@ public enum JSONError: Error {
   case invalidJSONObject
 }
 
-public struct JSON: CustomDebugStringConvertible, Equatable {
+public struct JSON: Equatable {
 
   public static func ==(lhs: JSON, rhs: JSON) -> Bool {
     return (lhs.source as? NSObject) == (rhs.source as? NSObject)
@@ -123,15 +123,6 @@ public struct JSON: CustomDebugStringConvertible, Equatable {
     }
 
     return "Root->" + path
-  }
-
-  public var debugDescription: String {
-    return "\n"
-      + "JSON\n"
-      + "Path: \(currentPath())\n"
-      + "SourceType: \(sourceType)\n"
-      + "\n"
-      + "Source:\n\(source)"
   }
 }
 
