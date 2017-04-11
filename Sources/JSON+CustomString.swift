@@ -11,12 +11,15 @@ import Foundation
 extension JSON: CustomStringConvertible, CustomDebugStringConvertible {
 
   public var description: String {
+
+    let _data = try? data(options: .prettyPrinted)
+
     return
       [
         "Path: \(currentPath().description)",
         "SourceType: \(sourceType.description)",
         "Source:",
-        "\(String(data: try! data(options: .prettyPrinted), encoding: .utf8) ?? "")",
+        "\(_data.flatMap { String(data: $0, encoding: .utf8) } ?? "<empty>")",
         ]
         .joined(separator: "\n")
   }
