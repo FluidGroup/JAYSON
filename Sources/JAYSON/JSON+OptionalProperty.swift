@@ -35,7 +35,12 @@ extension JSON {
   public var array: [JSON]? {
     return (source as? [Any])?
       .enumerated()
-      .map { JSON(source: $0.element, breadcrumb: Breadcrumb(json: self, index: $0.offset)) }
+      .map {
+        JSON(
+          source: $0.element,
+          breadcrumb: Breadcrumb(json: self, index: $0.offset)
+        )
+    }
   }
 
   public var string: String? {
@@ -98,7 +103,7 @@ extension JSON {
     return number?.boolValue
   }
 
-  public func getOrNil<T>(with decoder: Decoder<T>) -> T? {
+  public func getIfPresent<T>(with decoder: Decoder<T>) -> T? {
     do {
       return try decoder.decode(self)
     } catch {
@@ -106,7 +111,7 @@ extension JSON {
     }
   }
 
-  public func getOrNil<T>(_ s: (JSON) throws -> T) -> T? {
+  public func getIfPresent<T>(_ s: (JSON) throws -> T) -> T? {
     do {
       return try s(self)
     } catch {
