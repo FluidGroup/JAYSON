@@ -29,8 +29,8 @@ let urlString: String? = jayson[3]["shot"]["images"]["hidpi_image"].string
 
 ### Strict Access (try-catch)
 
-if the value does not exist, throw `JAYSONError`<br>
-Failed location can be known from [JAYSONError](#jaysonerror)
+if the value does not exist, throw `JSONError`<br>
+Failed location can be known from [JSONError](#jaysonerror)
 
 Get Value (String, Bool, Number)
 
@@ -63,9 +63,9 @@ let imageURL: URL = try jayson
 Strict getters
 
 ```swift
-extension JAYSON {
-    public func getDictionary() throws -> [String : JAYSON]
-    public func getArray() throws -> [JAYSON]
+extension JSON {
+    public func getDictionary() throws -> [String : JSON]
+    public func getArray() throws -> [JSON]
     public func getNumber() throws -> NSNumber
     public func getInt() throws -> Int
     public func getInt8() throws -> Int8
@@ -84,15 +84,15 @@ extension JAYSON {
 }
 
 ///
-extension JAYSON {
-    public func get<T>(_ s: (JAYSON) throws -> T) rethrows -> T
+extension JSON {
+    public func get<T>(_ s: (JSON) throws -> T) rethrows -> T
     public func get<T>(with decoder: Decoder<T>) throws -> T
 }
 ```
 
 Optional Read-only properties😁
 ```swift
-extension JAYSON {
+extension JSON {
     public var dictionary: [String : Any]? { get }
     public var array: [Any]? { get }
     public var string: String? { get }
@@ -113,49 +113,49 @@ extension JAYSON {
 }
 ```
 
-#### Initialize JAYSON
+#### Initialize JSON
 
 ```swift
 let jsonData: Data = ...
-let jayson = try JAYSON(data: jsonData)
+let jayson = try JSON(data: jsonData)
 ```
 
 ```swift
 let jsonData: Data
 let json: Any = try JSONSerialization.jsonObject(with: data, options: [])
-let jayson = try JAYSON(any: json)
+let jayson = try JSON(any: json)
 ```
 
 ```swift
 let userInfo: [AnyHashable: Any]
-let jayson = try JAYSON(any: json)
+let jayson = try JSON(any: json)
 ```
 
 ```swift
 let objects: [Any]
-let jayson = try JAYSON(any: json)
+let jayson = try JSON(any: json)
 ```
 
 In the case of the following try it is not required.
 
 ```swift
-let object: [String : JAYSON]
-let jayson = JAYSON(object)
+let object: [String : JSON]
+let jayson = JSON(object)
 ```
 
 ```swift
-let object: [JAYSON]
-let jayson = JAYSON(object)
+let object: [JSON]
+let jayson = JSON(object)
 ```
 
 ```swift
-let object: [JAYSONWritableType]
-let jayson = JAYSON(object)
+let object: [JSONWritableType]
+let jayson = JSON(object)
 ```
 
 ```swift
-let object: [String : JAYSONWritableType]
-let jayson = JAYSON(object)
+let object: [String : JSONWritableType]
+let jayson = JSON(object)
 ```
 ---
 
@@ -165,27 +165,27 @@ let jayson = JAYSON(object)
 
 let path = try jayson
     .next(0)
-    .next("image")        
+    .next("image")
     .next("hidpi_image")
-    .currentPath()    
+    .currentPath()
 
 // path => "[0]["image"]["hidpi_image"]"
 ```
 
-## JAYSONError
+## JSONError
 
-If you have access that does not exist key, throw　`JAYSONError`.
+If you have access that does not exist key, throw　`JSONError`.
 
 ```swift
-public enum JAYSONError: Error {
-  case notFoundKey(key: String, jayson: JAYSON)
-  case notFoundIndex(index: Int, jayson: JAYSON)
-  case failedToGetString(source: Any, jayson: JAYSON)
-  case failedToGetBool(source: Any, jayson: JAYSON)
-  case failedToGetNumber(source: Any, jayson: JAYSON)
-  case failedToGetArray(source: Any, jayson: JAYSON)
-  case failedToGetDictionary(source: Any, jayson: JAYSON)
-  case decodeError(source: Any, jayson: JAYSON, decodeError: Error)
+public enum JSONError: Error {
+  case notFoundKey(key: String, json: JSON)
+  case notFoundIndex(index: Int, json: JSON)
+  case failedToGetString(source: Any, json: JSON)
+  case failedToGetBool(source: Any, json: JSON)
+  case failedToGetNumber(source: Any, json: JSON)
+  case failedToGetArray(source: Any, json: JSON)
+  case failedToGetDictionary(source: Any, json: JSON)
+  case decodeError(source: Any, json: JSON, decodeError: Error)
   case invalidJSONObject
 }
 ```
@@ -202,7 +202,7 @@ do {
     .next("foo") // ‼️ throw
     .getString()
 } catch {
-   print(error) 
+   print(error)
 }
 ```
 
@@ -238,7 +238,7 @@ try jayson
 ## Import Example (dribbble API)
 
 ```swift
-let jayson = try! JAYSON(data)
+let jayson = try! JSON(data)
 
 struct Shot {
     let id: Int
@@ -274,17 +274,17 @@ do {
 ### Write JSON
 
 ```swift
-var jayson = JAYSON()
+var jayson = JSON()
 jayson["id"] = 18737649
 jayson["active"] = true
 jayson["name"] = "muukii"
 
-var images = [String:JAYSON]()
+var images = [String:JSON]()
 images["large"] = "http://...foo"
 images["medium"] = "http://...bar"
 images["small"] = "http://...fuzz"
 
-jayson["images"] = JAYSON(images)
+jayson["images"] = JSON(images)
 
 let data = try jayson.data(options: .prettyPrinted)
 ```
@@ -306,29 +306,29 @@ let data = try jayson.data(options: .prettyPrinted)
 #### JAYSON Convertible Examples
 
 ```swift
-var jayson = JAYSON()
+var jayson = JSON()
 
 jayson["String"] = "String"
-jayson["NSString"] = JAYSON("NSString" as NSString)
+jayson["NSString"] = JSON("NSString" as NSString)
 jayson["NSNumber"] = NSNumber(value: 0)
 jayson["Int"] = 64
-jayson["Int8"] = JAYSON(8 as Int8)
-jayson["Int16"] = JAYSON(16 as Int16)
-jayson["Int32"] = JAYSON(32 as Int32)
-jayson["Int64"] = JAYSON(64 as Int64)
+jayson["Int8"] = JSON(8 as Int8)
+jayson["Int16"] = JSON(16 as Int16)
+jayson["Int32"] = JSON(32 as Int32)
+jayson["Int64"] = JSON(64 as Int64)
 
-jayson["UInt"] = JAYSON(64 as UInt)
-jayson["UInt8"] = JAYSON(8 as UInt8)
-jayson["UInt16"] = JAYSON(16 as UInt16)
-jayson["UInt32"] = JAYSON(32 as UInt32)
-jayson["UInt64"] = JAYSON(64 as UInt64)
+jayson["UInt"] = JSON(64 as UInt)
+jayson["UInt8"] = JSON(8 as UInt8)
+jayson["UInt16"] = JSON(16 as UInt16)
+jayson["UInt32"] = JSON(32 as UInt32)
+jayson["UInt64"] = JSON(64 as UInt64)
 
 jayson["Bool_true"] = true
 jayson["Bool_false"] = false
 
-jayson["Float"] = JAYSON(1.0 / 3.0 as Float)
-jayson["Double"] = JAYSON(1.0 / 3.0 as Double)
-jayson["CGFloat"] = JAYSON(1.0 / 3.0 as CGFloat)
+jayson["Float"] = JSON(1.0 / 3.0 as Float)
+jayson["Double"] = JSON(1.0 / 3.0 as Double)
+jayson["CGFloat"] = JSON(1.0 / 3.0 as CGFloat)
 ```
 
 ## Installation
