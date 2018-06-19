@@ -207,6 +207,7 @@ class Tests: XCTestCase {
     }
   }
 
+  /*
   func testJSONWritable() {
 
     var json = JSON()
@@ -245,4 +246,5 @@ class Tests: XCTestCase {
     #endif
 
   }
+ */
 }
