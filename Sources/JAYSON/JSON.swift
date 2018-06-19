@@ -62,19 +62,15 @@ public struct JSON: Equatable {
   }
 
   public init(_ object: [String : JSON]) {
-    source = object.reduce([String : Any]()) { dictionary, object in
-      var dictionary = dictionary
+    source = object.reduce(into: [String : Any]()) { (dictionary, object) in
       dictionary[object.key] = object.value.source
-      return dictionary
     }
     breadcrumb = nil
   }
 
   public init(_ object: [String : JSONWritableType]) {
-    source = object.reduce([String : Any]()) { dic, element in
-      var dic = dic
-      dic[element.key] = element.value.jsonValueBox.source
-      return dic
+    source = object.reduce(into: [String : Any]()) { (dictionary, object) in
+      dictionary[object.key] = object.value.jsonValueBox.source
     }
     breadcrumb = nil
   }
@@ -229,9 +225,9 @@ extension JSON {
 
   private func _next(_ key: String) throws -> JSON {
 
-    return try key.characters
+    return try key
       .split(separator: ".")
-      .map { String($0) }
+      .map(String.init)
       .reduce(self) { j, key in
         guard !(j[key].source is NSNull) else {
           throw JSONError.notFoundKey(key: key, json: self)
