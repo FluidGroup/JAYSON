@@ -8,15 +8,15 @@
 
 Pod::Spec.new do |s|
   s.name             = 'JAYSON'
-  s.version          = '1.3.1'
+  s.version          = '1.3.2'
   s.summary          = 'Strict and Scalable JSON library'
   s.homepage         = 'https://github.com/muukii/JAYSON'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'muukii' => 'm@muukii.me' }
+  s.author           = { 'muukii' => 'muukii.app@gmail.com' }
   s.source           = { :git => 'https://github.com/muukii/JAYSON.git', :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/muukii0803'
   s.ios.deployment_target = '8.0'
   s.watchos.deployment_target = '2.0'
-  #s.osx.deployment_target = '10.10'
+  s.osx.deployment_target = '10.13'
   s.source_files = 'Sources/JAYSON/**/*.swift'
 end
