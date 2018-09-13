@@ -34,10 +34,6 @@
 		4BB1287E1D998CE700760AA0 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB128741D998CE700760AA0 /* Decoder.swift */; };
 		4BB1287F1D998CE700760AA0 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB128741D998CE700760AA0 /* Decoder.swift */; };
 		4BB128801D998CE700760AA0 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB128741D998CE700760AA0 /* Decoder.swift */; };
-		4BB128811D998CE700760AA0 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4BB128751D998CE700760AA0 /* Info.plist */; };
-		4BB128821D998CE700760AA0 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4BB128751D998CE700760AA0 /* Info.plist */; };
-		4BB128831D998CE700760AA0 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4BB128751D998CE700760AA0 /* Info.plist */; };
-		4BB128841D998CE700760AA0 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4BB128751D998CE700760AA0 /* Info.plist */; };
 		4BB128851D998CE700760AA0 /* JSON+OptionalProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB128761D998CE700760AA0 /* JSON+OptionalProperty.swift */; };
 		4BB128861D998CE700760AA0 /* JSON+OptionalProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB128761D998CE700760AA0 /* JSON+OptionalProperty.swift */; };
 		4BB128871D998CE700760AA0 /* JSON+OptionalProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB128761D998CE700760AA0 /* JSON+OptionalProperty.swift */; };
@@ -518,7 +514,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4BB128821D998CE700760AA0 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -536,7 +531,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4BB128831D998CE700760AA0 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -544,7 +538,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4BB128841D998CE700760AA0 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -572,7 +565,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4BB128811D998CE700760AA0 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1063,6 +1055,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -1086,6 +1079,7 @@
 				PRODUCT_NAME = JAYSON;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
