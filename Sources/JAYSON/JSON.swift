@@ -34,10 +34,14 @@ public enum JSONError: Error {
   case invalidJSONObject
 }
 
-public struct JSON: Equatable {
+public struct JSON: Hashable {
 
   public static func ==(lhs: JSON, rhs: JSON) -> Bool {
     return (lhs.source as? NSObject) == (rhs.source as? NSObject)
+  }
+
+  public func hash(into hasher: inout Hasher) {
+    hasher.combine(self.source as? NSObject)
   }
 
   public static let null = JSON()
