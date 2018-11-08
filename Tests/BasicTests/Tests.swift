@@ -105,8 +105,8 @@ class Tests: XCTestCase {
   func testNext() {
     do {
       let j = try JSON(data: inData)
-      let v = j["a"]["b"][1]
-      XCTAssert(v.isNull)
+      let v = j["a"]?["b"]?[1]
+      XCTAssert(v == nil)
     } catch {
       XCTFail("\(error)")
     }
@@ -115,7 +115,7 @@ class Tests: XCTestCase {
       let j = try JSON(data: inData)
 
       do {
-        let v = try j.next("a").next("b").next("c")
+        _ = try j.next("a").next("b").next("c")
         XCTFail()
       } catch {
         print("Success \(error)")
@@ -147,7 +147,7 @@ class Tests: XCTestCase {
 
     do {
       let j = try JSON(data: inData)
-      let data = try j.data()
+      _ = try j.data()
     } catch {
       XCTFail("\(error)")
     }
@@ -205,6 +205,16 @@ class Tests: XCTestCase {
       print(j.source)
       XCTFail("\(error)")
     }
+  }
+
+  func testMutation() {
+
+    var j = try! JSON(data: inData)
+
+    XCTAssertNotNil(j["number"])
+    j["number"] = nil
+    XCTAssertNil(j["number"])
+
   }
 
   /*

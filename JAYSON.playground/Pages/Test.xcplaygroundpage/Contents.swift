@@ -1,20 +1,15 @@
 //: Playground - noun: a place where people can play
 
-import Foundation
 import UIKit
 import JAYSON
 
 let dataPath = Bundle.main.path(forResource: "test", ofType: "json")
 let data = Data(referencing: NSData(contentsOfFile: dataPath!)!)
-let JSON = try! JSON(data)
-
-let urlTransformer = Decoder<URL> { (JSON) throws -> URL in
-    URL(string: try JSON.getString())!
-}
+let json = try! JSON.init(data: data)
 
 do {
     
-    let fooJSON = try JSON
+    let fooJSON = try json
         .next("tree1")
         .next("tree2")
         .next("tree3")
@@ -24,11 +19,10 @@ do {
     let value = try fooJSON.getString()
     let path = fooJSON.currentPath()
     
-    let url = try JSON
+    let url = try json
         .next("url")
-        .get(with: urlTransformer)
-    
-    let null = try JSON.next("null")
+
+    let null = try json.next("null")
     null.isNull
     
     do {
@@ -48,7 +42,7 @@ do {
 
 do {
     
-    let fooJSON = try JSON
+    let fooJSON = try json
         .next("tree1")
         .next("tree2")
         .back()
@@ -62,4 +56,16 @@ do {
     
 }
 
+do {
+  let value = try json["a"]?["b"]?.getString()
+} catch {
+  print(error)
+}
 
+do {
+  json["a"]?["b"]?.get {
+    URL.init(string: try $0.getString())
+  }
+} catch {
+
+}
