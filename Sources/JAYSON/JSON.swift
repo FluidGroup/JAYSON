@@ -152,7 +152,7 @@ extension JSON {
 
 extension JSON {
 
-  fileprivate mutating func set(any: Any, for key: String) {
+  fileprivate mutating func set(any: Any?, for key: String) {
     if source is NSNull {
       source = [String : Any]()
     }
@@ -165,19 +165,19 @@ extension JSON {
   }
 
   /// if key is not found, return JSON.null
-  public subscript (key: String) -> JSON {
+  public subscript (key: String) -> JSON? {
     get {
       return (source as? NSDictionary)
         .flatMap { $0[key] }
-        .map { JSON(source: $0, breadcrumb: Breadcrumb(json: self, key: key)) } ?? JSON.null
+        .map { JSON(source: $0, breadcrumb: Breadcrumb(json: self, key: key)) }
     }
     set {
-      set(any: newValue.source, for: key)
+      set(any: newValue?.source, for: key)
     }
   }
 
   /// if index is not found return JSON.null
-  public subscript (index: Int) -> JSON {
+  public subscript (index: Int) -> JSON? {
     get {
       return (source as? NSArray)
         .flatMap {
@@ -233,10 +233,10 @@ extension JSON {
       .split(separator: ".")
       .map(String.init)
       .reduce(self) { j, key in
-        guard !(j[key].source is NSNull) else {
+        guard let value = j[key], !(value.source is NSNull) else {
           throw JSONError.notFoundKey(key: key, json: self)
         }
-        return j[key]
+        return value
     }
   }
 
@@ -262,10 +262,10 @@ extension JSON {
    if `type` is `Array`, return `JSON` whose object is `array[index]`, otherwise throw `JSONError`.
    */
   public func next(_ index: Int) throws -> JSON {
-    guard !(self[index].source is NSNull) else {
+    guard let value = self[index], !(value.source is NSNull) else {
       throw JSONError.notFoundIndex(index: index, json: self)
     }
-    return self[index]
+    return value
   }
 
   public func next<T: RawRepresentable>(_ key: T) throws -> JSON where T.RawValue == Int {
