@@ -4,6 +4,8 @@
 
 # JAYSON
 
+[![Build Status](https://app.bitrise.io/app/0cc465d9351375ab/status.svg?token=c_MLug7GlJJn0F44V4o5hw&branch=master)](https://app.bitrise.io/app/0cc465d9351375ab)
+
 ![](https://img.shields.io/badge/Swift-3.0-blue.svg?style=flat)
 [![CI Status](http://img.shields.io/travis/muukii/JAYSON.svg?style=flat)](https://travis-ci.org/muukii/JAYSON)
 [![Version](https://img.shields.io/cocoapods/v/JAYSON.svg?style=flat)](http://cocoapods.org/pods/JAYSON)
@@ -342,7 +344,7 @@ pod "JAYSON"
 
 ## Author
 
-muukii, m@muukii.me
+muukii, muukii.app@gmail.com
 
 ## License
 
