@@ -2,45 +2,45 @@
   <img src="banner@2x.png" width=375>
 </p>
 
-# JAYSON
+# json
 
 [![Build Status](https://app.bitrise.io/app/0cc465d9351375ab/status.svg?token=c_MLug7GlJJn0F44V4o5hw&branch=master)](https://app.bitrise.io/app/0cc465d9351375ab)
 
 ![](https://img.shields.io/badge/Swift-3.0-blue.svg?style=flat)
-[![CI Status](http://img.shields.io/travis/muukii/JAYSON.svg?style=flat)](https://travis-ci.org/muukii/JAYSON)
-[![Version](https://img.shields.io/cocoapods/v/JAYSON.svg?style=flat)](http://cocoapods.org/pods/JAYSON)
-[![License](https://img.shields.io/cocoapods/l/JAYSON.svg?style=flat)](http://cocoapods.org/pods/JAYSON)
-[![Platform](https://img.shields.io/cocoapods/p/JAYSON.svg?style=flat)](http://cocoapods.org/pods/JAYSON)
+[![CI Status](http://img.shields.io/travis/muukii/json.svg?style=flat)](https://travis-ci.org/muukii/json)
+[![Version](https://img.shields.io/cocoapods/v/json.svg?style=flat)](http://cocoapods.org/pods/json)
+[![License](https://img.shields.io/cocoapods/l/json.svg?style=flat)](http://cocoapods.org/pods/json)
+[![Platform](https://img.shields.io/cocoapods/p/json.svg?style=flat)](http://cocoapods.org/pods/json)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
 Strict and Scalable JSON library.
 
 ## Requirements
 
-Swift **3.0**  iOS📱, watchOS⌚️, tvOS📺, macOS🖥, **Linux**✨
+Swift **4.2**  iOS📱, watchOS⌚️, tvOS📺, macOS🖥, **Linux**✨
 
 # Usage
 
 ## Read JSON
 
-### Easy Access (almost same with [SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON))
+### Easy Access
 
 ```swift
-let urlString: String? = jayson[3]["shot"]["images"]["hidpi_image"].string
+let urlString: String? = json[3]?["shot"]?["images"]?["hidpi_image"]?.string
 ```
 
 ### Strict Access (try-catch)
 
 if the value does not exist, throw `JSONError`<br>
-Failed location can be known from [JSONError](#jaysonerror)
+Failed location can be known from [JSONError](#jsonerror)
 
 Get Value (String, Bool, Number)
 
 ```swift
-let id: String = try jayson
-       .next(0)
-       .next("id")
-       .getString()
+let id: String = try json
+    .next(0)
+    .next("id")
+    .getString()
 ```
 
 **Get Value with Decoder (Custom Object)**<br>
@@ -48,16 +48,14 @@ Using the Decoder can be transformed in a custom object.
 And, throwable
 
 ```swift
-let urlDecoder = Decoder<URL> { (jayson) throws -> URL in
-    URL(string: try jayson.getString())!
-}
 
-
-let imageURL: URL = try jayson
-       .next(0)
-       .next("image")
-       .next("hidpi_image")
-       .get(with: urlDecoder)
+let imageURL: URL = try json
+    .next(0)
+    .next("image")
+    .next("hidpi_image")
+    .get {
+        URL.init(string: try $0.getString())!
+    }
 ```
 
 **General Getter**
@@ -88,7 +86,6 @@ extension JSON {
 ///
 extension JSON {
     public func get<T>(_ s: (JSON) throws -> T) rethrows -> T
-    public func get<T>(with decoder: Decoder<T>) throws -> T
 }
 ```
 
@@ -119,45 +116,45 @@ extension JSON {
 
 ```swift
 let jsonData: Data = ...
-let jayson = try JSON(data: jsonData)
+let json = try JSON(data: jsonData)
 ```
 
 ```swift
 let jsonData: Data
 let json: Any = try JSONSerialization.jsonObject(with: data, options: [])
-let jayson = try JSON(any: json)
+let json = try JSON(any: json)
 ```
 
 ```swift
 let userInfo: [AnyHashable: Any]
-let jayson = try JSON(any: json)
+let json = try JSON(any: json)
 ```
 
 ```swift
 let objects: [Any]
-let jayson = try JSON(any: json)
+let json = try JSON(any: json)
 ```
 
 In the case of the following try it is not required.
 
 ```swift
 let object: [String : JSON]
-let jayson = JSON(object)
+let json = JSON(object)
 ```
 
 ```swift
 let object: [JSON]
-let jayson = JSON(object)
+let json = JSON(object)
 ```
 
 ```swift
 let object: [JSONWritableType]
-let jayson = JSON(object)
+let json = JSON(object)
 ```
 
 ```swift
 let object: [String : JSONWritableType]
-let jayson = JSON(object)
+let json = JSON(object)
 ```
 ---
 
@@ -165,7 +162,7 @@ let jayson = JSON(object)
 
 ```swift
 
-let path = try jayson
+let path = try json
     .next(0)
     .next("image")
     .next("hidpi_image")
@@ -196,7 +193,7 @@ example:
 
 ```swift
 do {
-  let urlString: String = try jayson
+  let urlString: String = try json
     .next("shots")
     .next(0)
     .next("user")
@@ -208,11 +205,11 @@ do {
 }
 ```
 
-Output JAYSONError
+Output jsonError
 
 ```
 notFoundKey("foo",
-JAYSON
+json
 Path: Root->["shots"][0]["user"]["profile_image"]
 SourceType: dictionary
 
@@ -228,7 +225,7 @@ Source:
 
 ```swift
 
-try jayson
+try json
     .next(0)
     .next("image")
     .back() // <---
@@ -240,7 +237,7 @@ try jayson
 ## Import Example (dribbble API)
 
 ```swift
-let jayson = try! JSON(data)
+let json = try! JSON(data)
 
 struct Shot {
     let id: Int
@@ -253,18 +250,18 @@ struct Shot {
 }
 
 do {
-    let shots: [Shot] = try jayson.getArray().map { jayson -> Shot in
+    let shots: [Shot] = try json.getArray().map { json -> Shot in
 
-        let imagesJayson = try jayson.next("images")
+        let imagesjson = try json.next("images")
 
         return Shot(
-            id: try jayson.next("id").getInt(),
-            title: try jayson.next("title").getString(),
-            width: try jayson.next("width").getInt(),
-            height: try jayson.next("height").getInt(),
-            hidpiImageURLString: try? imagesJayson.next("hidpi").getString(),
-            normalImageURLString: try imagesJayson.next("normal").getString(),
-            teaserImageURLString: try imagesJayson.next("teaser").getString()
+            id: try json.next("id").getInt(),
+            title: try json.next("title").getString(),
+            width: try json.next("width").getInt(),
+            height: try json.next("height").getInt(),
+            hidpiImageURLString: try? imagesjson.next("hidpi").getString(),
+            normalImageURLString: try imagesjson.next("normal").getString(),
+            teaserImageURLString: try imagesjson.next("teaser").getString()
         )
     }
     print(shots)
@@ -276,19 +273,19 @@ do {
 ### Write JSON
 
 ```swift
-var jayson = JSON()
-jayson["id"] = 18737649
-jayson["active"] = true
-jayson["name"] = "muukii"
+var json = JSON()
+json["id"] = 18737649
+json["active"] = true
+json["name"] = "muukii"
 
 var images = [String:JSON]()
 images["large"] = "http://...foo"
 images["medium"] = "http://...bar"
 images["small"] = "http://...fuzz"
 
-jayson["images"] = JSON(images)
+json["images"] = JSON(images)
 
-let data = try jayson.data(options: .prettyPrinted)
+let data = try json.data(options: .prettyPrinted)
 ```
 
 -> data
@@ -305,41 +302,41 @@ let data = try jayson.data(options: .prettyPrinted)
 }
 ```
 
-#### JAYSON Convertible Examples
+#### json Convertible Examples
 
 ```swift
-var jayson = JSON()
+var json = JSON()
 
-jayson["String"] = "String"
-jayson["NSString"] = JSON("NSString" as NSString)
-jayson["NSNumber"] = NSNumber(value: 0)
-jayson["Int"] = 64
-jayson["Int8"] = JSON(8 as Int8)
-jayson["Int16"] = JSON(16 as Int16)
-jayson["Int32"] = JSON(32 as Int32)
-jayson["Int64"] = JSON(64 as Int64)
+json["String"] = "String"
+json["NSString"] = JSON("NSString" as NSString)
+json["NSNumber"] = NSNumber(value: 0)
+json["Int"] = 64
+json["Int8"] = JSON(8 as Int8)
+json["Int16"] = JSON(16 as Int16)
+json["Int32"] = JSON(32 as Int32)
+json["Int64"] = JSON(64 as Int64)
 
-jayson["UInt"] = JSON(64 as UInt)
-jayson["UInt8"] = JSON(8 as UInt8)
-jayson["UInt16"] = JSON(16 as UInt16)
-jayson["UInt32"] = JSON(32 as UInt32)
-jayson["UInt64"] = JSON(64 as UInt64)
+json["UInt"] = JSON(64 as UInt)
+json["UInt8"] = JSON(8 as UInt8)
+json["UInt16"] = JSON(16 as UInt16)
+json["UInt32"] = JSON(32 as UInt32)
+json["UInt64"] = JSON(64 as UInt64)
 
-jayson["Bool_true"] = true
-jayson["Bool_false"] = false
+json["Bool_true"] = true
+json["Bool_false"] = false
 
-jayson["Float"] = JSON(1.0 / 3.0 as Float)
-jayson["Double"] = JSON(1.0 / 3.0 as Double)
-jayson["CGFloat"] = JSON(1.0 / 3.0 as CGFloat)
+json["Float"] = JSON(1.0 / 3.0 as Float)
+json["Double"] = JSON(1.0 / 3.0 as Double)
+json["CGFloat"] = JSON(1.0 / 3.0 as CGFloat)
 ```
 
 ## Installation
 
-JAYSON is available through [CocoaPods](http://cocoapods.org). To install
+json is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod "JAYSON"
+pod "json"
 ```
 
 ## Author
@@ -348,4 +345,4 @@ muukii, muukii.app@gmail.com
 
 ## License
 
-JAYSON is available under the MIT license. See the LICENSE file for more info.
+json is available under the MIT license. See the LICENSE file for more info.
