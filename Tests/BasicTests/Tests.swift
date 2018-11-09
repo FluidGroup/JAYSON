@@ -207,6 +207,14 @@ class Tests: XCTestCase {
     }
   }
 
+  func testNull() {
+
+    // Key is existing, but value is null.
+    // Ignoring NSNull
+    let j = try! JSON(data: inData)
+    XCTAssertNil(j["null"])
+  }
+
   func testMutation() {
 
     var j = try! JSON(data: inData)

@@ -164,11 +164,17 @@ extension JSON {
     source = dictionary
   }
 
-  /// if key is not found, return JSON.null
+  /// if key is not found, return nil
   public subscript (key: String) -> JSON? {
     get {
       return (source as? NSDictionary)
-        .flatMap { $0[key] }
+        .flatMap {
+          let value = $0[key]
+          if value is NSNull {
+            return nil
+          }
+          return value
+        }
         .map { JSON(source: $0, breadcrumb: Breadcrumb(json: self, key: key)) }
     }
     set {
@@ -372,3 +378,4 @@ extension JSON: Swift.ExpressibleByArrayLiteral {
     self.init(elements)
   }
 }
+
