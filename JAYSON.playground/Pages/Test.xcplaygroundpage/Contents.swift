@@ -62,10 +62,11 @@ do {
   print(error)
 }
 
-do {
-  json["a"]?["b"]?.get {
-    URL.init(string: try $0.getString())
-  }
-} catch {
+print(json.tree1?.tree2?.tree3?[0])
 
+do {
+  try json.next(\JSON.1)
+  try json.next(\.foo)
+} catch {
+  print(error)
 }

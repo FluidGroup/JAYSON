@@ -2,7 +2,7 @@
   <img src="banner@2x.png" width=375>
 </p>
 
-# json
+# JAYSON
 
 [![Build Status](https://app.bitrise.io/app/0cc465d9351375ab/status.svg?token=c_MLug7GlJJn0F44V4o5hw&branch=master)](https://app.bitrise.io/app/0cc465d9351375ab)
 
@@ -14,6 +14,7 @@
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
 Strict and Scalable JSON library.
+And also supports `dynamicMemberLookup`
 
 ## Requirements
 
@@ -21,15 +22,21 @@ Swift **4.2**  iOS📱, watchOS⌚️, tvOS📺, macOS🖥, **Linux**✨
 
 # Usage
 
-## Read JSON
+# Read JSON
 
-### Easy Access
+## Easy Access
 
 ```swift
 let urlString: String? = json[3]?["shot"]?["images"]?["hidpi_image"]?.string
 ```
 
-### Strict Access (try-catch)
+**Using dynamicMemberLookup**
+
+```swift
+let urlString: String? = json[3]?.shot?.images?.hidpi_image?.string
+```
+
+## Strict Access (try-catch)
 
 if the value does not exist, throw `JSONError`<br>
 Failed location can be known from [JSONError](#jsonerror)
@@ -43,7 +50,17 @@ let id: String = try json
     .getString()
 ```
 
-**Get Value with Decoder (Custom Object)**<br>
+**Using dynamicMemberLookup**
+
+```swift
+let id: String = try json
+    .next(0)
+    .next(\.id)
+    .getString()
+```
+
+### Get Value with Decoder (Custom Object)
+
 Using the Decoder can be transformed in a custom object.
 And, throwable
 
@@ -58,7 +75,7 @@ let imageURL: URL = try json
     }
 ```
 
-**General Getter**
+### General Getter
 
 Strict getters
 
@@ -112,7 +129,7 @@ extension JSON {
 }
 ```
 
-#### Initialize JSON
+# Initialize JSON
 
 ```swift
 let jsonData: Data = ...
@@ -158,7 +175,7 @@ let json = JSON(object)
 ```
 ---
 
-## Get current path (Debugging information.)
+# Get current path (Debugging information.)
 
 ```swift
 
@@ -171,7 +188,7 @@ let path = try json
 // path => "[0]["image"]["hidpi_image"]"
 ```
 
-## JSONError
+# JSONError
 
 If you have access that does not exist key, throw　`JSONError`.
 
@@ -221,7 +238,7 @@ Source:
 })
 ```
 
-## Go Back JSON hierarchy
+# Go Back JSON hierarchy
 
 ```swift
 
@@ -234,7 +251,7 @@ try json
 
 ```
 
-## Import Example (dribbble API)
+# Import Example (dribbble API)
 
 ```swift
 let json = try! JSON(data)
@@ -270,7 +287,7 @@ do {
 }
 ```
 
-### Write JSON
+## Write JSON
 
 ```swift
 var json = JSON()
@@ -302,7 +319,7 @@ let data = try json.data(options: .prettyPrinted)
 }
 ```
 
-#### json Convertible Examples
+### json Convertible Examples
 
 ```swift
 var json = JSON()
@@ -330,7 +347,7 @@ json["Double"] = JSON(1.0 / 3.0 as Double)
 json["CGFloat"] = JSON(1.0 / 3.0 as CGFloat)
 ```
 
-## Installation
+# Installation
 
 json is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
@@ -339,10 +356,10 @@ it, simply add the following line to your Podfile:
 pod "json"
 ```
 
-## Author
+# Author
 
 muukii, muukii.app@gmail.com
 
-## License
+# License
 
 json is available under the MIT license. See the LICENSE file for more info.

@@ -23,6 +23,7 @@
 import Foundation
 
 public enum JSONError: Error {
+  case notFoundKeyPath(keyPath: KeyPath<JSON, JSON?>, json: JSON)
   case notFoundKey(key: String, json: JSON)
   case notFoundIndex(index: Int, json: JSON)
   case failedToGetString(source: Any, json: JSON)
@@ -34,6 +35,7 @@ public enum JSONError: Error {
   case invalidJSONObject
 }
 
+@dynamicMemberLookup
 public struct JSON: Hashable {
 
   public static func ==(lhs: JSON, rhs: JSON) -> Bool {
@@ -194,25 +196,6 @@ extension JSON {
         }
         .map { JSON(source: $0, breadcrumb: Breadcrumb(json: self, index: index)) } ?? JSON.null
     }
-    /*
-     set {
-
-     if source is NSNull {
-     source = [Any]()
-     }
-
-     guard var array = source as? [Any] else {
-     return
-     }
-
-     guard array.count >= index else {
-     return
-     }
-
-     array[index] = newValue.source
-     source = array
-     }
-     */
   }
 }
 
