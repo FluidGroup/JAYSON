@@ -1,3 +1,7 @@
+# 2.1.0
+
+* Support dynamicMemberLook
+
 # 2.0.1
 
 * Fix return JSON.null when a key has null. Make this returing nil.
