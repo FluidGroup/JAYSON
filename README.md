@@ -5,6 +5,7 @@
 # JAYSON
 
 [![Build Status](https://app.bitrise.io/app/0cc465d9351375ab/status.svg?token=c_MLug7GlJJn0F44V4o5hw&branch=master)](https://app.bitrise.io/app/0cc465d9351375ab)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmuukii%2FJAYSON.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmuukii%2FJAYSON?ref=badge_shield)
 ![](https://img.shields.io/badge/Swift-4.2-blue.svg?style=flat)
 [![Version](https://img.shields.io/cocoapods/v/json.svg?style=flat)](http://cocoapods.org/pods/json)
 [![License](https://img.shields.io/cocoapods/l/json.svg?style=flat)](http://cocoapods.org/pods/json)
@@ -361,3 +362,6 @@ muukii, muukii.app@gmail.com
 # License
 
 json is available under the MIT license. See the LICENSE file for more info.
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmuukii%2FJAYSON.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmuukii%2FJAYSON?ref=badge_large)
