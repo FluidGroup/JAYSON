@@ -1,3 +1,22 @@
+JAYSON provides 2 ways of accessing to JSON object.
+
+1. Easy access (with dynamic-member-lookup)
+
+```swift
+let urlString: String? = json[3]?.shot?.images?.hidpi_image?.string
+```
+
+2. Strict access (with dynamic-member-lookup)
+
+We can know where error was caused. (with JSONError)
+
+```swift
+let id: String = try json
+    .next(0)
+    .next(\.id)
+    .getString()
+```
+
 <p align="center">
   <img src="banner@2x.png" width=375>
 </p>
