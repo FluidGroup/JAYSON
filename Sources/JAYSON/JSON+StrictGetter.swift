@@ -108,6 +108,14 @@ extension JSON {
     return try getNumber().doubleValue
   }
 
+  public func getURL() throws -> URL {
+    let string = try getString()
+    if let url = URL(string: string) {
+        return url
+    }
+    throw JSONError.failedToParseURL(source: source, json: self)
+  }
+
   public func get<T>(_ s: (JSON) throws -> T) rethrows -> T {
     do {
       return try s(self)

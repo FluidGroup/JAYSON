@@ -31,6 +31,7 @@ public enum JSONError: Error {
   case failedToGetNumber(source: Any, json: JSON)
   case failedToGetArray(source: Any, json: JSON)
   case failedToGetDictionary(source: Any, json: JSON)
+  case failedToParseURL(source: Any, json: JSON)
   case decodeError(source: Any, json: JSON, decodeError: Error)
   case invalidJSONObject
 }
