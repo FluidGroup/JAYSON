@@ -67,6 +67,21 @@ class Tests: XCTestCase {
     }
   }
 
+    func testURLInit() {
+        let dictionary = [
+            "url" : "https://antoine.marandon.fr",
+        ]
+        do {
+            let json = try JSON(any: dictionary)
+            let data = try json.data()
+            let parsedJson = try JSON(data: data)
+            XCTAssertEqual(dictionary["url"], try parsedJson.next("url").getURL().absoluteString)
+        } catch {
+            XCTFail("\(error)")
+        }
+
+    }
+
   func testIsArray() {
 
     let json = JSON([
