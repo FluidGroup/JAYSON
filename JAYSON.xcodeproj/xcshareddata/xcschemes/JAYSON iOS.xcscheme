@@ -20,6 +20,20 @@
                ReferencedContainer = "container:JAYSON.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4BFF20B61D8E474A0094E790"
+               BuildableName = "JAYSON iOS Tests.xctest"
+               BlueprintName = "JAYSON iOS Tests"
+               ReferencedContainer = "container:JAYSON.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
