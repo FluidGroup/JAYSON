@@ -59,7 +59,7 @@ And also supports `dynamicMemberLookup`
 
 ## Requirements
 
-Swift **4.2**  iOS📱, watchOS⌚️, tvOS📺, macOS🖥, **Linux**✨
+Swift **5+**  iOS📱, watchOS⌚️, tvOS📺, macOS🖥, **Linux**✨
 
 # Usage
 
