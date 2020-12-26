@@ -1,3 +1,26 @@
+
+# Do you need to handle the root cause of failure in decoding JSON?
+
+We often process the value as a default value if it could not be decoded from JSON. (Recovering with a default value)  
+However, doing that might cause a serious problem and hide the actual root cause in the app.  
+Recovering with a default value is not a bad choice, it's important to know the JSON represents unexpected shape or value before recovering.  
+
+```swift
+let json: JSON
+
+do {
+  self.id = try json.next("id").getString()
+} catch {
+  print(error)
+  // We can know why decoding failed from error.
+  // Not found "id" or "id" found but it was not `string` or something else.
+  // that's why here recover the value to fill `self.id`
+  self.id = "unknown"
+}
+```
+
+---
+
 JAYSON provides 2 ways of accessing to JSON object.
 
 1. Easy access (with dynamic-member-lookup)
