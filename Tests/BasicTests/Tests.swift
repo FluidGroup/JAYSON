@@ -107,13 +107,13 @@ class Tests: XCTestCase {
 
     let j = try! JSON(data: inData)
 
-    XCTAssert(j.exists(13) == false)
-    XCTAssert(j.exists("a") == false)
-    XCTAssert(j.exists("b") == false)
-    XCTAssert(j.exists("a.b.c") == false)
-    XCTAssert(j.exists("tree1.tree2") == true)
-    XCTAssert(j.exists("tree1", "tree2") == true)
-    XCTAssert(j.exists("tree1") == true)
+    XCTAssert(j.presentsValue(13) == false)
+    XCTAssert(j.presentsValue("a") == false)
+    XCTAssert(j.presentsValue("b") == false)
+    XCTAssert(j.presentsValue("a.b.c") == false)
+    XCTAssert(j.presentsValue("tree1.tree2") == true)
+    XCTAssert(j.presentsValue("tree1", "tree2") == true)
+    XCTAssert(j.presentsValue("tree1") == true)
 
   }
 
@@ -280,4 +280,8 @@ class Tests: XCTestCase {
 
   }
  */
+}
+
+private func jsonFromString(_ string: () -> String) -> JSON {
+  try! JSON(data: string().data(using: .utf8)!)
 }

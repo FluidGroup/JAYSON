@@ -222,8 +222,8 @@ extension JSON {
     return try key
       .split(separator: ".")
       .map(String.init)
-      .reduce(self) { j, key in
-        guard let value = j[key], !(value.source is NSNull) else {
+      .reduce(self) { j, key in        
+        guard let value = j[key] else {
           throw JSONError.notFoundKey(key: key, json: self)
         }
         return value
@@ -237,6 +237,9 @@ extension JSON {
   }
 
   /**
+   Returns a JSON represents the value pointed by key.
+   It throws an error when the value represents null or the key was not found.
+   
    if `type` is `Dictonary`, return `JSON` whose object is `dictionary[key]`, otherwise throw `JSONError`.
    e.g next("a", "b", "c") or next("a.b.c")
    */
@@ -244,11 +247,18 @@ extension JSON {
     return try _next(key)
   }
 
+  /**
+   Returns a JSON represents the value pointed by key.
+   It throws an error when the value represents null or the key was not found.
+   */
   public func next<T: RawRepresentable>(_ key: T) throws -> JSON where T.RawValue == String {
     return try _next(key.rawValue)
   }
 
   /**
+   Returns a JSON represents the value pointed by key.
+   It throws an error when the value represents null or the key was not found.
+   
    if `type` is `Array`, return `JSON` whose object is `array[index]`, otherwise throw `JSONError`.
    */
   public func next(_ index: Int) throws -> JSON {
@@ -258,6 +268,10 @@ extension JSON {
     return value
   }
 
+  /**
+   Returns a JSON represents the value pointed by key.
+   It throws an error when the value represents null or the key was not found.
+   */
   public func next<T: RawRepresentable>(_ key: T) throws -> JSON where T.RawValue == Int {
     return try next(key.rawValue)
   }
@@ -277,10 +291,36 @@ extension JSON {
     _source.removeObject(forKey: key)
     return try! JSON(any: _source)
   }
-
+  
+  /**
+   Returns a Boolean value that indicates if the key presents a value excepts null.
+   */
+  @available(*, deprecated, renamed: "presentsValue")
   public func exists(_ key: String...) -> Bool {
+    presentsValue(key)
+  }
+  
+  /**
+   Returns a Boolean value that indicates if the key presents a value excepts null.
+   */
+  @available(*, deprecated, renamed: "presentsValue")
+  public func exists(_ index: Int) -> Bool {
+    presentsValue(index)
+  }
+  
+  /**
+   Returns a Boolean value that indicates if the key presents a value excepts null.
+   */
+  public func presentsValue(_ key: String...) -> Bool {
+    presentsValue(key)
+  }
+  
+  /**
+   Returns a Boolean value that indicates if the key presents a value excepts null.
+   */
+  public func presentsValue(_ keys: [String]) -> Bool {
     do {
-      let r = try _next(key)
+      let r = try _next(keys)
       guard case .null = r.sourceType else {
         return true
       }
@@ -290,7 +330,10 @@ extension JSON {
     }
   }
 
-  public func exists(_ index: Int) -> Bool {
+  /**
+   Returns a Boolean value that indicates if the key presents a value excepts null.
+   */
+  public func presentsValue(_ index: Int) -> Bool {
     do {
       let r = try next(index)
       guard case .null = r.sourceType else {
