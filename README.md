@@ -36,7 +36,7 @@ We can know where error was caused. (with JSONError)
 ```swift
 let id: String = try json
     .next(0)
-    .next(\.id)
+    .next("id")
     .getString()
 ```
 
