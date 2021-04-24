@@ -24,10 +24,12 @@ import Foundation
 
 extension JSON {
 
+  @available(*, deprecated, message: "Use subscript or `.next()` instead")
   public subscript(dynamicMember key: String) -> JSON? {
     return self[key]
   }
 
+  @available(*, deprecated, message: "Use subscript or `.next()` instead")
   public func next(_ keyPath: KeyPath<JSON, JSON?>) throws -> JSON {
     guard let json = self[keyPath: keyPath] else {
       throw JSONError.notFoundKeyPath(keyPath: keyPath, json: self)
