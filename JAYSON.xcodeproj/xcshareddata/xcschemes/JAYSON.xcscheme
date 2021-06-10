@@ -14,9 +14,23 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4B0B35F01D9625F50098C55D"
+               BlueprintIdentifier = "4BFF209D1D8E472A0094E790"
                BuildableName = "JAYSON.framework"
-               BlueprintName = "JAYSON watchOS"
+               BlueprintName = "JAYSON"
+               ReferencedContainer = "container:JAYSON.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4BFF20B61D8E474A0094E790"
+               BuildableName = "JAYSONTests.xctest"
+               BlueprintName = "JAYSONTests"
                ReferencedContainer = "container:JAYSON.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -27,29 +41,27 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "4BFF209D1D8E472A0094E790"
+            BuildableName = "JAYSON.framework"
+            BlueprintName = "JAYSON"
+            ReferencedContainer = "container:JAYSON.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <Testables>
          <TestableReference
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4B0B36121D9626530098C55D"
-               BuildableName = "JAYSON watchOS Tests.xctest"
-               BlueprintName = "JAYSON watchOS Tests"
+               BlueprintIdentifier = "4BFF20B61D8E474A0094E790"
+               BuildableName = "JAYSONTests.xctest"
+               BlueprintName = "JAYSONTests"
                ReferencedContainer = "container:JAYSON.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4B0B35F01D9625F50098C55D"
-            BuildableName = "JAYSON.framework"
-            BlueprintName = "JAYSON watchOS"
-            ReferencedContainer = "container:JAYSON.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -64,14 +76,12 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4B0B35F01D9625F50098C55D"
+            BlueprintIdentifier = "4BFF209D1D8E472A0094E790"
             BuildableName = "JAYSON.framework"
-            BlueprintName = "JAYSON watchOS"
+            BlueprintName = "JAYSON"
             ReferencedContainer = "container:JAYSON.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -82,9 +92,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4B0B35F01D9625F50098C55D"
+            BlueprintIdentifier = "4BFF209D1D8E472A0094E790"
             BuildableName = "JAYSON.framework"
-            BlueprintName = "JAYSON watchOS"
+            BlueprintName = "JAYSON"
             ReferencedContainer = "container:JAYSON.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
