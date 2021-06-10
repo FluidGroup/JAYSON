@@ -84,16 +84,16 @@
 		4B4E90231F6CF15A0023B967 /* JAYSON */ = {
 			isa = PBXGroup;
 			children = (
-				4BB128741D998CE700760AA0 /* Decoder.swift */,
+				4BB1287A1D998CE700760AA0 /* JAYSON.h */,
 				4BB128751D998CE700760AA0 /* Info.plist */,
+				4BB128741D998CE700760AA0 /* Decoder.swift */,
+				4BB1287B1D998CE700760AA0 /* JSON.swift */,
+				4BBD4CA525974040003C23EB /* JSON+Codable.swift */,
+				4B2EF18B1E9C81A80045BEDE /* JSON+CustomString.swift */,
 				4BB128761D998CE700760AA0 /* JSON+OptionalProperty.swift */,
 				4BB128771D998CE700760AA0 /* JSON+SourceType.swift */,
 				4BB128781D998CE700760AA0 /* JSON+StateProperty.swift */,
 				4BB128791D998CE700760AA0 /* JSON+StrictGetter.swift */,
-				4BB1287A1D998CE700760AA0 /* JAYSON.h */,
-				4BB1287B1D998CE700760AA0 /* JSON.swift */,
-				4BBD4CA525974040003C23EB /* JSON+Codable.swift */,
-				4B2EF18B1E9C81A80045BEDE /* JSON+CustomString.swift */,
 				4BB1287C1D998CE700760AA0 /* JSONWritableType.swift */,
 			);
 			path = JAYSON;
@@ -124,10 +124,10 @@
 		4BFF20941D8E472A0094E790 = {
 			isa = PBXGroup;
 			children = (
+				4BFF20CA1D8E47670094E790 /* JAYSON.playground */,
 				4BFF209F1D8E472A0094E790 /* Products */,
 				4BB128731D998CE700760AA0 /* Sources */,
 				4BFF20B81D8E474A0094E790 /* Tests */,
-				4BFF20CA1D8E47670094E790 /* JAYSON.playground */,
 			);
 			sourceTree = "<group>";
 		};
