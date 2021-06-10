@@ -432,31 +432,15 @@ extension JSON {
   }
 
   /**
-   Returns a Boolean value that indicates if the key contains a value (including NSNull).
-
-   The following JSONs return true from finding key `name`.
-   ```json
-   {
-     "name": "John"
-   }
-   ```
-
-   ```json
-   {
-     "name": null
-   }
-   ```
+   Returns a Boolean value that indicates if the index presents a value (including NSNull).
    */
   public func contains(_ index: Int) -> Bool {
-    do {
-      let r = try next(index)
-      guard case .null = r.sourceType else {
-        return true
-      }
-      return false
-    } catch {
+
+    guard let array = (source as? NSArray) else {
       return false
     }
+
+    return index < array.count
   }
 }
 

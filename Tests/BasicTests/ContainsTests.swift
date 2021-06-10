@@ -41,6 +41,29 @@ final class ContainsTests: XCTestCase {
 
   }
 
+  func testIfIndexExsits() throws {
+
+    let json = try JSON(jsonString: """
+    [
+      1
+    ]
+    """)
+
+    XCTAssertTrue(json.contains(0))
+
+  }
+
+  func testIfIndexPresentsNull() throws {
+
+    let json = try JSON(jsonString: """
+    [
+      null
+    ]
+    """)
+
+    XCTAssertTrue(json.contains(0))
+
+  }
 }
 
 final class ContainsNestingTests: XCTestCase {
