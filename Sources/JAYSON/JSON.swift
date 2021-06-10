@@ -356,14 +356,40 @@ extension JSON {
   }
 
   /**
-   Returns a Boolean value that indicates if the key presents a value excepts null.
+   Returns a Boolean value that indicates if the key contains a value (including NSNull).
+
+   The following JSONs return true from finding key `name`.
+   ```json
+   {
+     "name": "John"
+   }
+   ```
+
+   ```json
+   {
+     "name": null
+   }
+   ```
    */
   public func contains(_ key: String...) -> Bool {
     contains(key)
   }
 
   /**
-   Returns a Boolean value that indicates if the key presents a value excepts null.
+   Returns a Boolean value that indicates if the key contains a value (including NSNull).
+
+   The following JSONs return true from finding key `name`.
+   ```json
+   {
+     "name": "John"
+   }
+   ```
+
+   ```json
+   {
+     "name": null
+   }
+   ```
    */
   public func contains(_ keys: [String]) -> Bool {
     var _source: Any = self.source
@@ -380,7 +406,20 @@ extension JSON {
   }
 
   /**
-   Returns a Boolean value that indicates if the key presents a value excepts null.
+   Returns a Boolean value that indicates if the key contains a value (including NSNull).
+
+   The following JSONs return true from finding key `name`.
+   ```json
+   {
+     "name": "John"
+   }
+   ```
+
+   ```json
+   {
+     "name": null
+   }
+   ```
    */
   public func contains(_ key: String) -> Bool {
 
@@ -393,7 +432,20 @@ extension JSON {
   }
 
   /**
-   Returns a Boolean value that indicates if the key presents a value excepts null.
+   Returns a Boolean value that indicates if the key contains a value (including NSNull).
+
+   The following JSONs return true from finding key `name`.
+   ```json
+   {
+     "name": "John"
+   }
+   ```
+
+   ```json
+   {
+     "name": null
+   }
+   ```
    */
   public func contains(_ index: Int) -> Bool {
     do {
