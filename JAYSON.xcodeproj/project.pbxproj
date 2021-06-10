@@ -74,10 +74,6 @@
 		4BBD4D21259741A6003C23EB /* Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBD4CFB2597413E003C23EB /* Mocks.swift */; };
 		4BBD4D32259741A7003C23EB /* Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBD4CFB2597413E003C23EB /* Mocks.swift */; };
 		4BBD4D43259741A8003C23EB /* Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBD4CFB2597413E003C23EB /* Mocks.swift */; };
-		4BE7506D21B8CBD40071400C /* JSON+DynamicMemberLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE7506C21B8CBD40071400C /* JSON+DynamicMemberLookup.swift */; };
-		4BE7506E21B8CBD40071400C /* JSON+DynamicMemberLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE7506C21B8CBD40071400C /* JSON+DynamicMemberLookup.swift */; };
-		4BE7506F21B8CBD40071400C /* JSON+DynamicMemberLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE7506C21B8CBD40071400C /* JSON+DynamicMemberLookup.swift */; };
-		4BE7507021B8CBD40071400C /* JSON+DynamicMemberLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE7506C21B8CBD40071400C /* JSON+DynamicMemberLookup.swift */; };
 		4BFF20BC1D8E474A0094E790 /* JAYSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BFF209E1D8E472A0094E790 /* JAYSON.framework */; };
 		4BFF20C61D8E47550094E790 /* DribbbleImportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BFF20C21D8E47550094E790 /* DribbbleImportTests.swift */; };
 		4BFF20C71D8E47550094E790 /* Sample.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BFF20C31D8E47550094E790 /* Sample.json */; };
@@ -137,7 +133,6 @@
 		4BBD4CA525974040003C23EB /* JSON+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSON+Codable.swift"; sourceTree = "<group>"; };
 		4BBD4CB2259740E1003C23EB /* CodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodingTests.swift; sourceTree = "<group>"; };
 		4BBD4CFB2597413E003C23EB /* Mocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mocks.swift; sourceTree = "<group>"; };
-		4BE7506C21B8CBD40071400C /* JSON+DynamicMemberLookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSON+DynamicMemberLookup.swift"; sourceTree = "<group>"; };
 		4BFF209E1D8E472A0094E790 /* JAYSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JAYSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BFF20B71D8E474A0094E790 /* JAYSON iOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "JAYSON iOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BFF20BB1D8E474A0094E790 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -218,7 +213,6 @@
 				4BB128741D998CE700760AA0 /* Decoder.swift */,
 				4BB128751D998CE700760AA0 /* Info.plist */,
 				4BB128761D998CE700760AA0 /* JSON+OptionalProperty.swift */,
-				4BE7506C21B8CBD40071400C /* JSON+DynamicMemberLookup.swift */,
 				4BB128771D998CE700760AA0 /* JSON+SourceType.swift */,
 				4BB128781D998CE700760AA0 /* JSON+StateProperty.swift */,
 				4BB128791D998CE700760AA0 /* JSON+StrictGetter.swift */,
@@ -614,7 +608,6 @@
 				4BB1288A1D998CE700760AA0 /* JSON+SourceType.swift in Sources */,
 				4BB1289A1D998CE700760AA0 /* JSON.swift in Sources */,
 				4BB1289E1D998CE700760AA0 /* JSONWritableType.swift in Sources */,
-				4BE7506E21B8CBD40071400C /* JSON+DynamicMemberLookup.swift in Sources */,
 				4BB128861D998CE700760AA0 /* JSON+OptionalProperty.swift in Sources */,
 				4BB1288E1D998CE700760AA0 /* JSON+StateProperty.swift in Sources */,
 				4BB128921D998CE700760AA0 /* JSON+StrictGetter.swift in Sources */,
@@ -642,7 +635,6 @@
 				4BB1288B1D998CE700760AA0 /* JSON+SourceType.swift in Sources */,
 				4BB1289B1D998CE700760AA0 /* JSON.swift in Sources */,
 				4BB1289F1D998CE700760AA0 /* JSONWritableType.swift in Sources */,
-				4BE7506F21B8CBD40071400C /* JSON+DynamicMemberLookup.swift in Sources */,
 				4BB128871D998CE700760AA0 /* JSON+OptionalProperty.swift in Sources */,
 				4BB1288F1D998CE700760AA0 /* JSON+StateProperty.swift in Sources */,
 				4BB128931D998CE700760AA0 /* JSON+StrictGetter.swift in Sources */,
@@ -659,7 +651,6 @@
 				4BB1288C1D998CE700760AA0 /* JSON+SourceType.swift in Sources */,
 				4BB1289C1D998CE700760AA0 /* JSON.swift in Sources */,
 				4BB128A01D998CE700760AA0 /* JSONWritableType.swift in Sources */,
-				4BE7507021B8CBD40071400C /* JSON+DynamicMemberLookup.swift in Sources */,
 				4BB128881D998CE700760AA0 /* JSON+OptionalProperty.swift in Sources */,
 				4BB128901D998CE700760AA0 /* JSON+StateProperty.swift in Sources */,
 				4BB128941D998CE700760AA0 /* JSON+StrictGetter.swift in Sources */,
@@ -698,7 +689,6 @@
 				4BB128891D998CE700760AA0 /* JSON+SourceType.swift in Sources */,
 				4BB128991D998CE700760AA0 /* JSON.swift in Sources */,
 				4BB1289D1D998CE700760AA0 /* JSONWritableType.swift in Sources */,
-				4BE7506D21B8CBD40071400C /* JSON+DynamicMemberLookup.swift in Sources */,
 				4BB128851D998CE700760AA0 /* JSON+OptionalProperty.swift in Sources */,
 				4BB1288D1D998CE700760AA0 /* JSON+StateProperty.swift in Sources */,
 				4BB128911D998CE700760AA0 /* JSON+StrictGetter.swift in Sources */,
