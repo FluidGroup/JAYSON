@@ -394,10 +394,10 @@ extension JSON {
   public func contains(_ keys: [String]) -> Bool {
     var _source: Any = self.source
     for key in keys {
-      guard let dictionary = (_source as? NSDictionary) else {
-        return false
-      }
-      guard let nextSource = dictionary.value(forKey: key) else {
+      guard
+        let dictionary = _source as? NSDictionary,
+        let nextSource = dictionary.value(forKey: key)
+      else {
         return false
       }
       _source = nextSource
