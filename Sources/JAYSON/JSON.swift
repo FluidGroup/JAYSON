@@ -36,7 +36,6 @@ public enum JSONError: Error {
   case invalidJSONObject
 }
 
-@dynamicMemberLookup
 public struct JSON: Hashable {
 
   public static func ==(lhs: JSON, rhs: JSON) -> Bool {
