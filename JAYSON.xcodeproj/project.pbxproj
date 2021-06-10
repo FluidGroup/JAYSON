@@ -20,6 +20,7 @@
 		4BBD4CA625974040003C23EB /* JSON+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBD4CA525974040003C23EB /* JSON+Codable.swift */; };
 		4BBD4CC725974110003C23EB /* CodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBD4CB2259740E1003C23EB /* CodingTests.swift */; };
 		4BBD4D18259741A6003C23EB /* Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBD4CFB2597413E003C23EB /* Mocks.swift */; };
+		4BF2AC7526720D200010A4A5 /* ContainsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BF2AC7426720D200010A4A5 /* ContainsTests.swift */; };
 		4BFF20BC1D8E474A0094E790 /* JAYSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BFF209E1D8E472A0094E790 /* JAYSON.framework */; };
 		4BFF20C61D8E47550094E790 /* DribbbleImportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BFF20C21D8E47550094E790 /* DribbbleImportTests.swift */; };
 		4BFF20C71D8E47550094E790 /* Sample.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BFF20C31D8E47550094E790 /* Sample.json */; };
@@ -52,6 +53,7 @@
 		4BBD4CA525974040003C23EB /* JSON+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSON+Codable.swift"; sourceTree = "<group>"; };
 		4BBD4CB2259740E1003C23EB /* CodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodingTests.swift; sourceTree = "<group>"; };
 		4BBD4CFB2597413E003C23EB /* Mocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mocks.swift; sourceTree = "<group>"; };
+		4BF2AC7426720D200010A4A5 /* ContainsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainsTests.swift; sourceTree = "<group>"; };
 		4BFF209E1D8E472A0094E790 /* JAYSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JAYSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BFF20B71D8E474A0094E790 /* JAYSONTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JAYSONTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BFF20BB1D8E474A0094E790 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 				4BB1286E1D9987D100760AA0 /* standard.json */,
 				4BFF20C41D8E47550094E790 /* test.json */,
 				4BBD4CFB2597413E003C23EB /* Mocks.swift */,
+				4BF2AC7426720D200010A4A5 /* ContainsTests.swift */,
 			);
 			path = BasicTests;
 			sourceTree = "<group>";
@@ -282,6 +285,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4BFF20C61D8E47550094E790 /* DribbbleImportTests.swift in Sources */,
+				4BF2AC7526720D200010A4A5 /* ContainsTests.swift in Sources */,
 				4BFF20C91D8E47550094E790 /* Tests.swift in Sources */,
 				4BBD4CC725974110003C23EB /* CodingTests.swift in Sources */,
 				4BBD4D18259741A6003C23EB /* Mocks.swift in Sources */,
