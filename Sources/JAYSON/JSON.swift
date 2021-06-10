@@ -33,6 +33,7 @@ public enum JSONError: Error {
   case failedToGetDictionary(source: Any, json: JSON)
   case failedToParseURL(source: Any, json: JSON)
   case decodeError(source: Any, json: JSON, decodeError: Error)
+  case failedToInitializeFromJSONString(String)
   case invalidJSONObject
 }
 
@@ -84,6 +85,13 @@ public struct JSON: Hashable {
   public init() {
     source = NSNull()
     breadcrumb = nil
+  }
+
+  public init(jsonString: String) throws {
+    guard let data = jsonString.data(using: .utf8) else {
+      throw JSONError.failedToInitializeFromJSONString(jsonString)
+    }
+    try self.init(data: data)
   }
 
   public init(data: Data) throws {
@@ -310,6 +318,7 @@ extension JSON {
   /**
    Returns a Boolean value that indicates if the key presents a value excepts null.
    */
+  @available(*, deprecated, renamed: "contains")
   public func presentsValue(_ key: String...) -> Bool {
     presentsValue(key)
   }
@@ -317,6 +326,7 @@ extension JSON {
   /**
    Returns a Boolean value that indicates if the key presents a value excepts null.
    */
+  @available(*, deprecated, renamed: "contains")
   public func presentsValue(_ keys: [String]) -> Bool {
     do {
       let r = try _next(keys)
@@ -332,6 +342,7 @@ extension JSON {
   /**
    Returns a Boolean value that indicates if the key presents a value excepts null.
    */
+  @available(*, deprecated, renamed: "contains")
   public func presentsValue(_ index: Int) -> Bool {
     do {
       let r = try next(index)
@@ -342,6 +353,94 @@ extension JSON {
     } catch {
       return false
     }
+  }
+
+  /**
+   Returns a Boolean value that indicates if the key contains a value (including NSNull).
+
+   The following JSONs return true from finding key `name`.
+   ```json
+   {
+     "name": "John"
+   }
+   ```
+
+   ```json
+   {
+     "name": null
+   }
+   ```
+   */
+  public func contains(_ key: String...) -> Bool {
+    contains(key)
+  }
+
+  /**
+   Returns a Boolean value that indicates if the key contains a value (including NSNull).
+
+   The following JSONs return true from finding key `name`.
+   ```json
+   {
+     "name": "John"
+   }
+   ```
+
+   ```json
+   {
+     "name": null
+   }
+   ```
+   */
+  public func contains(_ keys: [String]) -> Bool {
+    var _source: Any = self.source
+    for key in keys {
+      guard
+        let dictionary = _source as? NSDictionary,
+        let nextSource = dictionary.value(forKey: key)
+      else {
+        return false
+      }
+      _source = nextSource
+    }
+    return true
+  }
+
+  /**
+   Returns a Boolean value that indicates if the key contains a value (including NSNull).
+
+   The following JSONs return true from finding key `name`.
+   ```json
+   {
+     "name": "John"
+   }
+   ```
+
+   ```json
+   {
+     "name": null
+   }
+   ```
+   */
+  public func contains(_ key: String) -> Bool {
+
+    guard let dictionary = (source as? NSDictionary) else {
+      return false
+    }
+
+    return dictionary.value(forKey: key) != nil
+
+  }
+
+  /**
+   Returns a Boolean value that indicates if the index presents a value (including NSNull).
+   */
+  public func contains(_ index: Int) -> Bool {
+
+    guard let array = (source as? NSArray) else {
+      return false
+    }
+
+    return index < array.count
   }
 }
 
