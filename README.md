@@ -71,12 +71,6 @@ Swift **5+**  iOS📱, watchOS⌚️, tvOS📺, macOS🖥, **Linux**✨
 let urlString: String? = json[3]?["shot"]?["images"]?["hidpi_image"]?.string
 ```
 
-**Using dynamicMemberLookup**
-
-```swift
-let urlString: String? = json[3]?.shot?.images?.hidpi_image?.string
-```
-
 ## Strict Access (try-catch)
 
 if the value does not exist, throw `JSONError`<br>
