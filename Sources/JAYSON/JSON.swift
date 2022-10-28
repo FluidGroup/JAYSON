@@ -37,7 +37,7 @@ public enum JSONError: Error {
   case invalidJSONObject
 }
 
-public struct JSON: Hashable {
+public struct JSON: Hashable, @unchecked Sendable {
 
   public static func ==(lhs: JSON, rhs: JSON) -> Bool {
     return (lhs.source as? NSObject) == (rhs.source as? NSObject)
@@ -48,7 +48,7 @@ public struct JSON: Hashable {
   }
 
   public static let null = JSON()
-
+  
   public internal(set) var source: Any
 
   fileprivate let breadcrumb: Breadcrumb?
@@ -135,7 +135,7 @@ public struct JSON: Hashable {
 
 extension JSON {
 
-  final class Breadcrumb: CustomStringConvertible, CustomDebugStringConvertible {
+  final class Breadcrumb: CustomStringConvertible, CustomDebugStringConvertible, Sendable {
 
     let json: JSON
     let path: String
