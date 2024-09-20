@@ -23,16 +23,16 @@
 import Foundation
 
 public enum JSONError: Error {
-  case notFoundKeyPath(keyPath: KeyPath<JSON, JSON?>, json: JSON)
+  case notFoundKeyPath(keyPath: KeyPath<JSON, JSON?> & Sendable, json: JSON)
   case notFoundKey(key: String, json: JSON)
   case notFoundIndex(index: Int, json: JSON)
-  case failedToGetString(source: Any, json: JSON)
-  case failedToGetBool(source: Any, json: JSON)
-  case failedToGetNumber(source: Any, json: JSON)
-  case failedToGetArray(source: Any, json: JSON)
-  case failedToGetDictionary(source: Any, json: JSON)
-  case failedToParseURL(source: Any, json: JSON)
-  case decodeError(source: Any, json: JSON, decodeError: Error)
+  case failedToGetString(source: Any & Sendable, json: JSON)
+  case failedToGetBool(source: Any & Sendable, json: JSON)
+  case failedToGetNumber(source: Any & Sendable, json: JSON)
+  case failedToGetArray(source: Any & Sendable, json: JSON)
+  case failedToGetDictionary(source: Any & Sendable, json: JSON)
+  case failedToParseURL(source: Any & Sendable, json: JSON)
+  case decodeError(source: Any & Sendable, json: JSON, decodeError: Error)
   case failedToInitializeFromJSONString(String)
   case invalidJSONObject
 }
@@ -49,7 +49,7 @@ public struct JSON: Hashable, @unchecked Sendable {
 
   public static let null = JSON()
   
-  public internal(set) var source: Any
+  public internal(set) var source: Any & Sendable
 
   fileprivate let breadcrumb: Breadcrumb?
 
@@ -69,14 +69,14 @@ public struct JSON: Hashable, @unchecked Sendable {
   }
 
   public init(_ object: [String : JSON]) {
-    source = object.reduce(into: [String : Any]()) { (dictionary, object) in
+    source = object.reduce(into: [String : Any & Sendable]()) { (dictionary, object) in
       dictionary[object.key] = object.value.source
     }
     breadcrumb = nil
   }
 
   public init(_ object: [String : JSONWritableType]) {
-    source = object.reduce(into: [String : Any]()) { (dictionary, object) in
+    source = object.reduce(into: [String : Any & Sendable]()) { (dictionary, object) in
       dictionary[object.key] = object.value.jsonValueBox.source
     }
     breadcrumb = nil
@@ -99,14 +99,14 @@ public struct JSON: Hashable, @unchecked Sendable {
     self.init(source: source, breadcrumb: nil)
   }
 
-  public init(any: Any) throws {
+  public init(any: Any & Sendable) throws {
     guard JSONSerialization.isValidJSONObject(any) else {
       throw JSONError.invalidJSONObject
     }
     self.init(source: any, breadcrumb: nil)
   }
 
-  init(source: Any, breadcrumb: Breadcrumb?) {
+  init(source: Any & Sendable, breadcrumb: Breadcrumb?) {
     self.source = source
     self.breadcrumb = breadcrumb
   }
@@ -162,12 +162,12 @@ extension JSON {
 
 extension JSON {
 
-  fileprivate mutating func set(any: Any?, for key: String) {
+  fileprivate mutating func set(any: (Any & Sendable)?, for key: String) {
     if source is NSNull {
-      source = [String : Any]()
+      source = [String : Any & Sendable]()
     }
 
-    guard var dictionary = source as? [String : Any] else {
+    guard var dictionary = source as? [String : Any & Sendable] else {
       return
     }
     dictionary[key] = any

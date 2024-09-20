@@ -25,7 +25,7 @@ import Foundation
 extension JSON {
 
   public var dictionary: [String : JSON]? {
-    return (source as? [String : Any])?.reduce([String : JSON]()) { dic, element in
+    return (source as? [String : Any & Sendable])?.reduce([String : JSON]()) { dic, element in
       var dic = dic
       dic[element.key] = JSON(source: element.value, breadcrumb: Breadcrumb(json: self, key: element.key))
       return dic
@@ -33,7 +33,7 @@ extension JSON {
   }
 
   public var array: [JSON]? {
-    return (source as? [Any])?
+    return (source as? [Any & Sendable])?
       .enumerated()
       .map {
         JSON(
