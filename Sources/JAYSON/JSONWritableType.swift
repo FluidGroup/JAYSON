@@ -24,7 +24,7 @@ import Foundation
 
 public struct JSONValueBox {
 
-  public let source: Any
+  public let source: Any & Sendable
 
   public init(_ object: NSNull) {
     self.source = object
@@ -59,7 +59,7 @@ public struct JSONValueBox {
   }
 }
 
-public protocol JSONWritableType {
+public protocol JSONWritableType: Sendable {
 
   var jsonValueBox: JSONValueBox { get }
 }
@@ -76,6 +76,7 @@ extension String: JSONWritableType {
   }
 }
 
+extension NSString: @retroactive @unchecked Sendable {}
 extension NSString: JSONWritableType {
   public var jsonValueBox: JSONValueBox {
     return JSONValueBox(self)
