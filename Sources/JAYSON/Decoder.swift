@@ -20,11 +20,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-public struct Decoder<T> {
+public struct Decoder<T>: Sendable {
 
-  let decode: (JSON) throws -> T
+  let decode: @Sendable (JSON) throws -> T
 
-  public init(_ s: @escaping (JSON) throws -> T) {
+  public init(_ s: @escaping @Sendable (JSON) throws -> T) {
     self.decode = s
   }
 }
