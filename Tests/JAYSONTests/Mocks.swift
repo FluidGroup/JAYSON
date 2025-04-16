@@ -13,8 +13,5 @@ import JAYSON
 private class Dummy {}
 
 enum Mocks {
-  static let sampleJSON = try! JSON(data: try! Data(contentsOf: URL(
-    fileURLWithPath: Bundle(for: Dummy.self)
-      .path(forResource: "Sample", ofType: "json")!
-  )))
+  static let sampleJSON = try! JSON(data: try! Data(contentsOf: Bundle.module.url(forResource: "Fixtures/Sample", withExtension: "json")!))
 }

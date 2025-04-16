@@ -24,17 +24,13 @@ import Foundation
 
 public struct JSONValueBox {
 
-  public let source: Any
+  public let source: Any & Sendable
 
   public init(_ object: NSNull) {
     self.source = object
   }
 
   public init(_ object: String) {
-    self.source = object
-  }
-
-  public init(_ object: NSString) {
     self.source = object
   }
 
@@ -71,12 +67,6 @@ extension NSNull: JSONWritableType {
 }
 
 extension String: JSONWritableType {
-  public var jsonValueBox: JSONValueBox {
-    return JSONValueBox(self)
-  }
-}
-
-extension NSString: JSONWritableType {
   public var jsonValueBox: JSONValueBox {
     return JSONValueBox(self)
   }

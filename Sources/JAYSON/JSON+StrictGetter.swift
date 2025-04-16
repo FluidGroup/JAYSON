@@ -27,21 +27,21 @@ extension JSON {
 
   public func getDictionary() throws -> [String : JSON] {
     guard let value = dictionary else {
-      throw JSONError.failedToGetDictionary(source: source, json: self)
+      throw JSONError.failedToGetDictionary(json: self)
     }
     return value
   }
 
   public func getArray() throws -> [JSON] {
     guard let value = array else {
-      throw JSONError.failedToGetArray(source: source, json: self)
+      throw JSONError.failedToGetArray(json: self)
     }
     return value
   }
 
   public func getNumber() throws -> NSNumber {
     guard let value = number else {
-      throw JSONError.failedToGetNumber(source: source, json: self)
+      throw JSONError.failedToGetNumber(json: self)
     }
     return value
   }
@@ -88,14 +88,14 @@ extension JSON {
 
   public func getString() throws -> String {
     guard let value = string else {
-      throw JSONError.failedToGetString(source: source, json: self)
+      throw JSONError.failedToGetString(json: self)
     }
     return value
   }
 
   public func getBool() throws -> Bool {
     guard let value = source as? Bool else {
-      throw JSONError.failedToGetBool(source: source, json: self)
+      throw JSONError.failedToGetBool(json: self)
     }
     return value
   }
@@ -113,7 +113,7 @@ extension JSON {
     if let url = URL(string: string) {
         return url
     }
-    throw JSONError.failedToParseURL(source: source, json: self)
+    throw JSONError.failedToParseURL(json: self)
   }
 
   public func get<T>(_ s: (JSON) throws -> T) rethrows -> T {
@@ -122,7 +122,7 @@ extension JSON {
     } catch let jsonError as JSONError {
       throw jsonError
     } catch {
-      throw JSONError.decodeError(source: source, json: self, decodeError: error)
+      throw JSONError.decodeError(json: self, decodeError: error)
     }
   }
 
@@ -132,7 +132,7 @@ extension JSON {
     } catch let jsonError as JSONError {
       throw jsonError
     } catch {
-      throw JSONError.decodeError(source: source, json: self, decodeError: error)
+      throw JSONError.decodeError(json: self, decodeError: error)
     }
   }
 
