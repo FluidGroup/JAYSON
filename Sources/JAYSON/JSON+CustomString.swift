@@ -16,7 +16,6 @@ extension JSON: CustomStringConvertible, CustomDebugStringConvertible {
 
     return
       [
-        "Path: \(currentPath().description)",
         "SourceType: \(sourceType.description)",
         "Source:",
         "\(_data.flatMap { String(data: $0, encoding: .utf8) } ?? "<empty>")",
