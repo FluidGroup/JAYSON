@@ -119,44 +119,45 @@ public struct JSON: Hashable, Sendable {
   }
 
   public func currentPath() -> String {
-
-    var path: String = ""
-
-    var currentBreadcrumb: Breadcrumb? = breadcrumb
-
-    while let _currentBreadcrumb = currentBreadcrumb {
-      path = _currentBreadcrumb.path + path
-      currentBreadcrumb = _currentBreadcrumb.json.breadcrumb
-    }
-
-    return "Root->" + path
+    return breadcrumb?.renderPath() ?? ""
   }
 }
 
 extension JSON {
 
-  final class Breadcrumb: CustomStringConvertible, CustomDebugStringConvertible, Sendable {
-
-    let json: JSON
-    let path: String
-
-    init(json: JSON, key: String) {
-      self.json = json
-      self.path = "[\"\(key)\"]"
+  struct Breadcrumb: Sendable {
+    
+    enum Component {
+      case key(String)
+      case index(Int)
     }
-
-    init(json: JSON, index: Int) {
-      self.json = json
-      self.path = "[\(index)]"
+    
+    var component: [Component]
+    
+    init(key: String) {
+      component = [.key(key)]
     }
-
-    var description: String {
-      return "\(path)"
+    
+    init(index: Int) {
+      component = [.index(index)]
+    }  
+    
+    consuming func appending(_ component: Component) -> Self {
+      self.component.append(component)
+      return self
     }
-
-    var debugDescription: String {
-      return "\(path)\n\(json)"
+    
+    func renderPath() -> String {
+      return component.map { c in
+        switch c {
+        case .key(let key):
+          return "[\"\(key)\"]"
+        case .index(let index):
+          return "[\(index)]"
+        }
+      }.joined()
     }
+    
   }
 }
 
@@ -187,7 +188,7 @@ extension JSON {
           }
           return value
         }
-        .map { JSON(source: $0, breadcrumb: Breadcrumb(json: self, key: key)) }
+        .map { JSON(source: $0, breadcrumb: breadcrumb?.appending(.key(key)) ?? Breadcrumb(key: key)) }
     }
     set {
       set(any: newValue?.source, for: key)
@@ -204,7 +205,7 @@ extension JSON {
           }
           return nil
         }
-        .map { JSON(source: $0, breadcrumb: Breadcrumb(json: self, index: index)) } ?? JSON.null
+        .map { JSON(source: $0, breadcrumb: breadcrumb?.appending(.index(index)) ?? Breadcrumb(index: index)) } ?? JSON.null
     }
   }
 }
@@ -285,13 +286,6 @@ extension JSON {
     return try next(key.rawValue)
   }
 
-  /**
-   if `self` has parent JSON, return parent `JSON`, otherwise return `self`
-   */
-  public func back() -> JSON {
-    return breadcrumb?.json ?? self
-  }
-
   public func removed(_ key: String) -> JSON {
 
     guard let _source = (source as? NSDictionary)?.mutableCopy() as? NSMutableDictionary else {
@@ -299,62 +293,6 @@ extension JSON {
     }
     _source.removeObject(forKey: key)
     return try! JSON(any: _source)
-  }
-  
-  /**
-   Returns a Boolean value that indicates if the key presents a value excepts null.
-   */
-  @available(*, deprecated, renamed: "presentsValue")
-  public func exists(_ key: String...) -> Bool {
-    presentsValue(key)
-  }
-  
-  /**
-   Returns a Boolean value that indicates if the key presents a value excepts null.
-   */
-  @available(*, deprecated, renamed: "presentsValue")
-  public func exists(_ index: Int) -> Bool {
-    presentsValue(index)
-  }
-  
-  /**
-   Returns a Boolean value that indicates if the key presents a value excepts null.
-   */
-  @available(*, deprecated, renamed: "contains")
-  public func presentsValue(_ key: String...) -> Bool {
-    presentsValue(key)
-  }
-  
-  /**
-   Returns a Boolean value that indicates if the key presents a value excepts null.
-   */
-  @available(*, deprecated, renamed: "contains")
-  public func presentsValue(_ keys: [String]) -> Bool {
-    do {
-      let r = try _next(keys)
-      guard case .null = r.sourceType else {
-        return true
-      }
-      return false
-    } catch {
-      return false
-    }
-  }
-
-  /**
-   Returns a Boolean value that indicates if the key presents a value excepts null.
-   */
-  @available(*, deprecated, renamed: "contains")
-  public func presentsValue(_ index: Int) -> Bool {
-    do {
-      let r = try next(index)
-      guard case .null = r.sourceType else {
-        return true
-      }
-      return false
-    } catch {
-      return false
-    }
   }
 
   /**

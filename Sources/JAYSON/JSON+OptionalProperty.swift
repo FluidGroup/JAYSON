@@ -27,7 +27,7 @@ extension JSON {
   public var dictionary: [String : JSON]? {
     return (source as? [String : Any])?.reduce([String : JSON]()) { dic, element in
       var dic = dic
-      dic[element.key] = JSON(source: element.value, breadcrumb: Breadcrumb(json: self, key: element.key))
+      dic[element.key] = JSON(source: element.value, breadcrumb: nil)
       return dic
     }
   }
@@ -36,10 +36,7 @@ extension JSON {
     return (source as? [Any])?
       .enumerated()
       .map {
-        JSON(
-          source: $0.element,
-          breadcrumb: Breadcrumb(json: self, index: $0.offset)
-        )
+        JSON(source: $0.element, breadcrumb: nil)
     }
   }
 

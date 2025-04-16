@@ -5,7 +5,8 @@ import XCTest
 
 class Tests: XCTestCase {
 
-  let inData = try! Data(contentsOf: Bundle.module.url(forResource: "Fixtures/test", withExtension: "json")!)
+  let inData = try! Data(
+    contentsOf: Bundle.module.url(forResource: "Fixtures/test", withExtension: "json")!)
 
   override func setUp() {
     super.setUp()
@@ -36,12 +37,12 @@ class Tests: XCTestCase {
 
   func testEqualable() {
 
-    let source: [String : JSON] = [
-      "aaa":"AAA",
-      "bbb":["BBB":"AAA"],
-      "a":[1,2,3],
-      "enum":Enum.a.json,
-      ]
+    let source: [String: JSON] = [
+      "aaa": "AAA",
+      "bbb": ["BBB": "AAA"],
+      "a": [1, 2, 3],
+      "enum": Enum.a.json,
+    ]
 
     let json = JSON(source)
     let json2 = JSON(source)
@@ -51,12 +52,12 @@ class Tests: XCTestCase {
 
   func testDictionaryInit() {
 
-    let dictionary: [AnyHashable : Any] = [
-      "title" : "foo",
-      "name" : "hiroshi",
-      "age" : 25,
-      "height" : 173,
-      ]
+    let dictionary: [AnyHashable: Any] = [
+      "title": "foo",
+      "name": "hiroshi",
+      "age": 25,
+      "height": 173,
+    ]
 
     do {
       let json = try JSON(any: dictionary)
@@ -67,26 +68,26 @@ class Tests: XCTestCase {
     }
   }
 
-    func testURLInit() {
-        let dictionary = [
-            "url" : "https://antoine.marandon.fr",
-        ]
-        do {
-            let json = try JSON(any: dictionary)
-            let data = try json.data()
-            let parsedJson = try JSON(data: data)
-            XCTAssertEqual(dictionary["url"], try parsedJson.next("url").getURL().absoluteString)
-        } catch {
-            XCTFail("\(error)")
-        }
-
+  func testURLInit() {
+    let dictionary = [
+      "url": "https://antoine.marandon.fr"
+    ]
+    do {
+      let json = try JSON(any: dictionary)
+      let data = try json.data()
+      let parsedJson = try JSON(data: data)
+      XCTAssertEqual(dictionary["url"], try parsedJson.next("url").getURL().absoluteString)
+    } catch {
+      XCTFail("\(error)")
     }
+
+  }
 
   func testIsArray() {
 
     let json = JSON([
-      128,129,130,
-      ])
+      128, 129, 130,
+    ])
     XCTAssert(json.isArray)
   }
 
@@ -94,11 +95,11 @@ class Tests: XCTestCase {
 
     let json = JSON(
       [
-        "aaa":"AAA",
-        "bbb":["BBB":"AAA"],
-        "a":[1,2,3],
-        "enum":Enum.a.json,
-        ]
+        "aaa": "AAA",
+        "bbb": ["BBB": "AAA"],
+        "a": [1, 2, 3],
+        "enum": Enum.a.json,
+      ]
     )
     XCTAssert(json.isDictionary)
   }
@@ -107,13 +108,12 @@ class Tests: XCTestCase {
 
     let j = try! JSON(data: inData)
 
-    XCTAssert(j.presentsValue(13) == false)
-    XCTAssert(j.presentsValue("a") == false)
-    XCTAssert(j.presentsValue("b") == false)
-    XCTAssert(j.presentsValue("a.b.c") == false)
-    XCTAssert(j.presentsValue("tree1.tree2") == true)
-    XCTAssert(j.presentsValue("tree1", "tree2") == true)
-    XCTAssert(j.presentsValue("tree1") == true)
+    XCTAssert(j.contains(13) == false)
+    XCTAssert(j.contains("a") == false)
+    XCTAssert(j.contains("b") == false)
+    XCTAssert(j.contains("a.b.c") == false)
+    XCTAssert(j.contains("tree1", "tree2") == true)
+    XCTAssert(j.contains("tree1") == true)
 
   }
 
@@ -130,7 +130,7 @@ class Tests: XCTestCase {
       let j = try JSON(data: inData)
 
       do {
-        _ = try j.next("a").next("b").next("c")
+        let _ = try j.next("a").next("b").next("c")        
         XCTFail()
       } catch {
         print("Success \(error)")
@@ -143,6 +143,7 @@ class Tests: XCTestCase {
 
       let j = try JSON(data: inData)
       let v = try j.next("tree1.tree2.tree3").next(0).next("index")
+      XCTAssertEqual(v.currentPath(), #"["tree1"]["tree2"]["tree3"][0]["index"]"#)
       XCTAssertEqual(v, "myvalue")
     } catch {
       XCTFail("\(error)")
@@ -168,30 +169,6 @@ class Tests: XCTestCase {
     }
   }
 
-  func testBack() {
-
-    do {
-      let j = try JSON(data: inData)
-      let value = try j
-        .next("tree1")
-        .next("tree2")
-        .back()
-        .next("tree2")
-        .back()
-        .back()
-        .next("tree1")
-        .next("tree2")
-        .next("tree3")
-        .next(0)
-        .next("index")
-        .getString()
-
-      XCTAssertEqual(value, "myvalue")
-    } catch {
-      XCTFail("\(error)")
-    }
-  }
-
   func testBuild() {
     var j = JSON()
     j["number"] = 124
@@ -200,11 +177,11 @@ class Tests: XCTestCase {
     j["null"] = JSON.null
     j["tree1"] = JSON(
       [
-        "tree2" : JSON(
+        "tree2": JSON(
           [
-            "tree3" : JSON(
+            "tree3": JSON(
               [
-                JSON(["index" : "myvalue"])
+                JSON(["index": "myvalue"])
               ]
             )
           ]
