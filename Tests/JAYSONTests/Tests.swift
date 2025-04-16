@@ -5,7 +5,7 @@ import XCTest
 
 class Tests: XCTestCase {
 
-  let inData = Data(referencing: NSData(contentsOfFile: Bundle(for: Tests.self).path(forResource: "test", ofType: "json")!)!)
+  let inData = try! Data(contentsOf: Bundle.module.url(forResource: "Fixtures/test", withExtension: "json")!)
 
   override func setUp() {
     super.setUp()

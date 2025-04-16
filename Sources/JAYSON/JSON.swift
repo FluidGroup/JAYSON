@@ -23,21 +23,20 @@
 import Foundation
 
 public enum JSONError: Error {
-  case notFoundKeyPath(keyPath: KeyPath<JSON, JSON?>, json: JSON)
   case notFoundKey(key: String, json: JSON)
   case notFoundIndex(index: Int, json: JSON)
-  case failedToGetString(source: Any, json: JSON)
-  case failedToGetBool(source: Any, json: JSON)
-  case failedToGetNumber(source: Any, json: JSON)
-  case failedToGetArray(source: Any, json: JSON)
-  case failedToGetDictionary(source: Any, json: JSON)
-  case failedToParseURL(source: Any, json: JSON)
-  case decodeError(source: Any, json: JSON, decodeError: Error)
+  case failedToGetString(json: JSON)
+  case failedToGetBool(json: JSON)
+  case failedToGetNumber(json: JSON)
+  case failedToGetArray(json: JSON)
+  case failedToGetDictionary(json: JSON)
+  case failedToParseURL(json: JSON)
+  case decodeError(json: JSON, decodeError: Error)
   case failedToInitializeFromJSONString(String)
   case invalidJSONObject
 }
 
-public struct JSON: Hashable, @unchecked Sendable {
+public struct JSON: Hashable, Sendable {
 
   public static func ==(lhs: JSON, rhs: JSON) -> Bool {
     return (lhs.source as? NSObject) == (rhs.source as? NSObject)
@@ -49,6 +48,7 @@ public struct JSON: Hashable, @unchecked Sendable {
 
   public static let null = JSON()
   
+  nonisolated(unsafe)
   public internal(set) var source: Any
 
   fileprivate let breadcrumb: Breadcrumb?
@@ -87,19 +87,19 @@ public struct JSON: Hashable, @unchecked Sendable {
     breadcrumb = nil
   }
 
-  public init(jsonString: String) throws {
+  public init(jsonString: consuming sending String) throws {
     guard let data = jsonString.data(using: .utf8) else {
       throw JSONError.failedToInitializeFromJSONString(jsonString)
     }
     try self.init(data: data)
   }
 
-  public init(data: Data) throws {
+  public init(data: sending Data) throws {
     let source = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
     self.init(source: source, breadcrumb: nil)
   }
 
-  public init(any: Any) throws {
+  public init(any: sending Any) throws {
     guard JSONSerialization.isValidJSONObject(any) else {
       throw JSONError.invalidJSONObject
     }
@@ -170,7 +170,9 @@ extension JSON {
     guard var dictionary = source as? [String : Any] else {
       return
     }
+    
     dictionary[key] = any
+    
     source = dictionary
   }
 

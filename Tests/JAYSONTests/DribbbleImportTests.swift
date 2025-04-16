@@ -1,4 +1,3 @@
-
 import Foundation
 import XCTest
 
@@ -15,11 +14,10 @@ final class DribbbleImportTests: XCTestCase {
     let teaserImageURLString: String
   }
 
-  let data =
-    Data(referencing: NSData(
-      contentsOfFile: Bundle(for: Tests.self)
-        .path(forResource: "Sample", ofType: "json")!
-    )!)
+  let data = try! Data.init(
+    contentsOf: Bundle.module
+      .url(forResource: "Fixtures/Sample", withExtension: "json")!
+  )
 
   func testImport() {
     do {
