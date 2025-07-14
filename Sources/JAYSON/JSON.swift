@@ -87,19 +87,24 @@ public struct JSON: Hashable, Sendable {
     breadcrumb = nil
   }
 
-  public init(jsonString: consuming sending String) throws {
+  public init(jsonString: consuming sending String) throws(JSONError) {
     guard let data = jsonString.data(using: .utf8) else {
       throw JSONError.failedToInitializeFromJSONString(jsonString)
     }
     try self.init(data: data)
   }
 
-  public init(data: sending Data) throws {
-    let source = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+  public init(data: sending Data) throws(JSONError) {
+    let source: Any
+    do {
+      source = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+    } catch {
+      throw JSONError.decodeError(json: JSON.null, decodeError: error)
+    }
     self.init(source: source, breadcrumb: nil)
   }
 
-  public init(any: sending Any) throws {
+  public init(any: sending Any) throws(JSONError) {
     guard JSONSerialization.isValidJSONObject(any) else {
       throw JSONError.invalidJSONObject
     }
@@ -111,11 +116,15 @@ public struct JSON: Hashable, Sendable {
     self.breadcrumb = breadcrumb
   }
 
-  public func data(options: JSONSerialization.WritingOptions = []) throws -> Data {
+  public func data(options: JSONSerialization.WritingOptions = []) throws(JSONError) -> Data {
     guard JSONSerialization.isValidJSONObject(source) else {
       throw JSONError.invalidJSONObject
     }
-    return try JSONSerialization.data(withJSONObject: source, options: options)
+    do {
+      return try JSONSerialization.data(withJSONObject: source, options: options)
+    } catch {
+      throw JSONError.decodeError(json: self, decodeError: error)
+    }
   }
 
   public func currentPath() -> String {
@@ -227,23 +236,23 @@ extension JSON {
 /// Control JSON hierarchy
 extension JSON {
 
-  private func _next(_ key: String) throws -> JSON {
-
-    return try key
-      .split(separator: ".")
-      .map(String.init)
-      .reduce(self) { j, key in        
-        guard let value = j[key] else {
-          throw JSONError.notFoundKey(key: key, json: self)
-        }
-        return value
+  private func _next(_ key: String) throws(JSONError) -> JSON {
+    var result = self
+    for keyPart in key.split(separator: ".").map(String.init) {
+      guard let value = result[keyPart] else {
+        throw JSONError.notFoundKey(key: keyPart, json: self)
+      }
+      result = value
     }
+    return result
   }
 
-  private func _next(_ keys: [String]) throws -> JSON {
-    return try keys.reduce(self) { json, key -> JSON in
-      try json._next(key)
+  private func _next(_ keys: [String]) throws(JSONError) -> JSON {
+    var result = self
+    for key in keys {
+      result = try result._next(key)
     }
+    return result
   }
 
   /**
@@ -253,7 +262,7 @@ extension JSON {
    if `type` is `Dictonary`, return `JSON` whose object is `dictionary[key]`, otherwise throw `JSONError`.
    e.g next("a", "b", "c") or next("a.b.c")
    */
-  public func next(_ key: String...) throws -> JSON {
+  public func next(_ key: String...) throws(JSONError) -> JSON {
     return try _next(key)
   }
 
@@ -261,7 +270,7 @@ extension JSON {
    Returns a JSON represents the value pointed by key.
    It throws an error when the value represents null or the key was not found.
    */
-  public func next<T: RawRepresentable>(_ key: T) throws -> JSON where T.RawValue == String {
+  public func next<T: RawRepresentable>(_ key: T) throws(JSONError) -> JSON where T.RawValue == String {
     return try _next(key.rawValue)
   }
 
@@ -271,7 +280,7 @@ extension JSON {
    
    if `type` is `Array`, return `JSON` whose object is `array[index]`, otherwise throw `JSONError`.
    */
-  public func next(_ index: Int) throws -> JSON {
+  public func next(_ index: Int) throws(JSONError) -> JSON {
     guard let value = self[index], !(value.source is NSNull) else {
       throw JSONError.notFoundIndex(index: index, json: self)
     }
@@ -282,7 +291,7 @@ extension JSON {
    Returns a JSON represents the value pointed by key.
    It throws an error when the value represents null or the key was not found.
    */
-  public func next<T: RawRepresentable>(_ key: T) throws -> JSON where T.RawValue == Int {
+  public func next<T: RawRepresentable>(_ key: T) throws(JSONError) -> JSON where T.RawValue == Int {
     return try next(key.rawValue)
   }
 
