@@ -22,9 +22,9 @@
 
 public struct Decoder<T>: Sendable {
 
-  let decode: @Sendable (JSON) throws(JSONError) -> T
+  let decode: @Sendable (JSON) throws -> T
 
-  public init(_ s: @escaping @Sendable (JSON) throws(JSONError) -> T) {
+  public init(_ s: @escaping @Sendable (JSON) throws -> T) {
     self.decode = s
   }
 }

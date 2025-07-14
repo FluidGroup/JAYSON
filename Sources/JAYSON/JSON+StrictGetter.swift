@@ -126,7 +126,7 @@ extension JSON {
     }
   }
 
-  public func get<T>(with decoder: Decoder<T>) throws(JSONError) -> T {
+  public func get<T>(with decoder: Decoder<T>) throws -> T {
     return try decoder.decode(self)
   }
 

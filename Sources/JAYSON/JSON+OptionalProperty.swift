@@ -108,7 +108,7 @@ extension JSON {
     }
   }
 
-  public func getIfPresent<T>(_ s: (JSON) throws(JSONError) -> T) -> T? {
+  public func getIfPresent<T>(_ s: (JSON) throws -> T) -> T? {
     do {
       return try s(self)
     } catch {
