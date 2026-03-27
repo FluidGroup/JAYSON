@@ -150,6 +150,44 @@ class Tests: XCTestCase {
     }
   }
 
+  func testCurrentPathThroughArrayProjection() {
+    do {
+      let j = try JSON(data: inData)
+      let value = try j
+        .next("tree1")
+        .next("tree2")
+        .next("tree3")
+        .getArray()[0]
+        .next("index")
+
+      XCTAssertEqual(value.currentPath(), #"["tree1"]["tree2"]["tree3"][0]["index"]"#)
+      XCTAssertEqual(value, "myvalue")
+    } catch {
+      XCTFail("\(error)")
+    }
+  }
+
+  func testCurrentPathThroughDictionaryProjection() {
+    do {
+      let j = try JSON(data: inData)
+      let root = try j.getDictionary()
+      let tree1 = try XCTUnwrap(root["tree1"])
+      let tree1Dictionary = try tree1.getDictionary()
+      let tree2 = try XCTUnwrap(tree1Dictionary["tree2"])
+      let tree2Dictionary = try tree2.getDictionary()
+      let tree3 = try XCTUnwrap(tree2Dictionary["tree3"])
+      let tree3Array = try tree3.getArray()
+      let element = try XCTUnwrap(tree3Array.first)
+      let elementDictionary = try element.getDictionary()
+      let value = try XCTUnwrap(elementDictionary["index"])
+
+      XCTAssertEqual(value.currentPath(), #"["tree1"]["tree2"]["tree3"][0]["index"]"#)
+      XCTAssertEqual(value, "myvalue")
+    } catch {
+      XCTFail("\(error)")
+    }
+  }
+
   func testRemove() {
     let j = try! JSON(data: inData)
     let removed = j.removed("tree1")

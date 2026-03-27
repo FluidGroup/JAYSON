@@ -51,7 +51,7 @@ public struct JSON: Hashable, Sendable {
   nonisolated(unsafe)
   public internal(set) var source: Any
 
-  fileprivate let breadcrumb: Breadcrumb?
+  let breadcrumb: Breadcrumb?
 
   public init(_ object: JSONWritableType) {
     source = object.jsonValueBox.source
@@ -452,4 +452,3 @@ extension JSON: Swift.ExpressibleByArrayLiteral {
     self.init(elements)
   }
 }
-
