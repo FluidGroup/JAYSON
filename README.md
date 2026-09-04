@@ -171,6 +171,45 @@ let jsonData: Data = ...
 let json = try JSON(data: jsonData)
 ```
 
+## Environment
+
+Use `JSONEnvironment` to attach application-defined, `Sendable` context while
+parsing. Define keys in your application so JAYSON does not need to know the
+meaning or type of values such as request or document identifiers.
+
+```swift
+private enum RequestIDKey: JSONEnvironmentKey {
+  typealias Value = String
+}
+
+extension JSONEnvironment {
+  var requestID: String? {
+    get { self[RequestIDKey.self] }
+    set { self[RequestIDKey.self] = newValue }
+  }
+}
+
+var environment = JSONEnvironment()
+environment.requestID = "request-42" // Use identifiers safe for diagnostics.
+
+do {
+  let json = try JSON(data: jsonData, environment: environment)
+  let child = try json.next("user")
+  print(child.environment.requestID) // "request-42"
+} catch let error as JSONError {
+  print(error.environment?.requestID) // Also available when parsing fails.
+}
+```
+
+Keyed and indexed access, `next`, array and dictionary projections, and
+`JSONError` cases that retain a JSON value preserve the environment. Error cases
+without an associated JSON value, including `invalidJSONObject`, return no
+environment. Mutating operations retain the receiver's environment. A new JSON
+created from an array or dictionary starts with an empty environment unless one
+is passed explicitly with `init(_:environment:)`. Environment does not affect
+JSON equality, hashing, or serialization. `JSON(data:)` and `JSON(any:)`
+continue to create values with an empty environment.
+
 ```swift
 let jsonData: Data
 let json: Any = try JSONSerialization.jsonObject(with: data, options: [])

@@ -22,6 +22,39 @@
 
 import Foundation
 
+public protocol JSONEnvironmentKey {
+  associatedtype Value: Sendable
+}
+
+// Key paths are immutable, so sharing them as environment keys is safe.
+private struct JSONEnvironmentKeyPath: Hashable, @unchecked Sendable {
+  let rawValue: AnyKeyPath
+
+  init<Key>(_ key: Key.Type) {
+    self.rawValue = \Key.self
+  }
+}
+
+public struct JSONEnvironment: Sendable {
+  private var values: [JSONEnvironmentKeyPath: any Sendable] = [:]
+
+  public init() {}
+
+  public subscript<Key: JSONEnvironmentKey>(key: Key.Type) -> Key.Value? {
+    get {
+      values[JSONEnvironmentKeyPath(key)] as? Key.Value
+    }
+    set {
+      let keyPath = JSONEnvironmentKeyPath(key)
+      if let newValue {
+        values[keyPath] = newValue
+      } else {
+        values.removeValue(forKey: keyPath)
+      }
+    }
+  }
+}
+
 public enum JSONError: Error {
   case notFoundKey(key: String, json: JSON)
   case notFoundIndex(index: Int, json: JSON)
@@ -52,39 +85,53 @@ public struct JSON: Hashable, Sendable {
   public internal(set) var source: Any
 
   let breadcrumb: Breadcrumb?
+  public var environment: JSONEnvironment
 
   public init(_ object: JSONWritableType) {
-    source = object.jsonValueBox.source
-    breadcrumb = nil
+    self.init(source: object.jsonValueBox.source, breadcrumb: nil)
   }
 
   public init(_ object: [JSONWritableType]) {
-    source = object.map { $0.jsonValueBox.source }
-    breadcrumb = nil
+    self.init(source: object.map { $0.jsonValueBox.source }, breadcrumb: nil)
   }
 
   public init(_ object: [JSON]) {
-    source = object.map { $0.source }
-    breadcrumb = nil
+    self.init(object, environment: JSONEnvironment())
+  }
+
+  public init(_ object: [JSON], environment: JSONEnvironment) {
+    self.init(
+      source: object.map { $0.source },
+      breadcrumb: nil,
+      environment: environment
+    )
   }
 
   public init(_ object: [String : JSON]) {
-    source = object.reduce(into: [String : Any]()) { (dictionary, object) in
-      dictionary[object.key] = object.value.source
-    }
-    breadcrumb = nil
+    self.init(object, environment: JSONEnvironment())
+  }
+
+  public init(_ object: [String : JSON], environment: JSONEnvironment) {
+    self.init(
+      source: object.reduce(into: [String : Any]()) { (dictionary, object) in
+        dictionary[object.key] = object.value.source
+      },
+      breadcrumb: nil,
+      environment: environment
+    )
   }
 
   public init(_ object: [String : JSONWritableType]) {
-    source = object.reduce(into: [String : Any]()) { (dictionary, object) in
-      dictionary[object.key] = object.value.jsonValueBox.source
-    }
-    breadcrumb = nil
+    self.init(
+      source: object.reduce(into: [String : Any]()) { (dictionary, object) in
+        dictionary[object.key] = object.value.jsonValueBox.source
+      },
+      breadcrumb: nil
+    )
   }
 
   public init() {
-    source = NSNull()
-    breadcrumb = nil
+    self.init(source: NSNull(), breadcrumb: nil)
   }
 
   public init(jsonString: consuming sending String) throws(JSONError) {
@@ -95,13 +142,31 @@ public struct JSON: Hashable, Sendable {
   }
 
   public init(data: sending Data) throws(JSONError) {
+    let source = try Self.parse(data: data)
+    self.init(source: source, breadcrumb: nil)
+  }
+
+  public init(data: sending Data, environment: JSONEnvironment) throws(JSONError) {
+    let source = try Self.parse(data: data, environment: environment)
+    self.init(
+      source: source,
+      breadcrumb: nil,
+      environment: environment
+    )
+  }
+
+  private static func parse(
+    data: Data,
+    environment: JSONEnvironment = .init()
+  ) throws(JSONError) -> Any {
     let source: Any
     do {
       source = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
     } catch {
-      throw JSONError.decodeError(json: JSON.null, decodeError: error)
+      let json = JSON(source: NSNull(), breadcrumb: nil, environment: environment)
+      throw JSONError.decodeError(json: json, decodeError: error)
     }
-    self.init(source: source, breadcrumb: nil)
+    return source
   }
 
   public init(any: sending Any) throws(JSONError) {
@@ -111,9 +176,14 @@ public struct JSON: Hashable, Sendable {
     self.init(source: any, breadcrumb: nil)
   }
 
-  init(source: Any, breadcrumb: Breadcrumb?) {
+  private init(
+    source: Any,
+    breadcrumb: Breadcrumb?,
+    environment: JSONEnvironment = .init()
+  ) {
     self.source = source
     self.breadcrumb = breadcrumb
+    self.environment = environment
   }
 
   public func data(options: JSONSerialization.WritingOptions = []) throws(JSONError) -> Data {
@@ -129,6 +199,33 @@ public struct JSON: Hashable, Sendable {
 
   public func currentPath() -> String {
     return breadcrumb?.renderPath() ?? ""
+  }
+
+  func derived(source: Any, breadcrumb: Breadcrumb?) -> JSON {
+    JSON(
+      source: source,
+      breadcrumb: breadcrumb,
+      environment: environment
+    )
+  }
+}
+
+public extension JSONError {
+  var environment: JSONEnvironment? {
+    switch self {
+    case let .notFoundKey(key: _, json: json),
+      let .notFoundIndex(index: _, json: json),
+      let .failedToGetString(json: json),
+      let .failedToGetBool(json: json),
+      let .failedToGetNumber(json: json),
+      let .failedToGetArray(json: json),
+      let .failedToGetDictionary(json: json),
+      let .failedToParseURL(json: json),
+      let .decodeError(json: json, decodeError: _):
+      return json.environment
+    case .failedToInitializeFromJSONString, .invalidJSONObject:
+      return nil
+    }
   }
 }
 
@@ -180,9 +277,8 @@ extension JSON {
     guard var dictionary = source as? [String : Any] else {
       return
     }
-    
+
     dictionary[key] = any
-    
     source = dictionary
   }
 
@@ -197,7 +293,12 @@ extension JSON {
           }
           return value
         }
-        .map { JSON(source: $0, breadcrumb: breadcrumb?.appending(.key(key)) ?? Breadcrumb(key: key)) }
+        .map {
+          derived(
+            source: $0,
+            breadcrumb: breadcrumb?.appending(.key(key)) ?? Breadcrumb(key: key)
+          )
+        }
     }
     set {
       set(any: newValue?.source, for: key)
@@ -207,14 +308,20 @@ extension JSON {
   /// if index is not found return JSON.null
   public subscript (index: Int) -> JSON? {
     get {
+      let childBreadcrumb = breadcrumb?.appending(.index(index)) ?? Breadcrumb(index: index)
       return (source as? NSArray)
         .flatMap {
-          if $0.count > index {
+          if index >= 0, index < $0.count {
             return $0[index]
           }
           return nil
         }
-        .map { JSON(source: $0, breadcrumb: breadcrumb?.appending(.index(index)) ?? Breadcrumb(index: index)) } ?? JSON.null
+        .map {
+          derived(
+            source: $0,
+            breadcrumb: childBreadcrumb
+          )
+        } ?? derived(source: NSNull(), breadcrumb: childBreadcrumb)
     }
   }
 }
@@ -226,9 +333,8 @@ extension JSON {
       return
     }
 
-    for v in appendDictionary {
-
-      set(any: v.value, for: v.key as! String)
+    for value in appendDictionary {
+      set(any: value.value, for: value.key as! String)
     }
   }
 }
@@ -301,7 +407,7 @@ extension JSON {
       return self
     }
     _source.removeObject(forKey: key)
-    return try! JSON(any: _source)
+    return derived(source: _source, breadcrumb: breadcrumb)
   }
 
   /**
