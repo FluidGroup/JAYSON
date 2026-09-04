@@ -269,8 +269,7 @@ extension JSON {
 
 extension JSON {
 
-  fileprivate mutating func set(_ json: JSON?, for key: String) {
-    var source = source
+  fileprivate mutating func set(any: Any?, for key: String) {
     if source is NSNull {
       source = [String : Any]()
     }
@@ -279,13 +278,8 @@ extension JSON {
       return
     }
 
-    dictionary[key] = json?.source
-
-    self = JSON(
-      source: dictionary,
-      breadcrumb: breadcrumb,
-      environment: environment
-    )
+    dictionary[key] = any
+    source = dictionary
   }
 
   /// if key is not found, return nil
@@ -300,15 +294,14 @@ extension JSON {
           return value
         }
         .map {
-          JSON(
+          derived(
             source: $0,
-            breadcrumb: breadcrumb?.appending(.key(key)) ?? Breadcrumb(key: key),
-            environment: environment
+            breadcrumb: breadcrumb?.appending(.key(key)) ?? Breadcrumb(key: key)
           )
         }
     }
     set {
-      set(newValue, for: key)
+      set(any: newValue?.source, for: key)
     }
   }
 
@@ -340,28 +333,9 @@ extension JSON {
       return
     }
 
-    guard appendDictionary.count > 0 else {
-      return
-    }
-
-    var source = source
-    if source is NSNull {
-      source = [String : Any]()
-    }
-
-    guard var dictionary = source as? [String : Any] else {
-      return
-    }
-
     for value in appendDictionary {
-      dictionary[value.key as! String] = value.value
+      set(any: value.value, for: value.key as! String)
     }
-
-    self = JSON(
-      source: dictionary,
-      breadcrumb: breadcrumb,
-      environment: environment
-    )
   }
 }
 
@@ -433,11 +407,7 @@ extension JSON {
       return self
     }
     _source.removeObject(forKey: key)
-    return JSON(
-      source: _source,
-      breadcrumb: breadcrumb,
-      environment: environment
-    )
+    return derived(source: _source, breadcrumb: breadcrumb)
   }
 
   /**
