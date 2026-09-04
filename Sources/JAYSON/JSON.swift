@@ -59,7 +59,28 @@ private struct JSONEnvironmentKeyPath: Hashable, @unchecked Sendable {
   }
 }
 
-private typealias JSONEnvironment = [JSONEnvironmentKeyPath: any Sendable]
+private struct JSONEnvironment: Sendable {
+  private var values: [JSONEnvironmentKeyPath: any Sendable] = [:]
+
+  init() {}
+
+  init(provenance: JSONProvenance) {
+    values[JSONEnvironmentKeyPath(JSONProvenanceEnvironmentKey.self)] = provenance
+    values[JSONEnvironmentKeyPath(JSONDocumentIdentifierEnvironmentKey.self)] = UUID()
+  }
+
+  private subscript<Key: JSONEnvironmentKey>(key: Key.Type) -> Key.Value? {
+    values[JSONEnvironmentKeyPath(key)] as? Key.Value
+  }
+
+  var provenance: JSONProvenance? {
+    self[JSONProvenanceEnvironmentKey.self]
+  }
+
+  var documentIdentifier: UUID? {
+    self[JSONDocumentIdentifierEnvironmentKey.self]
+  }
+}
 
 public enum JSONError: Error {
   case notFoundKey(key: String, json: JSON)
@@ -94,15 +115,15 @@ public struct JSON: Hashable, Sendable {
   private let environment: JSONEnvironment
 
   public var provenance: JSONProvenance? {
-    self[JSONProvenanceEnvironmentKey.self]
+    self[\.provenance]
   }
 
-  private subscript<Key: JSONEnvironmentKey>(key: Key.Type) -> Key.Value? {
-    environment[JSONEnvironmentKeyPath(key)] as? Key.Value
+  private subscript<Value>(keyPath: KeyPath<JSONEnvironment, Value>) -> Value {
+    environment[keyPath: keyPath]
   }
 
   private var documentIdentifier: UUID? {
-    self[JSONDocumentIdentifierEnvironmentKey.self]
+    self[\.documentIdentifier]
   }
 
   public init(_ object: JSONWritableType) {
@@ -157,9 +178,7 @@ public struct JSON: Hashable, Sendable {
   }
 
   public init(data: sending Data, provenance: JSONProvenance) throws(JSONError) {
-    var environment: JSONEnvironment = [:]
-    environment[JSONEnvironmentKeyPath(JSONProvenanceEnvironmentKey.self)] = provenance
-    environment[JSONEnvironmentKeyPath(JSONDocumentIdentifierEnvironmentKey.self)] = UUID()
+    let environment = JSONEnvironment(provenance: provenance)
     let source = try Self.parse(data: data, environment: environment)
     self.init(
       source: source,
@@ -170,7 +189,7 @@ public struct JSON: Hashable, Sendable {
 
   private static func parse(
     data: Data,
-    environment: JSONEnvironment = [:]
+    environment: JSONEnvironment = .init()
   ) throws(JSONError) -> Any {
     let source: Any
     do {
@@ -192,7 +211,7 @@ public struct JSON: Hashable, Sendable {
   private init(
     source: Any,
     breadcrumb: Breadcrumb?,
-    environment: JSONEnvironment = [:]
+    environment: JSONEnvironment = .init()
   ) {
     self.source = source
     self.breadcrumb = breadcrumb
@@ -226,13 +245,13 @@ public struct JSON: Hashable, Sendable {
     for values: Values
   ) -> JSONEnvironment where Values.Element == JSON {
     guard let first = values.first else {
-      return [:]
+      return JSONEnvironment()
     }
 
     guard let documentIdentifier = first.documentIdentifier,
       values.dropFirst().allSatisfy({ $0.documentIdentifier == documentIdentifier })
     else {
-      return [:]
+      return JSONEnvironment()
     }
 
     return first.environment
@@ -245,7 +264,7 @@ public struct JSON: Hashable, Sendable {
     guard let documentIdentifier = first.documentIdentifier,
       second.documentIdentifier == documentIdentifier
     else {
-      return [:]
+      return JSONEnvironment()
     }
 
     return first.environment
