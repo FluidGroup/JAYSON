@@ -192,7 +192,7 @@ Keyed and indexed access, `next`, array and dictionary projections, and
 `JSONError` cases that retain a JSON value preserve the same provenance. Error
 cases without an associated JSON value, including `invalidJSONObject`, have no
 provenance. When JSON values are combined, provenance is retained only if every
-value shares the same document storage. Combining separately parsed documents
+value comes from the same parsed document. Combining separately parsed documents
 drops provenance, even when their IDs are equal. `JSON(data:)` and `JSON(any:)`
 continue to create values without provenance.
 

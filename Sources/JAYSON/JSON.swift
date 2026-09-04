@@ -22,6 +22,10 @@
 
 import Foundation
 
+private protocol JSONEnvironmentKey {
+  associatedtype Value: Sendable
+}
+
 public struct JSONProvenance: Hashable, Sendable, Identifiable {
   public struct ID: Hashable, Sendable {
     public let rawValue: String
@@ -38,13 +42,15 @@ public struct JSONProvenance: Hashable, Sendable, Identifiable {
   }
 }
 
-private final class JSONDocumentStorage: Sendable {
-  let provenance: JSONProvenance
-
-  init(provenance: JSONProvenance) {
-    self.provenance = provenance
-  }
+private enum JSONProvenanceEnvironmentKey: JSONEnvironmentKey {
+  typealias Value = JSONProvenance
 }
+
+private enum JSONDocumentIdentifierEnvironmentKey: JSONEnvironmentKey {
+  typealias Value = UUID
+}
+
+private typealias JSONEnvironment = [ObjectIdentifier: any Sendable]
 
 public enum JSONError: Error {
   case notFoundKey(key: String, json: JSON)
@@ -76,10 +82,23 @@ public struct JSON: Hashable, Sendable {
   public internal(set) var source: Any
 
   let breadcrumb: Breadcrumb?
-  private let documentStorage: JSONDocumentStorage?
+  private var environment: JSONEnvironment
 
   public var provenance: JSONProvenance? {
-    documentStorage?.provenance
+    self[JSONProvenanceEnvironmentKey.self]
+  }
+
+  private subscript<Key: JSONEnvironmentKey>(key: Key.Type) -> Key.Value? {
+    get {
+      environment[ObjectIdentifier(key)] as? Key.Value
+    }
+    set {
+      environment[ObjectIdentifier(key)] = newValue
+    }
+  }
+
+  private var documentIdentifier: UUID? {
+    self[JSONDocumentIdentifierEnvironmentKey.self]
   }
 
   public init(_ object: JSONWritableType) {
@@ -94,7 +113,7 @@ public struct JSON: Hashable, Sendable {
     self.init(
       source: object.map { $0.source },
       breadcrumb: nil,
-      documentStorage: Self.commonDocumentStorage(for: object)
+      environment: Self.commonEnvironment(for: object)
     )
   }
 
@@ -104,7 +123,7 @@ public struct JSON: Hashable, Sendable {
         dictionary[object.key] = object.value.source
       },
       breadcrumb: nil,
-      documentStorage: Self.commonDocumentStorage(for: object.values)
+      environment: Self.commonEnvironment(for: object.values)
     )
   }
 
@@ -134,26 +153,26 @@ public struct JSON: Hashable, Sendable {
   }
 
   public init(data: sending Data, provenance: JSONProvenance) throws(JSONError) {
-    let documentStorage = JSONDocumentStorage(provenance: provenance)
-    let source = try Self.parse(data: data, documentStorage: documentStorage)
+    var environment: JSONEnvironment = [:]
+    environment[ObjectIdentifier(JSONProvenanceEnvironmentKey.self)] = provenance
+    environment[ObjectIdentifier(JSONDocumentIdentifierEnvironmentKey.self)] = UUID()
+    let source = try Self.parse(data: data, environment: environment)
     self.init(
       source: source,
       breadcrumb: nil,
-      documentStorage: documentStorage
+      environment: environment
     )
   }
 
   private static func parse(
     data: Data,
-    documentStorage: JSONDocumentStorage? = nil
+    environment: JSONEnvironment = [:]
   ) throws(JSONError) -> Any {
     let source: Any
     do {
       source = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
     } catch {
-      let json = documentStorage.map {
-        JSON(source: NSNull(), breadcrumb: nil, documentStorage: $0)
-      } ?? JSON.null
+      let json = JSON(source: NSNull(), breadcrumb: nil, environment: environment)
       throw JSONError.decodeError(json: json, decodeError: error)
     }
     return source
@@ -169,11 +188,11 @@ public struct JSON: Hashable, Sendable {
   private init(
     source: Any,
     breadcrumb: Breadcrumb?,
-    documentStorage: JSONDocumentStorage? = nil
+    environment: JSONEnvironment = [:]
   ) {
     self.source = source
     self.breadcrumb = breadcrumb
-    self.documentStorage = documentStorage
+    self.environment = environment
   }
 
   public func data(options: JSONSerialization.WritingOptions = []) throws(JSONError) -> Data {
@@ -195,35 +214,37 @@ public struct JSON: Hashable, Sendable {
     JSON(
       source: source,
       breadcrumb: breadcrumb,
-      documentStorage: documentStorage
+      environment: environment
     )
   }
 
-  private static func commonDocumentStorage<Values: Collection>(
+  private static func commonEnvironment<Values: Collection>(
     for values: Values
-  ) -> JSONDocumentStorage? where Values.Element == JSON {
-    guard let documentStorage = values.first?.documentStorage else {
-      return nil
+  ) -> JSONEnvironment where Values.Element == JSON {
+    guard let first = values.first else {
+      return [:]
     }
 
-    guard values.dropFirst().allSatisfy({ $0.documentStorage === documentStorage }) else {
-      return nil
+    guard let documentIdentifier = first.documentIdentifier,
+      values.dropFirst().allSatisfy({ $0.documentIdentifier == documentIdentifier })
+    else {
+      return [:]
     }
 
-    return documentStorage
+    return first.environment
   }
 
-  private static func commonDocumentStorage(
+  private static func commonEnvironment(
     for first: JSON,
     and second: JSON
-  ) -> JSONDocumentStorage? {
-    guard let documentStorage = first.documentStorage,
-      second.documentStorage === documentStorage
+  ) -> JSONEnvironment {
+    guard let documentIdentifier = first.documentIdentifier,
+      second.documentIdentifier == documentIdentifier
     else {
-      return nil
+      return [:]
     }
 
-    return documentStorage
+    return first.environment
   }
 }
 
@@ -298,17 +319,17 @@ extension JSON {
 
     dictionary[key] = json?.source
 
-    let documentStorage: JSONDocumentStorage?
+    let environment: JSONEnvironment
     if let json {
-      documentStorage = Self.commonDocumentStorage(for: self, and: json)
+      environment = Self.commonEnvironment(for: self, and: json)
     } else {
-      documentStorage = self.documentStorage
+      environment = self.environment
     }
 
     self = JSON(
       source: dictionary,
       breadcrumb: breadcrumb,
-      documentStorage: documentStorage
+      environment: environment
     )
   }
 
@@ -327,7 +348,7 @@ extension JSON {
           JSON(
             source: $0,
             breadcrumb: breadcrumb?.appending(.key(key)) ?? Breadcrumb(key: key),
-            documentStorage: documentStorage
+            environment: environment
           )
         }
     }
@@ -384,7 +405,7 @@ extension JSON {
     self = JSON(
       source: dictionary,
       breadcrumb: breadcrumb,
-      documentStorage: Self.commonDocumentStorage(for: self, and: json)
+      environment: Self.commonEnvironment(for: self, and: json)
     )
   }
 }
@@ -460,7 +481,7 @@ extension JSON {
     return JSON(
       source: _source,
       breadcrumb: breadcrumb,
-      documentStorage: documentStorage
+      environment: environment
     )
   }
 

@@ -114,7 +114,7 @@ final class ProvenanceTests: XCTestCase {
     XCTAssertEqual(try first.data(), try second.data())
   }
 
-  func testCombiningJSONValuesKeepsOnlySharedDocumentStorage() throws {
+  func testCombiningJSONValuesKeepsOnlySharedDocumentIdentity() throws {
     let json = try JSON(data: document, provenance: provenance)
     let object = try json.next("object")
     let items = try json.next("items")
