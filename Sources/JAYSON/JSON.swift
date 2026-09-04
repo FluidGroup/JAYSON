@@ -22,6 +22,30 @@
 
 import Foundation
 
+public struct JSONProvenance: Hashable, Sendable, Identifiable {
+  public struct ID: Hashable, Sendable {
+    public let rawValue: String
+
+    public init(rawValue: String) {
+      self.rawValue = rawValue
+    }
+  }
+
+  public let id: ID
+
+  public init(id: ID) {
+    self.id = id
+  }
+}
+
+private final class JSONDocumentStorage: Sendable {
+  let provenance: JSONProvenance
+
+  init(provenance: JSONProvenance) {
+    self.provenance = provenance
+  }
+}
+
 public enum JSONError: Error {
   case notFoundKey(key: String, json: JSON)
   case notFoundIndex(index: Int, json: JSON)
@@ -52,39 +76,49 @@ public struct JSON: Hashable, Sendable {
   public internal(set) var source: Any
 
   let breadcrumb: Breadcrumb?
+  private let documentStorage: JSONDocumentStorage?
+
+  public var provenance: JSONProvenance? {
+    documentStorage?.provenance
+  }
 
   public init(_ object: JSONWritableType) {
-    source = object.jsonValueBox.source
-    breadcrumb = nil
+    self.init(source: object.jsonValueBox.source, breadcrumb: nil)
   }
 
   public init(_ object: [JSONWritableType]) {
-    source = object.map { $0.jsonValueBox.source }
-    breadcrumb = nil
+    self.init(source: object.map { $0.jsonValueBox.source }, breadcrumb: nil)
   }
 
   public init(_ object: [JSON]) {
-    source = object.map { $0.source }
-    breadcrumb = nil
+    self.init(
+      source: object.map { $0.source },
+      breadcrumb: nil,
+      documentStorage: Self.commonDocumentStorage(for: object)
+    )
   }
 
   public init(_ object: [String : JSON]) {
-    source = object.reduce(into: [String : Any]()) { (dictionary, object) in
-      dictionary[object.key] = object.value.source
-    }
-    breadcrumb = nil
+    self.init(
+      source: object.reduce(into: [String : Any]()) { (dictionary, object) in
+        dictionary[object.key] = object.value.source
+      },
+      breadcrumb: nil,
+      documentStorage: Self.commonDocumentStorage(for: object.values)
+    )
   }
 
   public init(_ object: [String : JSONWritableType]) {
-    source = object.reduce(into: [String : Any]()) { (dictionary, object) in
-      dictionary[object.key] = object.value.jsonValueBox.source
-    }
-    breadcrumb = nil
+    self.init(
+      source: object.reduce(into: [String : Any]()) { (dictionary, object) in
+        dictionary[object.key] = object.value.jsonValueBox.source
+      },
+      breadcrumb: nil
+    )
   }
 
   public init() {
-    source = NSNull()
-    breadcrumb = nil
+    self.init(source: NSNull(), breadcrumb: nil)
   }
 
   public init(jsonString: consuming sending String) throws(JSONError) {
@@ -95,13 +129,34 @@ public struct JSON: Hashable, Sendable {
   }
 
   public init(data: sending Data) throws(JSONError) {
+    let source = try Self.parse(data: data)
+    self.init(source: source, breadcrumb: nil)
+  }
+
+  public init(data: sending Data, provenance: JSONProvenance) throws(JSONError) {
+    let documentStorage = JSONDocumentStorage(provenance: provenance)
+    let source = try Self.parse(data: data, documentStorage: documentStorage)
+    self.init(
+      source: source,
+      breadcrumb: nil,
+      documentStorage: documentStorage
+    )
+  }
+
+  private static func parse(
+    data: Data,
+    documentStorage: JSONDocumentStorage? = nil
+  ) throws(JSONError) -> Any {
     let source: Any
     do {
       source = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
     } catch {
-      throw JSONError.decodeError(json: JSON.null, decodeError: error)
+      let json = documentStorage.map {
+        JSON(source: NSNull(), breadcrumb: nil, documentStorage: $0)
+      } ?? JSON.null
+      throw JSONError.decodeError(json: json, decodeError: error)
     }
-    self.init(source: source, breadcrumb: nil)
+    return source
   }
 
   public init(any: sending Any) throws(JSONError) {
@@ -111,9 +166,14 @@ public struct JSON: Hashable, Sendable {
     self.init(source: any, breadcrumb: nil)
   }
 
-  init(source: Any, breadcrumb: Breadcrumb?) {
+  private init(
+    source: Any,
+    breadcrumb: Breadcrumb?,
+    documentStorage: JSONDocumentStorage? = nil
+  ) {
     self.source = source
     self.breadcrumb = breadcrumb
+    self.documentStorage = documentStorage
   }
 
   public func data(options: JSONSerialization.WritingOptions = []) throws(JSONError) -> Data {
@@ -129,6 +189,60 @@ public struct JSON: Hashable, Sendable {
 
   public func currentPath() -> String {
     return breadcrumb?.renderPath() ?? ""
+  }
+
+  func derived(source: Any, breadcrumb: Breadcrumb?) -> JSON {
+    JSON(
+      source: source,
+      breadcrumb: breadcrumb,
+      documentStorage: documentStorage
+    )
+  }
+
+  private static func commonDocumentStorage<Values: Collection>(
+    for values: Values
+  ) -> JSONDocumentStorage? where Values.Element == JSON {
+    guard let documentStorage = values.first?.documentStorage else {
+      return nil
+    }
+
+    guard values.dropFirst().allSatisfy({ $0.documentStorage === documentStorage }) else {
+      return nil
+    }
+
+    return documentStorage
+  }
+
+  private static func commonDocumentStorage(
+    for first: JSON,
+    and second: JSON
+  ) -> JSONDocumentStorage? {
+    guard let documentStorage = first.documentStorage,
+      second.documentStorage === documentStorage
+    else {
+      return nil
+    }
+
+    return documentStorage
+  }
+}
+
+public extension JSONError {
+  var provenance: JSONProvenance? {
+    switch self {
+    case let .notFoundKey(key: _, json: json),
+      let .notFoundIndex(index: _, json: json),
+      let .failedToGetString(json: json),
+      let .failedToGetBool(json: json),
+      let .failedToGetNumber(json: json),
+      let .failedToGetArray(json: json),
+      let .failedToGetDictionary(json: json),
+      let .failedToParseURL(json: json),
+      let .decodeError(json: json, decodeError: _):
+      return json.provenance
+    case .failedToInitializeFromJSONString, .invalidJSONObject:
+      return nil
+    }
   }
 }
 
@@ -172,7 +286,8 @@ extension JSON {
 
 extension JSON {
 
-  fileprivate mutating func set(any: Any?, for key: String) {
+  fileprivate mutating func set(_ json: JSON?, for key: String) {
+    var source = source
     if source is NSNull {
       source = [String : Any]()
     }
@@ -180,10 +295,21 @@ extension JSON {
     guard var dictionary = source as? [String : Any] else {
       return
     }
-    
-    dictionary[key] = any
-    
-    source = dictionary
+
+    dictionary[key] = json?.source
+
+    let documentStorage: JSONDocumentStorage?
+    if let json {
+      documentStorage = Self.commonDocumentStorage(for: self, and: json)
+    } else {
+      documentStorage = self.documentStorage
+    }
+
+    self = JSON(
+      source: dictionary,
+      breadcrumb: breadcrumb,
+      documentStorage: documentStorage
+    )
   }
 
   /// if key is not found, return nil
@@ -197,10 +323,16 @@ extension JSON {
           }
           return value
         }
-        .map { JSON(source: $0, breadcrumb: breadcrumb?.appending(.key(key)) ?? Breadcrumb(key: key)) }
+        .map {
+          JSON(
+            source: $0,
+            breadcrumb: breadcrumb?.appending(.key(key)) ?? Breadcrumb(key: key),
+            documentStorage: documentStorage
+          )
+        }
     }
     set {
-      set(any: newValue?.source, for: key)
+      set(newValue, for: key)
     }
   }
 
@@ -214,7 +346,13 @@ extension JSON {
           }
           return nil
         }
-        .map { JSON(source: $0, breadcrumb: breadcrumb?.appending(.index(index)) ?? Breadcrumb(index: index)) } ?? JSON.null
+        .map {
+          JSON(
+            source: $0,
+            breadcrumb: breadcrumb?.appending(.index(index)) ?? Breadcrumb(index: index),
+            documentStorage: documentStorage
+          )
+        } ?? JSON.null
     }
   }
 }
@@ -226,10 +364,28 @@ extension JSON {
       return
     }
 
-    for v in appendDictionary {
-
-      set(any: v.value, for: v.key as! String)
+    guard appendDictionary.count > 0 else {
+      return
     }
+
+    var source = source
+    if source is NSNull {
+      source = [String : Any]()
+    }
+
+    guard var dictionary = source as? [String : Any] else {
+      return
+    }
+
+    for value in appendDictionary {
+      dictionary[value.key as! String] = value.value
+    }
+
+    self = JSON(
+      source: dictionary,
+      breadcrumb: breadcrumb,
+      documentStorage: Self.commonDocumentStorage(for: self, and: json)
+    )
   }
 }
 
@@ -301,7 +457,11 @@ extension JSON {
       return self
     }
     _source.removeObject(forKey: key)
-    return try! JSON(any: _source)
+    return JSON(
+      source: _source,
+      breadcrumb: breadcrumb,
+      documentStorage: documentStorage
+    )
   }
 
   /**
