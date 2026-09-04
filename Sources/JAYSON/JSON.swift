@@ -22,32 +22,8 @@
 
 import Foundation
 
-private protocol JSONEnvironmentKey {
+public protocol JSONEnvironmentKey {
   associatedtype Value: Sendable
-}
-
-public struct JSONProvenance: Hashable, Sendable, Identifiable {
-  public struct ID: Hashable, Sendable {
-    public let rawValue: String
-
-    public init(rawValue: String) {
-      self.rawValue = rawValue
-    }
-  }
-
-  public let id: ID
-
-  public init(id: ID) {
-    self.id = id
-  }
-}
-
-private enum JSONProvenanceEnvironmentKey: JSONEnvironmentKey {
-  typealias Value = JSONProvenance
-}
-
-private enum JSONDocumentIdentifierEnvironmentKey: JSONEnvironmentKey {
-  typealias Value = UUID
 }
 
 // Key paths are immutable, so sharing them as environment keys is safe.
@@ -59,26 +35,23 @@ private struct JSONEnvironmentKeyPath: Hashable, @unchecked Sendable {
   }
 }
 
-private struct JSONEnvironment: Sendable {
+public struct JSONEnvironment: Sendable {
   private var values: [JSONEnvironmentKeyPath: any Sendable] = [:]
 
-  init() {}
+  public init() {}
 
-  init(provenance: JSONProvenance) {
-    values[JSONEnvironmentKeyPath(JSONProvenanceEnvironmentKey.self)] = provenance
-    values[JSONEnvironmentKeyPath(JSONDocumentIdentifierEnvironmentKey.self)] = UUID()
-  }
-
-  private subscript<Key: JSONEnvironmentKey>(key: Key.Type) -> Key.Value? {
-    values[JSONEnvironmentKeyPath(key)] as? Key.Value
-  }
-
-  var provenance: JSONProvenance? {
-    self[JSONProvenanceEnvironmentKey.self]
-  }
-
-  var documentIdentifier: UUID? {
-    self[JSONDocumentIdentifierEnvironmentKey.self]
+  public subscript<Key: JSONEnvironmentKey>(key: Key.Type) -> Key.Value? {
+    get {
+      values[JSONEnvironmentKeyPath(key)] as? Key.Value
+    }
+    set {
+      let keyPath = JSONEnvironmentKeyPath(key)
+      if let newValue {
+        values[keyPath] = newValue
+      } else {
+        values.removeValue(forKey: keyPath)
+      }
+    }
   }
 }
 
@@ -112,19 +85,7 @@ public struct JSON: Hashable, Sendable {
   public internal(set) var source: Any
 
   let breadcrumb: Breadcrumb?
-  private let environment: JSONEnvironment
-
-  public var provenance: JSONProvenance? {
-    self[\.provenance]
-  }
-
-  private subscript<Value>(keyPath: KeyPath<JSONEnvironment, Value>) -> Value {
-    environment[keyPath: keyPath]
-  }
-
-  private var documentIdentifier: UUID? {
-    self[\.documentIdentifier]
-  }
+  public var environment: JSONEnvironment
 
   public init(_ object: JSONWritableType) {
     self.init(source: object.jsonValueBox.source, breadcrumb: nil)
@@ -135,20 +96,28 @@ public struct JSON: Hashable, Sendable {
   }
 
   public init(_ object: [JSON]) {
+    self.init(object, environment: JSONEnvironment())
+  }
+
+  public init(_ object: [JSON], environment: JSONEnvironment) {
     self.init(
       source: object.map { $0.source },
       breadcrumb: nil,
-      environment: Self.commonEnvironment(for: object)
+      environment: environment
     )
   }
 
   public init(_ object: [String : JSON]) {
+    self.init(object, environment: JSONEnvironment())
+  }
+
+  public init(_ object: [String : JSON], environment: JSONEnvironment) {
     self.init(
       source: object.reduce(into: [String : Any]()) { (dictionary, object) in
         dictionary[object.key] = object.value.source
       },
       breadcrumb: nil,
-      environment: Self.commonEnvironment(for: object.values)
+      environment: environment
     )
   }
 
@@ -177,8 +146,7 @@ public struct JSON: Hashable, Sendable {
     self.init(source: source, breadcrumb: nil)
   }
 
-  public init(data: sending Data, provenance: JSONProvenance) throws(JSONError) {
-    let environment = JSONEnvironment(provenance: provenance)
+  public init(data: sending Data, environment: JSONEnvironment) throws(JSONError) {
     let source = try Self.parse(data: data, environment: environment)
     self.init(
       source: source,
@@ -240,39 +208,10 @@ public struct JSON: Hashable, Sendable {
       environment: environment
     )
   }
-
-  private static func commonEnvironment<Values: Collection>(
-    for values: Values
-  ) -> JSONEnvironment where Values.Element == JSON {
-    guard let first = values.first else {
-      return JSONEnvironment()
-    }
-
-    guard let documentIdentifier = first.documentIdentifier,
-      values.dropFirst().allSatisfy({ $0.documentIdentifier == documentIdentifier })
-    else {
-      return JSONEnvironment()
-    }
-
-    return first.environment
-  }
-
-  private static func commonEnvironment(
-    for first: JSON,
-    and second: JSON
-  ) -> JSONEnvironment {
-    guard let documentIdentifier = first.documentIdentifier,
-      second.documentIdentifier == documentIdentifier
-    else {
-      return JSONEnvironment()
-    }
-
-    return first.environment
-  }
 }
 
 public extension JSONError {
-  var provenance: JSONProvenance? {
+  var environment: JSONEnvironment? {
     switch self {
     case let .notFoundKey(key: _, json: json),
       let .notFoundIndex(index: _, json: json),
@@ -283,7 +222,7 @@ public extension JSONError {
       let .failedToGetDictionary(json: json),
       let .failedToParseURL(json: json),
       let .decodeError(json: json, decodeError: _):
-      return json.provenance
+      return json.environment
     case .failedToInitializeFromJSONString, .invalidJSONObject:
       return nil
     }
@@ -341,13 +280,6 @@ extension JSON {
     }
 
     dictionary[key] = json?.source
-
-    let environment: JSONEnvironment
-    if let json {
-      environment = Self.commonEnvironment(for: self, and: json)
-    } else {
-      environment = self.environment
-    }
 
     self = JSON(
       source: dictionary,
@@ -428,7 +360,7 @@ extension JSON {
     self = JSON(
       source: dictionary,
       breadcrumb: breadcrumb,
-      environment: Self.commonEnvironment(for: self, and: json)
+      environment: environment
     )
   }
 }

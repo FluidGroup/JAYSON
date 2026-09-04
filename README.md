@@ -171,30 +171,44 @@ let jsonData: Data = ...
 let json = try JSON(data: jsonData)
 ```
 
-## Document Provenance
+## Environment
 
-Use `JSONProvenance` to attach a logical document identifier while parsing.
-Choose an ID that is safe to expose in logs and diagnostics.
+Use `JSONEnvironment` to attach application-defined, `Sendable` context while
+parsing. Define keys in your application so JAYSON does not need to know the
+meaning or type of values such as request or document identifiers.
 
 ```swift
-let provenance = JSONProvenance(id: .init(rawValue: "request-42"))
+private enum RequestIDKey: JSONEnvironmentKey {
+  typealias Value = String
+}
+
+extension JSONEnvironment {
+  var requestID: String? {
+    get { self[RequestIDKey.self] }
+    set { self[RequestIDKey.self] = newValue }
+  }
+}
+
+var environment = JSONEnvironment()
+environment.requestID = "request-42" // Use identifiers safe for diagnostics.
 
 do {
-  let json = try JSON(data: jsonData, provenance: provenance)
+  let json = try JSON(data: jsonData, environment: environment)
   let child = try json.next("user")
-  print(child.provenance?.id.rawValue) // "request-42"
-} catch {
-  print(error.provenance?.id.rawValue) // Also available when parsing fails
+  print(child.environment.requestID) // "request-42"
+} catch let error as JSONError {
+  print(error.environment?.requestID) // Also available when parsing fails.
 }
 ```
 
 Keyed and indexed access, `next`, array and dictionary projections, and
-`JSONError` cases that retain a JSON value preserve the same provenance. Error
-cases without an associated JSON value, including `invalidJSONObject`, have no
-provenance. When JSON values are combined, provenance is retained only if every
-value comes from the same parsed document. Combining separately parsed documents
-drops provenance, even when their IDs are equal. `JSON(data:)` and `JSON(any:)`
-continue to create values without provenance.
+`JSONError` cases that retain a JSON value preserve the environment. Error cases
+without an associated JSON value, including `invalidJSONObject`, return no
+environment. Mutating operations retain the receiver's environment. A new JSON
+created from an array or dictionary starts with an empty environment unless one
+is passed explicitly with `init(_:environment:)`. Environment does not affect
+JSON equality, hashing, or serialization. `JSON(data:)` and `JSON(any:)`
+continue to create values with an empty environment.
 
 ```swift
 let jsonData: Data
