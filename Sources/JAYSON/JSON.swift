@@ -50,7 +50,16 @@ private enum JSONDocumentIdentifierEnvironmentKey: JSONEnvironmentKey {
   typealias Value = UUID
 }
 
-private typealias JSONEnvironment = [ObjectIdentifier: any Sendable]
+// Key paths are immutable, so sharing them as environment keys is safe.
+private struct JSONEnvironmentKeyPath: Hashable, @unchecked Sendable {
+  let rawValue: AnyKeyPath
+
+  init<Key>(_ key: Key.Type) {
+    self.rawValue = \Key.self
+  }
+}
+
+private typealias JSONEnvironment = [JSONEnvironmentKeyPath: any Sendable]
 
 public enum JSONError: Error {
   case notFoundKey(key: String, json: JSON)
@@ -82,19 +91,14 @@ public struct JSON: Hashable, Sendable {
   public internal(set) var source: Any
 
   let breadcrumb: Breadcrumb?
-  private var environment: JSONEnvironment
+  private let environment: JSONEnvironment
 
   public var provenance: JSONProvenance? {
     self[JSONProvenanceEnvironmentKey.self]
   }
 
   private subscript<Key: JSONEnvironmentKey>(key: Key.Type) -> Key.Value? {
-    get {
-      environment[ObjectIdentifier(key)] as? Key.Value
-    }
-    set {
-      environment[ObjectIdentifier(key)] = newValue
-    }
+    environment[JSONEnvironmentKeyPath(key)] as? Key.Value
   }
 
   private var documentIdentifier: UUID? {
@@ -154,8 +158,8 @@ public struct JSON: Hashable, Sendable {
 
   public init(data: sending Data, provenance: JSONProvenance) throws(JSONError) {
     var environment: JSONEnvironment = [:]
-    environment[ObjectIdentifier(JSONProvenanceEnvironmentKey.self)] = provenance
-    environment[ObjectIdentifier(JSONDocumentIdentifierEnvironmentKey.self)] = UUID()
+    environment[JSONEnvironmentKeyPath(JSONProvenanceEnvironmentKey.self)] = provenance
+    environment[JSONEnvironmentKeyPath(JSONDocumentIdentifierEnvironmentKey.self)] = UUID()
     let source = try Self.parse(data: data, environment: environment)
     self.init(
       source: source,
