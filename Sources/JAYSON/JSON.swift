@@ -339,20 +339,20 @@ extension JSON {
   /// if index is not found return JSON.null
   public subscript (index: Int) -> JSON? {
     get {
+      let childBreadcrumb = breadcrumb?.appending(.index(index)) ?? Breadcrumb(index: index)
       return (source as? NSArray)
         .flatMap {
-          if $0.count > index {
+          if index >= 0, index < $0.count {
             return $0[index]
           }
           return nil
         }
         .map {
-          JSON(
+          derived(
             source: $0,
-            breadcrumb: breadcrumb?.appending(.index(index)) ?? Breadcrumb(index: index),
-            documentStorage: documentStorage
+            breadcrumb: childBreadcrumb
           )
-        } ?? JSON.null
+        } ?? derived(source: NSNull(), breadcrumb: childBreadcrumb)
     }
   }
 }

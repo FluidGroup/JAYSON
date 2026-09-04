@@ -25,6 +25,34 @@ final class ProvenanceTests: XCTestCase {
     XCTAssertEqual(json.removed("object").provenance, provenance)
   }
 
+  func testIndexedSubscriptFallbackPreservesProvenance() throws {
+    let json = try JSON(data: document, provenance: provenance)
+    let items = try json.next("items")
+    let object = try json.next("object")
+
+    let outOfBounds = try XCTUnwrap(items[99])
+    XCTAssertTrue(outOfBounds.isNull)
+    XCTAssertEqual(outOfBounds.provenance, provenance)
+    XCTAssertEqual(outOfBounds.currentPath(), #"["items"][99]"#)
+
+    let negativeIndex = try XCTUnwrap(items[-1])
+    XCTAssertTrue(negativeIndex.isNull)
+    XCTAssertEqual(negativeIndex.provenance, provenance)
+    XCTAssertEqual(negativeIndex.currentPath(), #"["items"][-1]"#)
+
+    let nonArray = try XCTUnwrap(object[0])
+    XCTAssertTrue(nonArray.isNull)
+    XCTAssertEqual(nonArray.provenance, provenance)
+    XCTAssertEqual(nonArray.currentPath(), #"["object"][0]"#)
+
+    do {
+      _ = try outOfBounds.getString()
+      XCTFail("Expected getting a string from null to fail")
+    } catch {
+      XCTAssertEqual(error.provenance, provenance)
+    }
+  }
+
   func testErrorsWithJSONValuesExposeTheirProvenance() throws {
     let json = try JSON(data: document, provenance: provenance)
     let decodeError = NSError(domain: "ProvenanceTests", code: 1)
