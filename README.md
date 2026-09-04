@@ -171,6 +171,30 @@ let jsonData: Data = ...
 let json = try JSON(data: jsonData)
 ```
 
+## Document Provenance
+
+Use `JSONProvenance` to attach a logical document identifier while parsing.
+Choose an ID that is safe to expose in logs and diagnostics.
+
+```swift
+let provenance = JSONProvenance(id: .init(rawValue: "request-42"))
+
+do {
+  let json = try JSON(data: jsonData, provenance: provenance)
+  let child = try json.next("user")
+  print(child.provenance?.id.rawValue) // "request-42"
+} catch {
+  print(error.provenance?.id.rawValue) // Also available when parsing fails
+}
+```
+
+Keyed and indexed access, `next`, array and dictionary projections, and
+`JSONError` values derived from the document preserve the same provenance.
+When JSON values are combined, provenance is retained only if every value
+shares the same document storage. Combining separately parsed documents drops
+provenance, even when their IDs are equal. `JSON(data:)` and `JSON(any:)`
+continue to create values without provenance.
+
 ```swift
 let jsonData: Data
 let json: Any = try JSONSerialization.jsonObject(with: data, options: [])
